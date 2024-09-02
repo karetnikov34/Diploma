@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/authSignInFragment"
+        android:name="ru.netology.diploma.activity.AuthSignInFragment"
+        android:label="fragment_auth_sign_in"
+        tools:layout="@layout/fragment_auth_sign_in" >
+        <action
+            android:id="@+id/action_authSignInFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/authSignUpFragment"
+        android:name="ru.netology.diploma.activity.AuthSignUpFragment"
+        android:label="fragment_auth_sign_up"
+        tools:layout="@layout/fragment_auth_sign_up" >
+        <action
+            android:id="@+id/action_authSignUpFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="ru.netology.diploma.activity.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_authSignInFragment"
+            app:destination="@id/authSignInFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_authSignUpFragment"
+            app:destination="@id/authSignUpFragment" />
+    </fragment>
+</navigation>
