@@ -77,33 +77,51 @@ class MainFragment : Fragment() {
                     }
 
                     R.id.signout -> {
-                        SignOutDialog()
+                        signOutDialog()
                         true
                     }
 
                     else -> false
                 }
             }
-
-            private fun SignOutDialog() {
-                val listener = DialogInterface.OnClickListener { _, which ->
-                    when (which) {
-                        DialogInterface.BUTTON_POSITIVE -> {
-                            appAuth.removeAuth()
-                            findNavController().navigate(R.id.mainFragment)
-                        }
-                    }
-                }
-                val dialog = AlertDialog.Builder(requireContext())
-                    .setCancelable(false)
-                    .setTitle(R.string.are_you_sure)
-                    .setPositiveButton(R.string.yes, listener)
-                    .setNegativeButton(R.string.no, listener)
-                    .create()
-                dialog.show()
-            }
         })
 
+        val bottomNavigationView = binding.bottomNavigation
+
+        bottomNavigationView.setOnItemSelectedListener {item ->
+            when(item.itemId) {
+                R.id.posts -> {
+                    findNavController().navigate(R.id.action_mainFragment_to_allPostsFragment)
+                    true
+                }
+                R.id.events -> {
+                    false
+                }
+                R.id.users -> {
+                    false
+                }
+                else -> false
+            }
+        }
+
         return binding.root
+    }
+
+    private fun signOutDialog() {
+        val listener = DialogInterface.OnClickListener { _, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                    appAuth.removeAuth()
+                    findNavController().navigate(R.id.mainFragment)
+                }
+            }
+        }
+        val dialog = AlertDialog.Builder(requireContext())
+            .setCancelable(false)
+            .setTitle(R.string.are_you_sure)
+            .setPositiveButton(R.string.yes, listener)
+            .setNegativeButton(R.string.no, listener)
+            .create()
+        dialog.show()
     }
 }

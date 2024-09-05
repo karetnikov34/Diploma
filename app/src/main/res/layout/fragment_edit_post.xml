@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.NewPostFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/purple_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="DIPLOMA"
+        app:titleTextColor="@color/white" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/removeLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:inputType="textMultiLine"
+                android:padding="16dp"
+                tools:text="@tools:sample/lorem[99]" />
+
+
+            <ImageView
+                android:id="@+id/photoPreview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/description_photo"
+                android:padding="16dp"
+                tools:src="@tools:sample/avatars[1]" />
+
+            <VideoView
+                android:id="@+id/videoPreview"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_gravity="center_vertical"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/video"
+                android:padding="16dp"
+                tools:src="@tools:sample/avatars[12]" />
+
+            <LinearLayout
+                android:id="@+id/audioPreview"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="6dp"
+                android:orientation="horizontal"
+                android:background="@color/grey">
+
+                <ImageButton
+                    android:id="@+id/playButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:src="@drawable/ic_play_48"
+                    android:background="@color/white"
+                    app:backgroundTint="@color/white"/>
+
+                <TextView
+                    android:id="@+id/oneTrackName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:text="@string/track_name"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/removeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/divider"
+        app:layout_constraintTop_toBottomOf="@id/scrollView">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/removeAttachment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/remove_attachment"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/removeLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/remove_location"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/removeMentioned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/remove_users"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/purple_200"
+        app:layout_constraintBottom_toTopOf="@id/buttonPanel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/buttonPanel"
+        android:layout_width="0dp"
+        android:layout_height="?actionBarSize"
+        android:background="@color/purple_200"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- android:background="?selectableItemBackground" -  чтобы при нажатии, кнопка переливалась -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/takePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?selectableItemBackground"
+            android:contentDescription="@string/description_take_photo"
+            android:padding="16dp"
+            app:icon="@drawable/ic_photo_camera_24"
+            app:iconGravity="textEnd"
+            app:iconTint="?colorSurface" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pickPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?selectableItemBackground"
+            android:contentDescription="@string/description_select_photo"
+            android:padding="16dp"
+            app:icon="@drawable/ic_gallery_24"
+            app:iconTint="?colorSurface" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/linkIcon"
+            style="@style/Widget.AppTheme.LinkButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?selectableItemBackground"
+            android:contentDescription="@string/link"
+            app:iconTint="?colorSurface" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/chooseUsers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?selectableItemBackground"
+            android:contentDescription="@string/choose_users"
+            android:padding="16dp"
+            app:icon="@drawable/ic_users_24"
+            app:iconTint="?colorSurface" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/choosePlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?selectableItemBackground"
+            android:contentDescription="@string/choose_location"
+            android:padding="16dp"
+            app:icon="@drawable/ic_location_pin_24"
+            app:iconTint="?colorSurface" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

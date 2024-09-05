@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MapsFragment">
+
+    <com.yandex.mapkit.mapview.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/choosePlaceButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/mapview"
+        app:layout_constraintEnd_toEndOf="@id/mapview"
+        app:layout_constraintStart_toStartOf="@id/mapview" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/zoomInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:layout_marginEnd="16dp"
+        app:backgroundTint="@color/purple_200"
+        app:layout_constraintBottom_toTopOf="@id/zoomOutButton"
+        app:layout_constraintEnd_toEndOf="@id/mapview"
+        app:layout_constraintTop_toTopOf="@id/mapview"
+        app:srcCompat="@drawable/ic_add_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/zoomOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        app:backgroundTint="@color/purple_200"
+        app:layout_constraintEnd_toEndOf="@id/zoomInButton"
+        app:layout_constraintStart_toStartOf="@id/zoomInButton"
+        app:layout_constraintTop_toBottomOf="@id/zoomInButton"
+        app:srcCompat="@drawable/ic_minus_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/myLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="48dp"
+        android:contentDescription="@string/my_location"
+        app:backgroundTint="@color/purple_200"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_my_location_24" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

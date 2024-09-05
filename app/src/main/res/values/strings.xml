@@ -59,4 +59,20 @@
     <string name="users">users</string>
     <string name="user_is_already_registered">user is already registered</string>
     <string name="only_jpeg_png_with_maximum_size_2048_2048">only jpeg png with maximum size 2048 2048</string>
+    <string name="track_name">track name</string>
+    <string name="need_permission">need permission</string>
+    <string name="my_location">my location</string>
+    <string name="tap_to_save_location">tap to save location</string>
+    <string name="link">link</string>
+    <string name="choose_location">choose location</string>
+    <string name="choose_users">choose users</string>
+    <string name="select_file">select file</string>
+    <string name="remove_attachment">remove attachment</string>
+    <string name="remove_location">remove location</string>
+    <string name="remove_users">remove users</string>
+    <string name="save">save</string>
+    <string name="cancel">cancel</string>
+    <string name="mentioned">mentioned</string>
+    <string name="looking_for_a_job">looking for a job</string>
+    <string name="tap_the_place_to_choose">tap the place to choose</string>
 </resources>

@@ -58,11 +58,11 @@ class ApiModule {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-//    @Singleton
-//    @Provides
-//    fun providePostApiService (
-//        retrofit: Retrofit
-//    ) : PostsApiService = retrofit.create()
+    @Singleton
+    @Provides
+    fun providePostApiService (
+        retrofit: Retrofit
+    ) : PostsApiService = retrofit.create()
 
     @Singleton
     @Provides
@@ -70,10 +70,5 @@ class ApiModule {
         retrofit: Retrofit
     ) : AuthApiService = retrofit.create()
 
-//    @Singleton
-//    @Provides
-//    fun provideEventApiService (
-//        retrofit: Retrofit
-//    ) : EventApiService = retrofit.create()
 
 }

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".activity.DetailedOnePostFragment">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_human_24"
+            app:layout_constraintBottom_toBottomOf="@id/barrier"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            app:layout_constraintBottom_toTopOf="@+id/published"
+            app:layout_constraintEnd_toStartOf="@id/menuOnePost"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Author" />
+
+        <TextView
+            android:id="@+id/published"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toTopOf="@id/placeOfWork"
+            app:layout_constraintEnd_toStartOf="@id/menuOnePost"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toBottomOf="@id/author"
+            tools:text="published" />
+
+        <TextView
+            android:id="@+id/placeOfWork"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/barrier"
+            app:layout_constraintEnd_toStartOf="@id/menuOnePost"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toBottomOf="@id/published"
+            tools:text="place of work" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/menuOnePost"
+            style="@style/Widget.AppTheme.MenuButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="avatar,published,menuOnePost" />
+
+        <ImageView
+            android:id="@+id/attachmentImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toTopOf="@id/videoLink"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier"
+            tools:src="@tools:sample/avatars[1]" />
+
+        <VideoView
+            android:id="@+id/videoLink"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:layout_constraintBottom_toTopOf="@id/music"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/attachmentImage" />
+
+        <!-- music -->
+
+        <LinearLayout
+            android:id="@+id/music"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/videoLink"
+            app:layout_constraintBottom_toTopOf="@id/content"
+            android:background="@color/grey">
+
+            <ImageButton
+                android:id="@+id/playButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@drawable/ic_play_48"
+                android:background="@color/white"
+                app:backgroundTint="@color/white"/>
+
+            <TextView
+                android:id="@+id/oneTrackName"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="3"
+                android:gravity="center_vertical"
+                android:text="@string/track_name"
+                android:background="@color/white"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <!-- -->
+
+        <!-- link -->
+
+        <TextView
+            android:id="@+id/content"
+            android:autoLink="web"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
+            android:scrollbarSize="1dp"
+            android:scrollbars="vertical"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.531"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/music"
+            tools:text="@tools:sample/lorem[35]" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="content" />
+
+        <!-- likes -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/likesIcon"
+            style="@style/Widget.AppTheme.LikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/likes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/barrierBottom" />
+
+
+        <ImageView
+            android:id="@+id/avatarLiker1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_human_24"
+            app:layout_constraintBottom_toBottomOf="@id/likesIcon"
+            app:layout_constraintStart_toEndOf="@id/likesIcon"
+            app:layout_constraintTop_toTopOf="@id/likesIcon" />
+
+        <ImageView
+            android:id="@+id/avatarLiker2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_human_24"
+            app:layout_constraintBottom_toBottomOf="@id/likesIcon"
+            app:layout_constraintStart_toEndOf="@id/avatarLiker1"
+            app:layout_constraintTop_toTopOf="@id/likesIcon" />
+
+        <ImageView
+            android:id="@+id/avatarLiker3"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_human_24"
+            app:layout_constraintBottom_toBottomOf="@id/likesIcon"
+            app:layout_constraintStart_toEndOf="@id/avatarLiker2"
+            app:layout_constraintTop_toTopOf="@id/likesIcon" />
+
+        <ImageView
+            android:id="@+id/avatarLiker4"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_human_24"
+            app:layout_constraintBottom_toBottomOf="@id/likesIcon"
+            app:layout_constraintStart_toEndOf="@id/avatarLiker3"
+            app:layout_constraintTop_toTopOf="@id/likesIcon" />
+
+        <ImageView
+            android:id="@+id/avatarLiker5"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_human_24"
+            app:layout_constraintBottom_toBottomOf="@id/likesIcon"
+            app:layout_constraintStart_toEndOf="@id/avatarLiker4"
+            app:layout_constraintTop_toTopOf="@id/likesIcon" />
+
+        <ImageButton
+            android:id="@+id/avatarLikerMore"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/rounded_button"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_add_12"
+            app:layout_constraintBottom_toBottomOf="@id/likesIcon"
+            app:layout_constraintStart_toEndOf="@id/avatarLiker5"
+            app:layout_constraintTop_toTopOf="@id/likesIcon" />
+
+        <!-- mentioned -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mentionedIcon"
+            style="@style/Widget.AppTheme.MentionedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/mentioned"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/likesIcon" />
+
+        <ImageView
+            android:id="@+id/avatarMention1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_human_24"
+            app:layout_constraintBottom_toBottomOf="@id/mentionedIcon"
+            app:layout_constraintStart_toEndOf="@id/mentionedIcon"
+            app:layout_constraintTop_toTopOf="@id/mentionedIcon" />
+
+        <ImageView
+            android:id="@+id/avatarMention2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_human_24"
+            app:layout_constraintBottom_toBottomOf="@id/mentionedIcon"
+            app:layout_constraintStart_toEndOf="@id/avatarMention1"
+            app:layout_constraintTop_toTopOf="@id/mentionedIcon" />
+
+        <ImageView
+            android:id="@+id/avatarMention3"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_human_24"
+            app:layout_constraintBottom_toBottomOf="@id/mentionedIcon"
+            app:layout_constraintStart_toEndOf="@id/avatarMention2"
+            app:layout_constraintTop_toTopOf="@id/mentionedIcon" />
+
+        <ImageView
+            android:id="@+id/avatarMention4"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_human_24"
+            app:layout_constraintBottom_toBottomOf="@id/mentionedIcon"
+            app:layout_constraintStart_toEndOf="@id/avatarMention3"
+            app:layout_constraintTop_toTopOf="@id/mentionedIcon" />
+
+        <ImageView
+            android:id="@+id/avatarMention5"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_human_24"
+            app:layout_constraintBottom_toBottomOf="@id/mentionedIcon"
+            app:layout_constraintStart_toEndOf="@id/avatarMention4"
+            app:layout_constraintTop_toTopOf="@id/mentionedIcon" />
+
+        <ImageButton
+            android:id="@+id/avatarMentionMore"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/rounded_button"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/ic_add_12"
+            app:layout_constraintBottom_toBottomOf="@id/mentionedIcon"
+            app:layout_constraintStart_toEndOf="@id/avatarMention5"
+            app:layout_constraintTop_toTopOf="@id/mentionedIcon" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/mapGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="mapview, zoomOutButton, zoomInButton"/>
+
+        <com.yandex.mapkit.mapview.MapView
+            android:id="@+id/mapview"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mentionedIcon" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/zoomInButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@color/purple_200"
+            app:layout_constraintTop_toTopOf="@id/mapview"
+            app:layout_constraintBottom_toBottomOf="@id/mapview"
+            app:layout_constraintEnd_toEndOf="@id/mapview"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:srcCompat="@drawable/ic_add_24" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/zoomOutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:backgroundTint="@color/purple_200"
+            app:layout_constraintEnd_toEndOf="@id/zoomInButton"
+            app:layout_constraintStart_toStartOf="@id/zoomInButton"
+            app:layout_constraintTop_toBottomOf="@id/zoomInButton"
+            app:srcCompat="@drawable/ic_minus_24" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

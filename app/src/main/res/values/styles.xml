@@ -34,7 +34,5 @@
         <item name="iconTint">?attr/colorControlNormal</item>
         <item name="android:checkable">false</item>
         <item name="backgroundTint">@color/purple_500</item>
-
     </style>
-
 </resources>
