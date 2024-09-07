@@ -10,6 +10,7 @@ import java.io.File
 import java.io.InputStream
 import java.text.DecimalFormat
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.floor
@@ -69,6 +70,23 @@ fun published(): String {
 
     return currentDateTime.format(formatter)
 }
+
+fun publishedEvent(): String {
+    val currentDateTime = LocalDateTime.now().atOffset(ZoneOffset.UTC)
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+    return currentDateTime.format(formatter)
+}
+
+fun formatDateTimeEvent (inputDateTime: String): String {
+    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm")
+    val dateTime = LocalDateTime.parse(inputDateTime, formatter)
+    val date =  dateTime.format(DateTimeFormatter.ISO_DATE_TIME)
+    val originalDateTime = LocalDateTime.parse(date)
+    val newDateTime = originalDateTime.withSecond(46).withNano(668000000).atOffset(ZoneOffset.UTC)
+    return newDateTime.toString()
+}
+
 
 fun checkMediaType(input: String): AttachmentType {
     return when (File(input).extension.lowercase(Locale.ROOT)) {

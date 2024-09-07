@@ -76,4 +76,15 @@
     <string name="mentioned">mentioned</string>
     <string name="looking_for_a_job">looking for a job</string>
     <string name="tap_the_place_to_choose">tap the place to choose</string>
+    <string name="add_new_event">add new event</string>
+    <string name="online">online</string>
+    <string name="offline">offline</string>
+    <string name="choose_date">choose date</string>
+    <string name="choose_date_and_time">choose date and time</string>
+    <string name="choose_date_time_format">choose date time format</string>
+    <string name="format">format</string>
+    <string name="date">date</string>
+    <string name="speakers">speakers</string>
+    <string name="participants">participants</string>
+    <string name="choose_date_of_your_event">choose date of your event</string>
 </resources>

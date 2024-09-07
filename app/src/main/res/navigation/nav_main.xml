@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_mainFragment_to_allPostsFragment"
             app:destination="@id/allPostsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_allEventsFragment"
+            app:destination="@id/allEventsFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
@@ -90,5 +93,49 @@
         <action
             android:id="@+id/action_onePostFragment_to_editPostFragment"
             app:destination="@id/editPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allEventsFragment"
+        android:name="ru.netology.diploma.activity.AllEventsFragment"
+        android:label="AllEventsFragment" >
+        <action
+            android:id="@+id/action_allEventsFragment_to_newEventFragment"
+            app:destination="@id/newEventFragment" />
+        <action
+            android:id="@+id/action_allEventsFragment_to_editEventFragment"
+            app:destination="@id/editEventFragment" />
+        <action
+            android:id="@+id/action_allEventsFragment_to_oneEventFragment"
+            app:destination="@id/oneEventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editEventFragment"
+        android:name="ru.netology.diploma.activity.EditEventFragment"
+        android:label="EditEventFragment" >
+        <action
+            android:id="@+id/action_editEventFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+        <action
+            android:id="@+id/action_editEventFragment_to_allEventsFragment"
+            app:destination="@id/allEventsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newEventFragment"
+        android:name="ru.netology.diploma.activity.NewEventFragment"
+        android:label="NewEventFragment" >
+        <action
+            android:id="@+id/action_newEventFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+        <action
+            android:id="@+id/action_newEventFragment_to_allEventsFragment"
+            app:destination="@id/allEventsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/oneEventFragment"
+        android:name="ru.netology.diploma.activity.OneEventFragment"
+        android:label="OneEventFragment" >
+        <action
+            android:id="@+id/action_oneEventFragment_to_editEventFragment"
+            app:destination="@id/editEventFragment" />
     </fragment>
 </navigation>

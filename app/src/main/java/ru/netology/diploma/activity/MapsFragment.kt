@@ -169,7 +169,7 @@ class MapsFragment : Fragment(), GeoObjectTapListener {
         }
 
         val imageProvider =
-            ImageProvider.fromResource(requireContext(), R.drawable.ic_location_pin_24)
+            ImageProvider.fromResource(requireContext(), R.drawable.ic_map_marker_icon)
 
         viewModel.coords.observe(viewLifecycleOwner) { coords ->
 

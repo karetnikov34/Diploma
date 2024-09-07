@@ -21,27 +21,21 @@ import com.yandex.mapkit.map.IconStyle
 import com.yandex.runtime.image.ImageProvider
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.diploma.R
-import ru.netology.diploma.databinding.FragmentSinglePostBinding
+import ru.netology.diploma.databinding.FragmentSingleEventBinding
 import ru.netology.diploma.dto.AttachmentType
-import ru.netology.diploma.dto.Post
-import ru.netology.diploma.util.PostBundle
-import ru.netology.diploma.util.PostDealtWith
+import ru.netology.diploma.dto.Event
+import ru.netology.diploma.util.EventDealtWith
 import ru.netology.diploma.util.formatDateTime
 import ru.netology.diploma.util.load
 import ru.netology.diploma.util.loadCircle
 import ru.netology.diploma.util.numberRepresentation
 import ru.netology.diploma.viewmodel.AuthViewModel
-import ru.netology.diploma.viewmodel.PostViewModel
+import ru.netology.diploma.viewmodel.EventViewModel
 
 @AndroidEntryPoint
-class OnePostFragment : Fragment() {
+class OneEventFragment : Fragment() {
 
-    companion object {
-        var Bundle.postBundle: Post? by PostBundle
-    }
-
-
-    private val viewModel: PostViewModel by activityViewModels()
+    private val viewModel: EventViewModel by activityViewModels()
     private val viewModelAuth: AuthViewModel by activityViewModels()
     private val mediaObserver = MediaLifecycleObserver()
 
@@ -50,41 +44,43 @@ class OnePostFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentSinglePostBinding.inflate(
+        val binding = FragmentSingleEventBinding.inflate(
             inflater,
             container,
             false
         )
 
-        val post = PostDealtWith.get()
+        val event = EventDealtWith.get()
 
         binding.content.movementMethod = ScrollingMovementMethod()
 
-        fun bind(post: Post) {
+        fun bind(event: Event) {
             binding.apply {
-                author.text = post.author
-                published.text = formatDateTime(post.published)
-                placeOfWork.text = post.authorJob ?: context?.getString(R.string.looking_for_a_job)
-                content.text = post.content
+                authorEvent.text = event.author
+                publishedEvent.text = formatDateTime(event.published)
+                dateEvent.text = event.datetime?.let { formatDateTime(it) }
+                if (event.type != null) { format.text = event.type.toString() } else format.text = ""
+                placeOfWork.text = event.authorJob ?: context?.getString(R.string.looking_for_a_job)
+                content.text = event.content
                 content.movementMethod = ScrollingMovementMethod()
-                likesIcon.isChecked = post.likedByMe
-                likesIcon.text = numberRepresentation(post.likeOwnerIds.size)
+                likesIcon.isChecked = event.likedByMe
+                likesIcon.text = numberRepresentation (event.likeOwnerIds.size)
                 attachmentImage.visibility = View.GONE
                 music.visibility = View.GONE
 
-                if (post.link != null) {
+                if (event.link != null) {
                     videoLink.visibility = View.VISIBLE
                 } else videoLink.visibility = View.GONE
 
 
-                val urlAvatar = "${post.authorAvatar}"
-                avatar.loadCircle(urlAvatar)
+                val urlAvatar = "${event.authorAvatar}"
+                avatarEvent.loadCircle(urlAvatar)
 
-                if (post.attachment?.url != null) {
-                    when (post.attachment.type) {
+                if (event.attachment?.url != null) {
+                    when (event.attachment.type) {
                         AttachmentType.AUDIO -> {
                             music.visibility = View.VISIBLE
-                            if (post.attachment.isPlaying) {
+                            if (event.attachment.isPlaying) {
                                 playButton.setImageResource(R.drawable.ic_pause_24)
                             } else {
                                 playButton.setImageResource(R.drawable.ic_play_24)
@@ -93,23 +89,23 @@ class OnePostFragment : Fragment() {
                             playButton.setOnClickListener {
                                 if (mediaObserver.player?.isPlaying == true) {
                                     mediaObserver.apply {
-                                        viewModel.updateIsPlaying(post.id, false)
+                                        viewModel.updateIsPlayingEvent(event.id, false)
                                         playButton.setImageResource(R.drawable.ic_play_24)
                                         stop()
                                     }
                                 } else {
                                     mediaObserver.apply {
-                                        viewModel.updateIsPlaying(post.id, true)
+                                        viewModel.updateIsPlayingEvent(event.id, true)
                                         playButton.setImageResource(R.drawable.ic_pause_24)
-                                        post.attachment.url.let { play(it) }
+                                        event.attachment.url.let { play(it) }
                                     }
                                 }
                             }
                         }
 
                         AttachmentType.IMAGE -> {
-                            post.attachment.url.let {
-                                val url = post.attachment.url
+                            event.attachment.url.let {
+                                val url = event.attachment.url
                                 attachmentImage.load(url)
                             }
                             attachmentImage.visibility = View.VISIBLE
@@ -118,10 +114,9 @@ class OnePostFragment : Fragment() {
 
 
                         AttachmentType.VIDEO -> {
-
                             videoLink.visibility = View.VISIBLE
 
-                            val uri = Uri.parse(post.attachment.url)
+                            val uri = Uri.parse(event.attachment.url)
                             videoLink.setVideoURI(uri)
                             videoLink.setOnPreparedListener { mediaPlayer ->
                                 mediaPlayer?.setVolume(0F, 0F)
@@ -134,20 +129,15 @@ class OnePostFragment : Fragment() {
                     }
                 }
 
-                mediaObserver.player?.setOnCompletionListener {
-                    mediaObserver.player?.stop()
-                    viewModel.updatePlayer()
-                }
-
                 likesIcon.setOnClickListener {
                     if (viewModelAuth.authenticated) {
-                        viewModel.likeById(post)
+                        viewModel.likeEventById(event)
                     } else {
                         signInDialog()
                     }
                 }
 
-                menuOnePost.isVisible = post.ownedByMe
+                menuOnePost.isVisible = event.ownedByMe
 
                 menuOnePost.setOnClickListener {
 
@@ -156,17 +146,16 @@ class OnePostFragment : Fragment() {
                         setOnMenuItemClickListener { menuItem ->
                             when (menuItem.itemId) {
                                 R.id.remove -> {
-                                    viewModel.removeById(post.id)
+                                    viewModel.removeEventById(event.id)
                                     findNavController().navigateUp()
                                     true
                                 }
 
                                 R.id.edit -> {
-                                    PostDealtWith.savePostDealtWith(post)
-                                    findNavController().navigate(R.id.action_onePostFragment_to_editPostFragment)
+                                    EventDealtWith.saveEventDealtWith(event)
+                                    findNavController().navigate(R.id.action_oneEventFragment_to_editEventFragment)
                                     true
                                 }
-
                                 else -> false
                             }
                         }
@@ -175,15 +164,30 @@ class OnePostFragment : Fragment() {
                 }
 
 
-                avatarLiker1.isVisible = post.likeOwnerIds.isNotEmpty()
-                avatarLiker2.isVisible = post.likeOwnerIds.size >= 2
-                avatarLiker3.isVisible = post.likeOwnerIds.size >= 3
-                avatarLiker4.isVisible = post.likeOwnerIds.size >= 4
-                avatarLiker5.isVisible = post.likeOwnerIds.size >= 5
-                avatarLikerMore.isVisible = post.likeOwnerIds.size >= 6
+                speaker1.isVisible = event.speakerIds.isNotEmpty()
+                speaker2.isVisible = event.speakerIds.size >= 2
+                speaker3.isVisible = event.speakerIds.size >= 3
+                speakerMore.isVisible = event.speakerIds.size >= 4
 
-                post.likeOwnerIds.forEachIndexed { index, userId ->
-                    val avaUrl = post.users[userId]?.avatar ?: return@forEachIndexed
+                event.speakerIds.forEachIndexed { index, userId ->
+                    val avaUrl = event.users[userId]?.avatar ?: return@forEachIndexed
+                    when (index) {
+                        0 -> speaker1.loadCircle(avaUrl)
+                        1 -> speaker2.loadCircle(avaUrl)
+                        2 -> speaker3.loadCircle(avaUrl)
+                        else -> Unit
+                    }
+                }
+
+                avatarLiker1.isVisible = event.likeOwnerIds.isNotEmpty()
+                avatarLiker2.isVisible = event.likeOwnerIds.size >= 2
+                avatarLiker3.isVisible = event.likeOwnerIds.size >= 3
+                avatarLiker4.isVisible = event.likeOwnerIds.size >= 4
+                avatarLiker5.isVisible = event.likeOwnerIds.size >= 5
+                avatarLikerMore.isVisible = event.likeOwnerIds.size >= 6
+
+                event.likeOwnerIds.forEachIndexed { index, userId ->
+                    val avaUrl = event.users[userId]?.avatar ?: return@forEachIndexed
                     when (index) {
                         0 -> avatarLiker1.loadCircle(avaUrl)
                         1 -> avatarLiker2.loadCircle(avaUrl)
@@ -194,39 +198,36 @@ class OnePostFragment : Fragment() {
                     }
                 }
 
+                avatarParticipant1.isVisible = event.participantsIds.isNotEmpty()
+                avatarParticipant2.isVisible = event.participantsIds.size >= 2
+                avatarParticipant3.isVisible = event.participantsIds.size >= 3
+                avatarParticipant4.isVisible = event.participantsIds.size >= 4
+                avatarParticipant5.isVisible = event.participantsIds.size >= 5
+                avatarParticipantMore.isVisible = event.participantsIds.size >= 6
 
-                avatarMention1.isVisible = post.mentionIds.isNotEmpty()
-                avatarMention2.isVisible = post.mentionIds.size >= 2
-                avatarMention3.isVisible = post.mentionIds.size >= 3
-                avatarMention4.isVisible = post.mentionIds.size >= 4
-                avatarMention5.isVisible = post.mentionIds.size >= 5
-                avatarMentionMore.isVisible = post.mentionIds.size >= 6
-
-                post.mentionIds.forEachIndexed { index, userId ->
-                    val avaUrl = post.users[userId]?.avatar ?: return@forEachIndexed
+                event.participantsIds.forEachIndexed { index, userId ->
+                    val avaUrl = event.users[userId]?.avatar ?: return@forEachIndexed
                     when (index) {
-                        0 -> avatarMention1.loadCircle(avaUrl)
-                        1 -> avatarMention2.loadCircle(avaUrl)
-                        2 -> avatarMention3.loadCircle(avaUrl)
-                        3 -> avatarMention4.loadCircle(avaUrl)
-                        4 -> avatarMention5.loadCircle(avaUrl)
+                        0 -> avatarParticipant1.loadCircle(avaUrl)
+                        1 -> avatarParticipant2.loadCircle(avaUrl)
+                        2 -> avatarParticipant3.loadCircle(avaUrl)
+                        3 -> avatarParticipant4.loadCircle(avaUrl)
+                        4 -> avatarParticipant5.loadCircle(avaUrl)
                         else -> Unit
                     }
                 }
-
-
 
                 MapKitFactory.initialize(requireContext())
                 val mapView = binding.mapview
                 val map = mapView.mapWindow.map
 
-                binding.mapGroup.isVisible = (post.coords?.lat != null && post.coords.long != null)
-                if (post.coords?.lat != null && post.coords.long != null) {
+                binding.mapGroup.isVisible = (event.coords?.lat != null && event.coords.long != null)
+                if (event.coords?.lat != null && event.coords.long != null) {
                     map.move(
                         CameraPosition(
                             Point(
-                                post.coords.lat,
-                                post.coords.long
+                                event.coords.lat,
+                                event.coords.long
                             ),
                             /* zoom = */ 13.0f,
                             /* azimuth = */ 150.0f,
@@ -240,8 +241,8 @@ class OnePostFragment : Fragment() {
                 val imageProvider =
                     ImageProvider.fromResource(requireContext(), R.drawable.ic_map_marker_icon)
                 map.mapObjects.addPlacemark().apply {
-                    if (post.coords?.lat != null && post.coords.long != null) {
-                        geometry = Point(post.coords.lat, post.coords.long)
+                    if (event.coords?.lat != null && event.coords.long != null) {
+                        geometry = Point(event.coords.lat, event.coords.long)
                         setIcon(imageProvider)
                         setIconStyle(
                             IconStyle().apply {
@@ -283,7 +284,7 @@ class OnePostFragment : Fragment() {
             }
         }
 
-        bind(post)
+        bind(event)
 
         return binding.root
     }

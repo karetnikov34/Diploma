@@ -33,6 +33,16 @@
         <item name="icon">@drawable/ic_more_24</item>
         <item name="iconTint">?attr/colorControlNormal</item>
         <item name="android:checkable">false</item>
-        <item name="backgroundTint">@color/purple_500</item>
+        <item name="backgroundTint">@color/white</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/ic_slide_background</item>
     </style>
 </resources>

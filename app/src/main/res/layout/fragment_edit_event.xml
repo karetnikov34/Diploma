@@ -32,6 +32,36 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:checkedButton="@+id/radio_button_online"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/radio_button_online"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/online"/>
+                <RadioButton
+                    android:id="@+id/radio_button_offline"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/offline"/>
+            </RadioGroup>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/chooseDate"
+                style="@style/Widget.AppTheme.LikeButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:contentDescription="@string/choose_date"
+                app:icon="@drawable/ic_calendar_48"
+                app:iconSize="32dp"
+                app:iconTint="@color/purple_200"
+                android:layout_weight="1"
+                android:text="@string/choose_date_and_time"
+                android:textSize="16sp"/>
+
             <EditText
                 android:id="@+id/edit"
                 android:layout_width="match_parent"
@@ -39,7 +69,7 @@
                 android:background="@android:color/transparent"
                 android:inputType="textMultiLine"
                 android:padding="16dp"
-                tools:text="@tools:sample/lorem[99]" />
+                tools:text="@tools:sample/lorem[50]" />
 
 
             <ImageView
@@ -50,7 +80,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/description_photo"
                 android:padding="16dp"
-                tools:src="@tools:sample/avatars[1]" />
+                tools:src="@tools:sample/avatars[12]" />
 
             <VideoView
                 android:id="@+id/videoPreview"
@@ -109,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/remove_attachment"
+            android:text="@string/remove"
             app:layout_constraintBottom_toTopOf="@id/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -119,17 +149,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/remove_location"
+            android:text="@string/remove"
             app:layout_constraintBottom_toTopOf="@id/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/removeMentioned"
+            android:id="@+id/removeSpeakers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/remove_users"
+            android:text="@string/remove"
             app:layout_constraintBottom_toTopOf="@id/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -191,7 +221,7 @@
             app:iconTint="?colorSurface" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/chooseUsers"
+            android:id="@+id/chooseSpeakers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

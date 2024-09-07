@@ -13,14 +13,19 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Response
 import ru.netology.diploma.BuildConfig
+import ru.netology.diploma.api.EventApiService
 import ru.netology.diploma.api.PostsApiService
+import ru.netology.diploma.dao.EventDao
+import ru.netology.diploma.dao.EventRemoteKeyDao
 import ru.netology.diploma.dao.PostDao
 import ru.netology.diploma.dao.PostRemoteKeyDao
 import ru.netology.diploma.db.AppDb
 import ru.netology.diploma.dto.Attachment
+import ru.netology.diploma.dto.Event
 import ru.netology.diploma.dto.Media
 import ru.netology.diploma.dto.Post
 import ru.netology.diploma.dto.UserResponse
+import ru.netology.diploma.entity.EventEntity
 import ru.netology.diploma.entity.PostEntity
 import ru.netology.diploma.error.ApiError
 import ru.netology.diploma.error.NetworkError
@@ -31,12 +36,14 @@ import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor (
     private val dao: PostDao,
+    private val eventDao: EventDao,
     private val postApiService: PostsApiService,
+    private val eventApiService: EventApiService,
     postRemoteKeyDao: PostRemoteKeyDao,
+    eventRemoteKeyDao: EventRemoteKeyDao,
     appDb: AppDb
 ) : Repository {
 
-    //пагинация БД и сервер
     @OptIn(ExperimentalPagingApi::class)
     override val data: Flow<PagingData<Post>> = Pager(
         config = PagingConfig(pageSize = 15, enablePlaceholders = true),
@@ -46,16 +53,32 @@ class RepositoryImpl @Inject constructor (
         pagingData.map(PostEntity::toDto)
     }
 
+    @OptIn(ExperimentalPagingApi::class)
+    override val eventData: Flow<PagingData<Event>> = Pager(
+        config = PagingConfig(pageSize = 15, enablePlaceholders = true),
+        pagingSourceFactory = {eventDao.getPagingSource()},
+        remoteMediator = EventRemoteMediator(eventApiService, eventDao, eventRemoteKeyDao = eventRemoteKeyDao, appDb = appDb)
+    ).flow.map { pagingData ->
+        pagingData.map(EventEntity::toDto)
+    }
+
 
     override suspend fun updatePlayer() {
         withContext(Dispatchers.IO) {
             dao.updatePlayer(false)
+            eventDao.updatePlayerEvent(false)
         }
     }
 
     override suspend fun updateIsPlaying(postId: Int, isPlaying: Boolean) {
         withContext(Dispatchers.IO) {
             dao.updateIsPlaying(postId, isPlaying)
+        }
+    }
+
+    override suspend fun updateIsPlayingEvent (postId: Int, isPlaying: Boolean) {
+        withContext(Dispatchers.IO) {
+            eventDao.updateIsPlayingEvent(postId, isPlaying)
         }
     }
 
@@ -109,7 +132,7 @@ class RepositoryImpl @Inject constructor (
     }
 
     private suspend fun saveMedia (attachmentModel: AttachmentModel): Response<Media> {
-        val part = MultipartBody.Part.createFormData("file", attachmentModel.file.name, attachmentModel.file.asRequestBody()) //file.asRequestBody() - данные, кот отправятся на сервер
+        val part = MultipartBody.Part.createFormData("file", attachmentModel.file.name, attachmentModel.file.asRequestBody())
         return postApiService.saveMedia (part, BuildConfig.API_KEY)
     }
 
@@ -171,5 +194,93 @@ class RepositoryImpl @Inject constructor (
             throw UnknownError
         }
     }
+
+
+    override suspend fun saveEvent (event: Event) {
+
+        try {
+            val response = eventApiService.save(event, BuildConfig.API_KEY)
+            if (!response.isSuccessful) {
+                throw ApiError(response.message())
+            }
+
+            val result = response.body() ?: throw ApiError(response.message())
+
+            eventDao.insert(EventEntity.fromDto(result))
+
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
+
+    override suspend fun saveEventWithAttachment (event: Event, attachmentModel: AttachmentModel) {
+
+        try {
+            val mediaResponse =saveMedia(attachmentModel)
+
+            if (!mediaResponse.isSuccessful) {
+                throw ApiError(mediaResponse.message())
+            }
+
+            val media = mediaResponse.body() ?: throw ApiError(mediaResponse.message())
+
+            val response = eventApiService.save(event.copy(attachment = Attachment(media.url, attachmentModel.type)), BuildConfig.API_KEY)
+
+            if (!response.isSuccessful) {
+                throw ApiError(response.message())
+            }
+
+            val result = response.body() ?: throw ApiError(response.message())
+
+            eventDao.insert(EventEntity.fromDto(result))
+
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
+
+    override suspend fun likeEventById(id: Int, flag: Boolean) {
+        try {
+            val response = if (!flag) {
+                eventApiService.likeById(id, BuildConfig.API_KEY)
+            } else {
+                eventApiService.dislikeById(id, BuildConfig.API_KEY)
+            }
+
+            if (!response.isSuccessful) {
+                throw ApiError(response.message())
+            }
+            val body = response.body() ?: throw ApiError(response.message())
+
+            eventDao.likeById(body.id)
+            eventDao.insert(EventEntity.fromDto(body))
+
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
+
+    override suspend fun removeEventById(id: Int) {
+        try {
+            val response = eventApiService.removeById(id, BuildConfig.API_KEY)
+            if (!response.isSuccessful) {
+                throw ApiError(response.message())
+            }
+
+            response.body() ?: throw ApiError(response.message())
+            eventDao.removeById(id)
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
+
 
 }

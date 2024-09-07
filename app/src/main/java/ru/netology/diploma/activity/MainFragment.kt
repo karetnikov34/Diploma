@@ -95,7 +95,8 @@ class MainFragment : Fragment() {
                     true
                 }
                 R.id.events -> {
-                    false
+                    findNavController().navigate(R.id.action_mainFragment_to_allEventsFragment)
+                    true
                 }
                 R.id.users -> {
                     false
