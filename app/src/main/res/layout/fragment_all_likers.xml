@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/nameBack"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/back"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/back"
+            android:padding="16dp"
+            app:icon="@drawable/ic_arrow_24"
+            app:iconTint="@color/black"/>
+
+        <TextView
+            android:id="@+id/likers"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            android:text="@string/likers"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/back"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_weight="3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/checkbox"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/back"
+            android:padding="16dp"
+            app:icon="@drawable/ic_check_24"
+            app:iconTint="@color/black"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="15"
+            tools:listitem="@layout/fragment_one_user_card">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <ImageView
+        android:id="@+id/errorGreyScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey" />
+
+    <TextView
+        android:id="@+id/retryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/error_loading"
+        app:layout_constraintBottom_toTopOf="@+id/retryButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/retryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/purple_200"
+        android:text="@string/retry_loading"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/retryText" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/errorGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="retryText,retryButton, errorGreyScreen" />
+
+    <TextView
+        android:id="@+id/emptyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_posts"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

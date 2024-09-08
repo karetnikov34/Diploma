@@ -86,4 +86,20 @@
     <string name="speakers">speakers</string>
     <string name="participants">participants</string>
     <string name="choose_date_of_your_event">choose date of your event</string>
+    <string name="back">back</string>
+    <string name="likers">likers</string>
+    <string name="no_posts">no posts</string>
+    <string name="company_name">company name</string>
+    <string name="position">position</string>
+    <string name="start_date">start date</string>
+    <string name="end_date">end date</string>
+    <string name="create">create</string>
+    <string name="company">company</string>
+    <string name="dash">-</string>
+    <string name="add">add</string>
+    <string name="Wall">Wall</string>
+    <string name="Jobs">Jobs</string>
+    <string name="fields_must_be_filled_in">fields must be filled in</string>
+    <string name="choose_speakers">choose speakers</string>
+    <string name="mentioned_users">mentioned users</string>
 </resources>

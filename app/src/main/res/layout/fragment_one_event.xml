@@ -77,7 +77,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrier"
-            tools:src="@tools:sample/avatars[12]" />
+            tools:src="@tools:sample/avatars[1]" />
 
         <VideoView
             android:id="@+id/videoLink"

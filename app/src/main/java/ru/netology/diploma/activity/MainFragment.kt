@@ -99,7 +99,8 @@ class MainFragment : Fragment() {
                     true
                 }
                 R.id.users -> {
-                    false
+                    findNavController().navigate(R.id.action_mainFragment_to_allUsersFragment)
+                    true
                 }
                 else -> false
             }

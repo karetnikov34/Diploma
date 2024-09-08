@@ -35,14 +35,14 @@ import ru.netology.diploma.viewmodel.PostViewModel
 @AndroidEntryPoint
 class NewEventFragment : Fragment() {
 
-    private val viewModel: EventViewModel by activityViewModels()
+    private val viewModelEvent: EventViewModel by activityViewModels()
     private val viewModelPost: PostViewModel by activityViewModels()
 
     private val photoResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK) {
             val uri = it.data?.data ?: return@registerForActivityResult
             val file = uri.toFile()
-            viewModel.setAttachment(uri, file, AttachmentType.IMAGE)
+            viewModelEvent.setAttachment(uri, file, AttachmentType.IMAGE)
         }
     }
 
@@ -61,7 +61,7 @@ class NewEventFragment : Fragment() {
             val path = uri.path
             val type = path?.let { it1 -> checkMediaType(it1) }!!
             if (file != null) {
-                viewModel.setAttachment(uri, file, type)
+                viewModelEvent.setAttachment(uri, file, type)
             }
         }
     }
@@ -86,7 +86,7 @@ class NewEventFragment : Fragment() {
 
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            if (viewModel.eventDateTime.value == null) {
+            if (viewModelEvent.eventDateTime.value == null) {
                 Snackbar.make(binding.scrollView, "", Snackbar.LENGTH_LONG)
                     .setAnchorView(binding.edit)
                     .setTextMaxLines(3)
@@ -98,7 +98,7 @@ class NewEventFragment : Fragment() {
                 when (menuItem.itemId) {
                     R.id.save -> {
                         val speakers = viewModelPost.userChosen.value ?: emptyList()
-                        viewModel.changeContentAndSave(binding.edit.text.toString(), viewModelPost.coords.value, speakers)
+                        viewModelEvent.changeContentAndSave(binding.edit.text.toString(), viewModelPost.coords.value, speakers)
                         AndroidUtils.hideKeyboard(requireView())
                         true
                     }
@@ -135,7 +135,7 @@ class NewEventFragment : Fragment() {
                 .createIntent { photoResultContract.launch(it) }
         }
 
-        viewModel.attachment.observe(viewLifecycleOwner) {attachmentModel ->
+        viewModelEvent.attachment.observe(viewLifecycleOwner) { attachmentModel ->
             if (attachmentModel == null) {
                 binding.photoContainer.isGone = true
                 binding.videoContainer.isGone = true
@@ -169,15 +169,20 @@ class NewEventFragment : Fragment() {
 
 
         binding.removePhoto.setOnClickListener {
-            viewModel.clearAttachment()
+            viewModelEvent.clearAttachment()
         }
 
         binding.removeVideo.setOnClickListener {
-            viewModel.clearAttachment()
+            viewModelEvent.clearAttachment()
         }
 
         binding.removeAudio.setOnClickListener {
-            viewModel.clearAttachment()
+            viewModelEvent.clearAttachment()
+        }
+
+        binding.chooseSpeakers.setOnClickListener {
+            viewModelEvent.speaker = true
+            findNavController().navigate(R.id.action_newEventFragment_to_choosingFragment)
         }
 
 
@@ -188,7 +193,7 @@ class NewEventFragment : Fragment() {
         binding.chooseDate.setOnClickListener {
             BottomSheetDialogue().show(parentFragmentManager, "format_date_time")
         }
-        viewModel.eventDateTime.observe(viewLifecycleOwner) {
+        viewModelEvent.eventDateTime.observe(viewLifecycleOwner) {
             if (it != null) {
                 binding.chooseDate.text = formatDateTime(it)
             }
@@ -207,16 +212,16 @@ class NewEventFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        viewModel.eventCreated.observe(viewLifecycleOwner) {
-            viewModel.clearAttachment()
-            viewModel.clearEventDateTime()
+        viewModelEvent.eventCreated.observe(viewLifecycleOwner) {
+            viewModelEvent.clearAttachment()
+            viewModelEvent.clearEventDateTime()
             viewModelPost.clearCoords()
             viewModelPost.clearUserChosen()
-            viewModel.speaker = false
+            viewModelEvent.speaker = false
             findNavController().navigate(R.id.action_newEventFragment_to_allEventsFragment)
         }
 
-        viewModel.eventCreatedError.observe(viewLifecycleOwner) {
+        viewModelEvent.eventCreatedError.observe(viewLifecycleOwner) {
 
             Snackbar.make(binding.scrollView, "", Snackbar.LENGTH_LONG)
                 .setAnchorView(binding.edit)

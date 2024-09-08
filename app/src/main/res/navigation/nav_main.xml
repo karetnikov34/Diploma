@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_mainFragment_to_allEventsFragment"
             app:destination="@id/allEventsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_allUsersFragment"
+            app:destination="@id/allUsersFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
@@ -74,6 +77,9 @@
         <action
             android:id="@+id/action_newPostFragment_to_mapsFragment"
             app:destination="@id/mapsFragment" />
+        <action
+            android:id="@+id/action_newPostFragment_to_choosingFragment"
+            app:destination="@id/choosingFragment" />
     </fragment>
     <fragment
         android:id="@+id/editPostFragment"
@@ -85,6 +91,9 @@
         <action
             android:id="@+id/action_editPostFragment_to_allPostsFragment"
             app:destination="@id/allPostsFragment" />
+        <action
+            android:id="@+id/action_editPostFragment_to_choosingFragment"
+            app:destination="@id/choosingFragment" />
     </fragment>
     <fragment
         android:id="@+id/onePostFragment"
@@ -93,6 +102,12 @@
         <action
             android:id="@+id/action_onePostFragment_to_editPostFragment"
             app:destination="@id/editPostFragment" />
+        <action
+            android:id="@+id/action_onePostFragment_to_allLikersFragment"
+            app:destination="@id/allLikersFragment" />
+        <action
+            android:id="@+id/action_onePostFragment_to_allMentionedFragment"
+            app:destination="@id/allMentionedFragment" />
     </fragment>
     <fragment
         android:id="@+id/allEventsFragment"
@@ -118,6 +133,9 @@
         <action
             android:id="@+id/action_editEventFragment_to_allEventsFragment"
             app:destination="@id/allEventsFragment" />
+        <action
+            android:id="@+id/action_editEventFragment_to_choosingFragment"
+            app:destination="@id/choosingFragment" />
     </fragment>
     <fragment
         android:id="@+id/newEventFragment"
@@ -129,6 +147,9 @@
         <action
             android:id="@+id/action_newEventFragment_to_allEventsFragment"
             app:destination="@id/allEventsFragment" />
+        <action
+            android:id="@+id/action_newEventFragment_to_choosingFragment"
+            app:destination="@id/choosingFragment" />
     </fragment>
     <fragment
         android:id="@+id/oneEventFragment"
@@ -137,5 +158,65 @@
         <action
             android:id="@+id/action_oneEventFragment_to_editEventFragment"
             app:destination="@id/editEventFragment" />
+        <action
+            android:id="@+id/action_oneEventFragment_to_allSpeakersFragment"
+            app:destination="@id/allSpeakersFragment" />
+        <action
+            android:id="@+id/action_oneEventFragment_to_allLikersEventFragment"
+            app:destination="@id/allLikersEventFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/allUsersFragment"
+        android:name="ru.netology.diploma.activity.AllUsersFragment"
+        android:label="AllUsersFragment" >
+        <action
+            android:id="@+id/action_allUsersFragment_to_oneUserCardFragment"
+            app:destination="@id/oneUserCardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/oneUserCardFragment"
+        android:name="ru.netology.diploma.activity.OneUserCardFragment"
+        android:label="OneUserCardFragment" >
+        <action
+            android:id="@+id/action_oneUserCardFragment_to_editJobFragment"
+            app:destination="@id/editJobFragment" />
+        <action
+            android:id="@+id/action_oneUserCardFragment_to_newPostFragment"
+            app:destination="@id/newPostFragment" />
+        <action
+            android:id="@+id/action_oneUserCardFragment_to_newJobFragment"
+            app:destination="@id/newJobFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/choosingFragment"
+        android:name="ru.netology.diploma.activity.ChoosingFragment"
+        android:label="ChoosingFragment" />
+    <fragment
+        android:id="@+id/newJobFragment"
+        android:name="ru.netology.diploma.activity.NewJobFragment"
+        android:label="NewJobFragment" >
+        <action
+            android:id="@+id/action_newJobFragment_to_oneUserCardFragment"
+            app:destination="@id/oneUserCardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allSpeakersFragment"
+        android:name="ru.netology.diploma.activity.AllSpeakersFragment"
+        android:label="AllSpeakersFragment" />
+    <fragment
+        android:id="@+id/allLikersEventFragment"
+        android:name="ru.netology.diploma.activity.AllLikersEventFragment"
+        android:label="AllLikersEventFragment" />
+    <fragment
+        android:id="@+id/allLikersFragment"
+        android:name="ru.netology.diploma.activity.AllLikersFragment"
+        android:label="AllLikersFragment" />
+    <fragment
+        android:id="@+id/allMentionedFragment"
+        android:name="ru.netology.diploma.activity.AllMentionedFragment"
+        android:label="AllMentionedFragment" />
+    <fragment
+        android:id="@+id/editJobFragment"
+        android:name="ru.netology.diploma.activity.EditJobFragment"
+        android:label="EditJobFragment" />
 </navigation>

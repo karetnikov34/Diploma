@@ -38,13 +38,15 @@ import ru.netology.diploma.util.getInputStreamFromUri
 import ru.netology.diploma.util.load
 import ru.netology.diploma.viewmodel.EventViewModel
 import ru.netology.diploma.viewmodel.PostViewModel
+import ru.netology.diploma.viewmodel.UserViewModel
 import java.util.Calendar
 
 @AndroidEntryPoint
 class EditEventFragment : Fragment() {
 
-    private val viewModel: EventViewModel by activityViewModels()
+    private val viewModelEvent: EventViewModel by activityViewModels()
     private val viewModelPost: PostViewModel by activityViewModels()
+    private val viewModelUser: UserViewModel by activityViewModels()
 
     private val photoResultContract =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -52,7 +54,7 @@ class EditEventFragment : Fragment() {
                 val uri = it.data?.data
                     ?: return@registerForActivityResult
                 val file = uri.toFile()
-                viewModel.setAttachment(uri, file, AttachmentType.IMAGE)
+                viewModelEvent.setAttachment(uri, file, AttachmentType.IMAGE)
             }
         }
 
@@ -71,7 +73,7 @@ class EditEventFragment : Fragment() {
                 val path = uri.path
                 val type = path?.let { it1 -> checkMediaType(it1) }!!
                 if (file != null) {
-                    viewModel.setAttachment(uri, file, type)
+                    viewModelEvent.setAttachment(uri, file, type)
                 }
             }
         }
@@ -88,7 +90,7 @@ class EditEventFragment : Fragment() {
         )
 
         val event = EventDealtWith.get()
-        viewModel.setEventToEdit(event)
+        viewModelEvent.setEventToEdit(event)
 
         binding.edit.requestFocus()
         binding.edit.setText(event.content)
@@ -100,13 +102,13 @@ class EditEventFragment : Fragment() {
 
 
         if (binding.radioButtonOnline.isChecked) {
-            viewModel.setEventFormat(EventType.ONLINE)
-        } else viewModel.setEventFormat(EventType.OFFLINE)
+            viewModelEvent.setEventFormat(EventType.ONLINE)
+        } else viewModelEvent.setEventFormat(EventType.OFFLINE)
 
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.radio_button_online -> {viewModel.setEventFormat(EventType.ONLINE)}
-                R.id.radio_button_offline -> {viewModel.setEventFormat(EventType.OFFLINE)}
+                R.id.radio_button_online -> {viewModelEvent.setEventFormat(EventType.ONLINE)}
+                R.id.radio_button_offline -> {viewModelEvent.setEventFormat(EventType.OFFLINE)}
             }
         }
 
@@ -126,7 +128,7 @@ class EditEventFragment : Fragment() {
                     val timePickerDialog = TimePickerDialog(requireContext(),
                         { _, selectedHour, selectedMinute ->
                             val selectedDateTime = String.format("%02d.%02d.%04d, %02d:%02d", selectedDay, selectedMonth + 1, selectedYear, selectedHour, selectedMinute)
-                            viewModel.setEventDateTime (selectedDateTime)
+                            viewModelEvent.setEventDateTime (selectedDateTime)
                         }, hour, minute, true)
 
                     timePickerDialog.show()
@@ -139,7 +141,7 @@ class EditEventFragment : Fragment() {
             showDateTimePickerDialog()
         }
 
-        viewModel.eventDateTime.observe(viewLifecycleOwner) {
+        viewModelEvent.eventDateTime.observe(viewLifecycleOwner) {
             if (it != null) {
                 binding.chooseDate.text = formatDateTime(it)
             } else binding.chooseDate.text = event.datetime?.let { it1 -> formatDateTime(it1) }
@@ -150,14 +152,14 @@ class EditEventFragment : Fragment() {
             when (menuItem.itemId) {
                 R.id.save -> {
 
-                    val dateTime = viewModel.eventDateTime.value ?: event.datetime
-                    val format = viewModel.eventFormat.value!!
+                    val dateTime = viewModelEvent.eventDateTime.value ?: event.datetime
+                    val format = viewModelEvent.eventFormat.value!!
                     val speakers = viewModelPost.userChosen.value ?: viewModelPost.postToEdit.value?.mentionIds
                     val finalSpeakers = speakers ?: emptyList()
 
-                    val eventEdited = viewModel.eventToEdit.value?.copy(content = binding.edit.text.toString(), datetime = dateTime, type = format, speakerIds = finalSpeakers)
+                    val eventEdited = viewModelEvent.eventToEdit.value?.copy(content = binding.edit.text.toString(), datetime = dateTime, type = format, speakerIds = finalSpeakers)
                     if (eventEdited != null) {
-                        viewModel.editEvent(eventEdited, viewModelPost.coords.value)
+                        viewModelEvent.editEvent(eventEdited, viewModelPost.coords.value)
                     }
                     AndroidUtils.hideKeyboard(requireView())
                     true
@@ -199,8 +201,8 @@ class EditEventFragment : Fragment() {
         binding.videoPreview.visibility = View.GONE
         binding.audioPreview.visibility = View.GONE
 
-        viewModel.eventToEdit.observe(viewLifecycleOwner) { event1 ->
-            if (viewModel.attachment.value == null) {
+        viewModelEvent.eventToEdit.observe(viewLifecycleOwner) { event1 ->
+            if (viewModelEvent.attachment.value == null) {
 
                 when (event1.attachment?.type) {
                     AttachmentType.IMAGE -> {
@@ -228,7 +230,7 @@ class EditEventFragment : Fragment() {
             }
         }
 
-        viewModel.attachment.observe(viewLifecycleOwner) {attachmentModel ->
+        viewModelEvent.attachment.observe(viewLifecycleOwner) { attachmentModel ->
             if (attachmentModel != null) {
                 when (attachmentModel.type) {
                     AttachmentType.IMAGE -> {
@@ -264,8 +266,8 @@ class EditEventFragment : Fragment() {
         }
 
         binding.removeAttachment.setOnClickListener{
-            viewModel.clearAttachment()
-            viewModel.clearAttachmentEditEvent()
+            viewModelEvent.clearAttachment()
+            viewModelEvent.clearAttachmentEditEvent()
             binding.photoPreview.visibility = View.GONE
             binding.videoPreview.visibility = View.GONE
             binding.audioPreview.visibility = View.GONE
@@ -275,18 +277,24 @@ class EditEventFragment : Fragment() {
         }
 
         binding.removeLocation.setOnClickListener{
-            viewModel.clearLocationEditEvent()
+            viewModelEvent.clearLocationEditEvent()
             val toast = Toast.makeText(context, R.string.remove, Toast.LENGTH_SHORT)
             toast.setGravity(Gravity.CENTER, 0, 0)
             toast.show()
         }
 
         binding.removeSpeakers.setOnClickListener{
+            viewModelUser.clearChoosing()
             viewModelPost.clearUserChosen()
-            viewModel.clearSpeakersEdit()
+            viewModelEvent.clearSpeakersEdit()
             val toast = Toast.makeText(context, R.string.remove, Toast.LENGTH_SHORT)
             toast.setGravity(Gravity.CENTER, 0, 0)
             toast.show()
+        }
+
+        binding.chooseSpeakers.setOnClickListener{
+            viewModelEvent.speaker = true
+            findNavController().navigate(R.id.action_editEventFragment_to_choosingFragment)
         }
 
 
@@ -306,15 +314,15 @@ class EditEventFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        viewModel.eventCreated.observe(viewLifecycleOwner) {
-            viewModel.clearAttachment()
-            viewModel.clearEventDateTime()
+        viewModelEvent.eventCreated.observe(viewLifecycleOwner) {
+            viewModelEvent.clearAttachment()
+            viewModelEvent.clearEventDateTime()
             viewModelPost.clearCoords()
-            viewModel.speaker = false
+            viewModelEvent.speaker = false
             findNavController().navigate(R.id.action_editEventFragment_to_allEventsFragment)
         }
 
-        viewModel.eventCreatedError.observe(viewLifecycleOwner) {
+        viewModelEvent.eventCreatedError.observe(viewLifecycleOwner) {
 
             Snackbar.make(binding.scrollView, "", Snackbar.LENGTH_LONG)
                 .setAnchorView(binding.edit)

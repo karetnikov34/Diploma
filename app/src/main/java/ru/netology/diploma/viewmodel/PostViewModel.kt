@@ -249,6 +249,10 @@ class PostViewModel @Inject constructor(
         repository.updateIsPlaying(postId, isPlaying)
     }
 
+    fun updateIsPlayingWall (postId: Int, isPlaying: Boolean) = viewModelScope.launch {
+        repository.updateIsPlayingWall (postId, isPlaying)
+    }
+
 
     private val _coords = MutableLiveData<Coordinates?>()
     val coords: LiveData<Coordinates?> = _coords

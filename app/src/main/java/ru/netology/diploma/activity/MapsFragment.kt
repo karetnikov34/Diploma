@@ -34,7 +34,7 @@ import ru.netology.diploma.viewmodel.PostViewModel
 @AndroidEntryPoint
 class MapsFragment : Fragment(), GeoObjectTapListener {
 
-    private val viewModel: PostViewModel by activityViewModels()
+    private val viewModelPost: PostViewModel by activityViewModels()
 
     private var mapView: MapView? = null
     private lateinit var userLocation: UserLocationLayer
@@ -156,7 +156,7 @@ class MapsFragment : Fragment(), GeoObjectTapListener {
 
         binding.choosePlaceButton.visibility = View.GONE
 
-        viewModel.placeName.observe(viewLifecycleOwner) {
+        viewModelPost.placeName.observe(viewLifecycleOwner) {
             binding.choosePlaceButton.isVisible = (it != null)
             val textToDisplay = context?.getString(R.string.tap_to_save_location) + " " + it
             binding.choosePlaceButton.text = textToDisplay
@@ -164,14 +164,14 @@ class MapsFragment : Fragment(), GeoObjectTapListener {
 
         binding.choosePlaceButton.setOnClickListener {
             binding.choosePlaceButton.visibility = View.GONE
-            viewModel.placeName.value = null
+            viewModelPost.placeName.value = null
             findNavController().navigateUp()
         }
 
         val imageProvider =
             ImageProvider.fromResource(requireContext(), R.drawable.ic_map_marker_icon)
 
-        viewModel.coords.observe(viewLifecycleOwner) { coords ->
+        viewModelPost.coords.observe(viewLifecycleOwner) { coords ->
 
             map.mapObjects.clear()
             coords ?: return@observe
@@ -211,8 +211,8 @@ class MapsFragment : Fragment(), GeoObjectTapListener {
 
         if (objectGeometry != null) {
             geoObjectTapEvent.geoObject.name?.let { name ->
-                viewModel.setCoords(objectGeometry.latitude, objectGeometry.longitude)
-                viewModel.placeName.value = name
+                viewModelPost.setCoords(objectGeometry.latitude, objectGeometry.longitude)
+                viewModelPost.placeName.value = name
             }
         }
         return true

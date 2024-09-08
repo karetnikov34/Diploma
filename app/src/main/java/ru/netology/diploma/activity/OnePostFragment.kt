@@ -41,7 +41,7 @@ class OnePostFragment : Fragment() {
     }
 
 
-    private val viewModel: PostViewModel by activityViewModels()
+    private val viewModelPost: PostViewModel by activityViewModels()
     private val viewModelAuth: AuthViewModel by activityViewModels()
     private val mediaObserver = MediaLifecycleObserver()
 
@@ -93,13 +93,13 @@ class OnePostFragment : Fragment() {
                             playButton.setOnClickListener {
                                 if (mediaObserver.player?.isPlaying == true) {
                                     mediaObserver.apply {
-                                        viewModel.updateIsPlaying(post.id, false)
+                                        viewModelPost.updateIsPlaying(post.id, false)
                                         playButton.setImageResource(R.drawable.ic_play_24)
                                         stop()
                                     }
                                 } else {
                                     mediaObserver.apply {
-                                        viewModel.updateIsPlaying(post.id, true)
+                                        viewModelPost.updateIsPlaying(post.id, true)
                                         playButton.setImageResource(R.drawable.ic_pause_24)
                                         post.attachment.url.let { play(it) }
                                     }
@@ -136,12 +136,12 @@ class OnePostFragment : Fragment() {
 
                 mediaObserver.player?.setOnCompletionListener {
                     mediaObserver.player?.stop()
-                    viewModel.updatePlayer()
+                    viewModelPost.updatePlayer()
                 }
 
                 likesIcon.setOnClickListener {
                     if (viewModelAuth.authenticated) {
-                        viewModel.likeById(post)
+                        viewModelPost.likeById(post)
                     } else {
                         signInDialog()
                     }
@@ -156,7 +156,7 @@ class OnePostFragment : Fragment() {
                         setOnMenuItemClickListener { menuItem ->
                             when (menuItem.itemId) {
                                 R.id.remove -> {
-                                    viewModel.removeById(post.id)
+                                    viewModelPost.removeById(post.id)
                                     findNavController().navigateUp()
                                     true
                                 }
@@ -194,6 +194,10 @@ class OnePostFragment : Fragment() {
                     }
                 }
 
+                avatarLikerMore.setOnClickListener {
+                    PostDealtWith.savePostDealtWith(post)
+                    findNavController().navigate(R.id.action_onePostFragment_to_allLikersFragment)
+                }
 
                 avatarMention1.isVisible = post.mentionIds.isNotEmpty()
                 avatarMention2.isVisible = post.mentionIds.size >= 2
@@ -214,7 +218,10 @@ class OnePostFragment : Fragment() {
                     }
                 }
 
-
+                avatarMentionMore.setOnClickListener {
+                    PostDealtWith.savePostDealtWith(post)
+                    findNavController().navigate(R.id.action_onePostFragment_to_allMentionedFragment)
+                }
 
                 MapKitFactory.initialize(requireContext())
                 val mapView = binding.mapview

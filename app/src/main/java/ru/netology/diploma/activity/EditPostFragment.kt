@@ -33,11 +33,13 @@ import ru.netology.diploma.util.createFileFromInputStream
 import ru.netology.diploma.util.getInputStreamFromUri
 import ru.netology.diploma.util.load
 import ru.netology.diploma.viewmodel.PostViewModel
+import ru.netology.diploma.viewmodel.UserViewModel
 
 @AndroidEntryPoint
 class EditPostFragment : Fragment() {
 
-    private val viewModel: PostViewModel by activityViewModels()
+    private val viewModelPost: PostViewModel by activityViewModels()
+    private val viewModelUser: UserViewModel by activityViewModels()
 
     private val photoResultContract =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -45,7 +47,7 @@ class EditPostFragment : Fragment() {
                 val uri = it.data?.data
                     ?: return@registerForActivityResult
                 val file = uri.toFile()
-                viewModel.setAttachment(uri, file, AttachmentType.IMAGE)
+                viewModelPost.setAttachment(uri, file, AttachmentType.IMAGE)
             }
         }
 
@@ -64,7 +66,7 @@ class EditPostFragment : Fragment() {
                 val path = uri.path
                 val type = path?.let { it1 -> checkMediaType(it1) }!!
                 if (file != null) {
-                    viewModel.setAttachment(uri, file, type)
+                    viewModelPost.setAttachment(uri, file, type)
                 }
             }
         }
@@ -81,7 +83,7 @@ class EditPostFragment : Fragment() {
         )
 
         val post = PostDealtWith.get()
-        viewModel.setPostToEdit(post)
+        viewModelPost.setPostToEdit(post)
 
         binding.edit.requestFocus()
         binding.edit.setText(post.content)
@@ -96,13 +98,13 @@ class EditPostFragment : Fragment() {
             when (menuItem.itemId) {
                 R.id.save -> {
 
-                    val mentioned = viewModel.userChosen.value ?: viewModel.postToEdit.value?.mentionIds
+                    val mentioned = viewModelPost.userChosen.value ?: viewModelPost.postToEdit.value?.mentionIds
                     val finalMentioned = mentioned ?: emptyList()
 
                     val postEdited =
-                        viewModel.postToEdit.value?.copy(content = binding.edit.text.toString(), mentionIds = finalMentioned)
+                        viewModelPost.postToEdit.value?.copy(content = binding.edit.text.toString(), mentionIds = finalMentioned)
                     if (postEdited != null) {
-                        viewModel.edit(postEdited)
+                        viewModelPost.edit(postEdited)
                     }
                     AndroidUtils.hideKeyboard(requireView())
                     true
@@ -145,8 +147,8 @@ class EditPostFragment : Fragment() {
         binding.videoPreview.visibility = View.GONE
         binding.audioPreview.visibility = View.GONE
 
-        viewModel.postToEdit.observe(viewLifecycleOwner) { post ->
-            if (viewModel.attachment.value == null) {
+        viewModelPost.postToEdit.observe(viewLifecycleOwner) { post ->
+            if (viewModelPost.attachment.value == null) {
 
                 when (post.attachment?.type) {
                     AttachmentType.IMAGE -> {
@@ -174,7 +176,7 @@ class EditPostFragment : Fragment() {
             }
         }
 
-        viewModel.attachment.observe(viewLifecycleOwner) {attachmentModel ->
+        viewModelPost.attachment.observe(viewLifecycleOwner) { attachmentModel ->
             if (attachmentModel != null) {
                 when (attachmentModel.type) {
                     AttachmentType.IMAGE -> {
@@ -210,8 +212,8 @@ class EditPostFragment : Fragment() {
         }
 
         binding.removeAttachment.setOnClickListener{
-            viewModel.clearAttachment()
-            viewModel.clearAttachmentEdit()
+            viewModelPost.clearAttachment()
+            viewModelPost.clearAttachmentEdit()
             binding.photoPreview.visibility = View.GONE
             binding.videoPreview.visibility = View.GONE
             binding.audioPreview.visibility = View.GONE
@@ -221,19 +223,23 @@ class EditPostFragment : Fragment() {
         }
 
         binding.removeLocation.setOnClickListener{
-            viewModel.clearLocationEdit()
+            viewModelPost.clearLocationEdit()
             val toast = Toast.makeText(context, R.string.remove, Toast.LENGTH_SHORT)
             toast.setGravity(Gravity.CENTER, 0, 0)
             toast.show()
         }
 
         binding.removeMentioned.setOnClickListener{
-//            viewModelUser.clearChoosing()
-            viewModel.clearUserChosen()
-            viewModel.clearMentionedEdit()
+            viewModelUser.clearChoosing()
+            viewModelPost.clearUserChosen()
+            viewModelPost.clearMentionedEdit()
             val toast = Toast.makeText(context, R.string.remove, Toast.LENGTH_SHORT)
             toast.setGravity(Gravity.CENTER, 0, 0)
             toast.show()
+        }
+
+        binding.chooseUsers.setOnClickListener{
+            findNavController().navigate(R.id.action_editPostFragment_to_choosingFragment)
         }
 
 
@@ -253,12 +259,12 @@ class EditPostFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        viewModel.postCreated.observe(viewLifecycleOwner)
+        viewModelPost.postCreated.observe(viewLifecycleOwner)
         {
             findNavController().navigate(R.id.action_editPostFragment_to_allPostsFragment)
         }
 
-        viewModel.postCreatedError.observe(viewLifecycleOwner)
+        viewModelPost.postCreatedError.observe(viewLifecycleOwner)
         {
 
             Snackbar.make(binding.scrollView, "", Snackbar.LENGTH_LONG)

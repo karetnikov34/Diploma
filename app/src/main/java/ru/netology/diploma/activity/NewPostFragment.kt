@@ -33,13 +33,13 @@ import ru.netology.diploma.viewmodel.PostViewModel
 @AndroidEntryPoint
 class NewPostFragment : Fragment() {
 
-    private val viewModel: PostViewModel by activityViewModels()
+    private val viewModelPost: PostViewModel by activityViewModels()
 
     private val photoResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK) {
             val uri = it.data?.data ?: return@registerForActivityResult
             val file = uri.toFile()
-            viewModel.setAttachment(uri, file, AttachmentType.IMAGE)
+            viewModelPost.setAttachment(uri, file, AttachmentType.IMAGE)
         }
     }
 
@@ -57,7 +57,7 @@ class NewPostFragment : Fragment() {
             val path = uri.path
             val type = path?.let { it1 -> checkMediaType(it1) }!!
             if (file != null) {
-                viewModel.setAttachment(uri, file, type)
+                viewModelPost.setAttachment(uri, file, type)
             }
         }
     }
@@ -85,8 +85,8 @@ class NewPostFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.save -> {
-                    val mentionedIds = viewModel.userChosen.value ?: emptyList()
-                    viewModel.changeContentAndSave(binding.edit.text.toString(), mentionedIds)
+                    val mentionedIds = viewModelPost.userChosen.value ?: emptyList()
+                    viewModelPost.changeContentAndSave(binding.edit.text.toString(), mentionedIds)
                     AndroidUtils.hideKeyboard(requireView())
                     true
                 }
@@ -121,7 +121,7 @@ class NewPostFragment : Fragment() {
                 .createIntent { photoResultContract.launch(it) }
         }
 
-        viewModel.attachment.observe(viewLifecycleOwner) {attachmentModel ->
+        viewModelPost.attachment.observe(viewLifecycleOwner) { attachmentModel ->
             if (attachmentModel == null) {
                 binding.photoContainer.isGone = true
                 binding.videoContainer.isGone = true
@@ -155,15 +155,19 @@ class NewPostFragment : Fragment() {
 
 
         binding.removePhoto.setOnClickListener {
-            viewModel.clearAttachment()
+            viewModelPost.clearAttachment()
         }
 
         binding.removeVideo.setOnClickListener {
-            viewModel.clearAttachment()
+            viewModelPost.clearAttachment()
         }
 
         binding.removeAudio.setOnClickListener {
-            viewModel.clearAttachment()
+            viewModelPost.clearAttachment()
+        }
+
+        binding.chooseUsers.setOnClickListener {
+            findNavController().navigate(R.id.action_newPostFragment_to_choosingFragment)
         }
 
 
@@ -184,13 +188,13 @@ class NewPostFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        viewModel.postCreated.observe(viewLifecycleOwner) {
-            viewModel.clearAttachment()
-            viewModel.clearUserChosen()
+        viewModelPost.postCreated.observe(viewLifecycleOwner) {
+            viewModelPost.clearAttachment()
+            viewModelPost.clearUserChosen()
             findNavController().navigateUp()
         }
 
-        viewModel.postCreatedError.observe(viewLifecycleOwner) {
+        viewModelPost.postCreatedError.observe(viewLifecycleOwner) {
 
             Snackbar.make(binding.scrollView, "", Snackbar.LENGTH_LONG)
                 .setAnchorView(binding.edit)

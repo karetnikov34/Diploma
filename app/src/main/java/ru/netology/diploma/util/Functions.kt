@@ -87,6 +87,21 @@ fun formatDateTimeEvent (inputDateTime: String): String {
     return newDateTime.toString()
 }
 
+fun formatDateTimeJob (inputDate: String): String {
+    val inputTime = "00:00:00"
+    val inputDateString = "$inputDate $inputTime"
+    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+    val localDateTime = LocalDateTime.parse(inputDateString, formatter)
+    val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+    return localDateTime.format(outputFormatter)
+}
+
+fun formatDateTimeJobBinding(dateTimeString: String): String {
+    val serverDateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ISO_DATE_TIME)
+    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+    return serverDateTime.format(formatter)
+}
 
 fun checkMediaType(input: String): AttachmentType {
     return when (File(input).extension.lowercase(Locale.ROOT)) {

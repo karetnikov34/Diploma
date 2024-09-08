@@ -36,7 +36,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AllEventsFragment : Fragment() {
 
-    private val viewModel: EventViewModel by activityViewModels()
+    private val viewModelEvent: EventViewModel by activityViewModels()
     private val viewModelAuth: AuthViewModel by activityViewModels()
 
     private val mediaObserver = MediaLifecycleObserver()
@@ -60,14 +60,14 @@ class AllEventsFragment : Fragment() {
         val adapter = EventAdapter(object : OnInteractionListenerEvent {
             override fun like(event: Event) {
                 if (viewModelAuth.authenticated) {
-                    viewModel.likeEventById(event)
+                    viewModelEvent.likeEventById(event)
                 } else {
                     signInDialog()
                 }
             }
 
             override fun remove(event: Event) {
-                viewModel.removeEventById(event.id)
+                viewModelEvent.removeEventById(event.id)
             }
 
             override fun edit(event: Event) {
@@ -85,19 +85,19 @@ class AllEventsFragment : Fragment() {
                 val thisTrackId = event.id
                 if (mediaObserver.player?.isPlaying == true) {
                     mediaObserver.apply {
-                        viewModel.updateIsPlayingEvent(event.id, false)
-                        viewModel.updatePlayer()
+                        viewModelEvent.updateIsPlayingEvent(event.id, false)
+                        viewModelEvent.updatePlayer()
                         stop()
                         if (thisTrackId != trackId ) {
                             trackId = thisTrackId
-                            viewModel.updateIsPlayingEvent(event.id, true)
+                            viewModelEvent.updateIsPlayingEvent(event.id, true)
                             event.attachment?.url?.let { play(it) }
                         }
                     }
                 } else {
                     mediaObserver.apply {
                         trackId = thisTrackId
-                        viewModel.updateIsPlayingEvent(event.id, true)
+                        viewModelEvent.updateIsPlayingEvent(event.id, true)
                         event.attachment?.url?.let { play(it) }
                     }
                 }
@@ -108,7 +108,7 @@ class AllEventsFragment : Fragment() {
 
         mediaObserver.player?.setOnCompletionListener {
             mediaObserver.player?.stop()
-            viewModel.updatePlayer()
+            viewModelEvent.updatePlayer()
         }
 
 
@@ -161,7 +161,7 @@ class AllEventsFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.eventData.collectLatest{
+                viewModelEvent.eventData.collectLatest{
                     adapter.submitData(it)
                 }
             }
@@ -178,14 +178,14 @@ class AllEventsFragment : Fragment() {
             }
         }
 
-        viewModel.dataState.observe(viewLifecycleOwner) { feedModelState ->
+        viewModelEvent.dataState.observe(viewLifecycleOwner) { feedModelState ->
             binding.progress.isVisible = feedModelState.loading
             binding.errorGroup.isVisible = feedModelState.error
         }
 
         binding.retryButton.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.eventData.collectLatest {
+                viewModelEvent.eventData.collectLatest {
                     adapter.submitData(it)
                 }
             }

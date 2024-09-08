@@ -20,7 +20,7 @@ import java.util.Calendar
 class BottomSheetDialogue : BottomSheetDialogFragment() {
 
     lateinit var binding: FragmentBottomSheetDialogueBinding
-    private val viewModel: EventViewModel by activityViewModels()
+    private val viewModelEvent: EventViewModel by activityViewModels()
 
     override fun getTheme() = R.style.AppBottomSheetDialogTheme
 
@@ -42,13 +42,13 @@ class BottomSheetDialogue : BottomSheetDialogFragment() {
 
 
         if (binding.radioButtonOnline.isChecked) {
-            viewModel.setEventFormat(EventType.ONLINE)
-        } else viewModel.setEventFormat(EventType.OFFLINE)
+            viewModelEvent.setEventFormat(EventType.ONLINE)
+        } else viewModelEvent.setEventFormat(EventType.OFFLINE)
 
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.radio_button_online -> {viewModel.setEventFormat(EventType.ONLINE)}
-                R.id.radio_button_offline -> {viewModel.setEventFormat(EventType.OFFLINE)}
+                R.id.radio_button_online -> {viewModelEvent.setEventFormat(EventType.ONLINE)}
+                R.id.radio_button_offline -> {viewModelEvent.setEventFormat(EventType.OFFLINE)}
             }
         }
 
@@ -68,7 +68,7 @@ class BottomSheetDialogue : BottomSheetDialogFragment() {
                         { _, selectedHour, selectedMinute ->
 
                             val selectedDateTime = String.format("%02d.%02d.%04d, %02d:%02d", selectedDay, selectedMonth + 1, selectedYear, selectedHour, selectedMinute)
-                            viewModel.setEventDateTime (selectedDateTime)
+                            viewModelEvent.setEventDateTime (selectedDateTime)
 
                         }, hour, minute, true)
 
@@ -82,7 +82,7 @@ class BottomSheetDialogue : BottomSheetDialogFragment() {
             showDateTimePickerDialog()
         }
 
-        viewModel.eventDateTime.observe(viewLifecycleOwner) {
+        viewModelEvent.eventDateTime.observe(viewLifecycleOwner) {
             if (it != null) {
                 binding.chooseDateTime.text = formatDateTime(it)
             }

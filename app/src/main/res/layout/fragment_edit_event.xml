@@ -80,7 +80,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/description_photo"
                 android:padding="16dp"
-                tools:src="@tools:sample/avatars[12]" />
+                tools:src="@tools:sample/avatars[1]" />
 
             <VideoView
                 android:id="@+id/videoPreview"

@@ -35,7 +35,7 @@ import ru.netology.diploma.viewmodel.EventViewModel
 @AndroidEntryPoint
 class OneEventFragment : Fragment() {
 
-    private val viewModel: EventViewModel by activityViewModels()
+    private val viewModelEvent: EventViewModel by activityViewModels()
     private val viewModelAuth: AuthViewModel by activityViewModels()
     private val mediaObserver = MediaLifecycleObserver()
 
@@ -89,13 +89,13 @@ class OneEventFragment : Fragment() {
                             playButton.setOnClickListener {
                                 if (mediaObserver.player?.isPlaying == true) {
                                     mediaObserver.apply {
-                                        viewModel.updateIsPlayingEvent(event.id, false)
+                                        viewModelEvent.updateIsPlayingEvent(event.id, false)
                                         playButton.setImageResource(R.drawable.ic_play_24)
                                         stop()
                                     }
                                 } else {
                                     mediaObserver.apply {
-                                        viewModel.updateIsPlayingEvent(event.id, true)
+                                        viewModelEvent.updateIsPlayingEvent(event.id, true)
                                         playButton.setImageResource(R.drawable.ic_pause_24)
                                         event.attachment.url.let { play(it) }
                                     }
@@ -131,7 +131,7 @@ class OneEventFragment : Fragment() {
 
                 likesIcon.setOnClickListener {
                     if (viewModelAuth.authenticated) {
-                        viewModel.likeEventById(event)
+                        viewModelEvent.likeEventById(event)
                     } else {
                         signInDialog()
                     }
@@ -146,7 +146,7 @@ class OneEventFragment : Fragment() {
                         setOnMenuItemClickListener { menuItem ->
                             when (menuItem.itemId) {
                                 R.id.remove -> {
-                                    viewModel.removeEventById(event.id)
+                                    viewModelEvent.removeEventById(event.id)
                                     findNavController().navigateUp()
                                     true
                                 }
@@ -179,6 +179,11 @@ class OneEventFragment : Fragment() {
                     }
                 }
 
+                speakerMore.setOnClickListener {
+                    EventDealtWith.saveEventDealtWith(event)
+                    findNavController().navigate(R.id.action_oneEventFragment_to_allSpeakersFragment)
+                }
+
                 avatarLiker1.isVisible = event.likeOwnerIds.isNotEmpty()
                 avatarLiker2.isVisible = event.likeOwnerIds.size >= 2
                 avatarLiker3.isVisible = event.likeOwnerIds.size >= 3
@@ -196,6 +201,11 @@ class OneEventFragment : Fragment() {
                         4 -> avatarLiker5.loadCircle(avaUrl)
                         else -> Unit
                     }
+                }
+
+                avatarLikerMore.setOnClickListener {
+                    EventDealtWith.saveEventDealtWith(event)
+                    findNavController().navigate(R.id.action_oneEventFragment_to_allLikersEventFragment)
                 }
 
                 avatarParticipant1.isVisible = event.participantsIds.isNotEmpty()
