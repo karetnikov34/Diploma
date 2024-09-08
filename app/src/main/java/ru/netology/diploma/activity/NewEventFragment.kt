@@ -3,7 +3,6 @@ package ru.netology.diploma.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -124,7 +123,6 @@ class NewEventFragment : Fragment() {
                     .setAnchorView(binding.edit)
                     .setTextMaxLines(3)
                     .setText(R.string.choose_date_of_your_event)
-                    .setBackgroundTint(Color.rgb(0, 102, 255))
                     .show()
                 false
             }  else {
@@ -287,7 +285,6 @@ class NewEventFragment : Fragment() {
                 .setAnchorView(binding.edit)
                 .setTextMaxLines(3)
                 .setText(R.string.error_loading)
-                .setBackgroundTint(Color.rgb(0, 102, 255))
                 .show()
 
         }

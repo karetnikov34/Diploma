@@ -54,7 +54,6 @@ class EditJobFragment : Fragment() {
                         .setAnchorView(binding.startJob)
                         .setTextMaxLines(3)
                         .setText(R.string.fields_must_be_filled_in)
-                        .setBackgroundTint(android.graphics.Color.rgb(0, 102, 255))
                         .show()
                 } else {
                     val company = binding.companyJob.text.toString()
@@ -114,7 +113,6 @@ class EditJobFragment : Fragment() {
                 .setAnchorView(binding.companyJob)
                 .setTextMaxLines(3)
                 .setText(R.string.error_loading)
-                .setBackgroundTint(android.graphics.Color.rgb(0, 102, 255))
                 .show()
         }
 

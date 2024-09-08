@@ -49,12 +49,12 @@ class AllUsersFragment: Fragment() {
 
         val adapter = UserAdapter(object : OnInteractionListenerUser {
             override fun show(user: UserResponse) {
-                if (viewModelAuth.authenticated) {
+//                if (viewModelAuth.authenticated) {
                     UserDealtWith.saveUserDealtWith(user)
                     findNavController().navigate(R.id.action_allUsersFragment_to_oneUserCardFragment)
-                } else {
-                    signInDialog()
-                }
+//                } else {
+//                    findNavController().navigate(R.id.action_allUsersFragment_to_oneUserCardFragment)
+//                }
             }
             override fun choose(user: UserResponse) {}
         })
@@ -103,19 +103,19 @@ class AllUsersFragment: Fragment() {
         return binding.root
     }
 
-    private fun signInDialog() {
-        val listener = DialogInterface.OnClickListener{ _, which ->
-            when(which) {
-                DialogInterface.BUTTON_POSITIVE -> findNavController().navigate(R.id.authSignInFragment)
-            }
-        }
-        val dialog = AlertDialog.Builder(context)
-            .setCancelable(false)
-            .setTitle(R.string.not_authorized)
-            .setMessage(R.string.sign_in_account)
-            .setPositiveButton(R.string.yes, listener)
-            .setNegativeButton(R.string.no, listener)
-            .create()
-        dialog.show()
-    }
+//    private fun signInDialog() {
+//        val listener = DialogInterface.OnClickListener{ _, which ->
+//            when(which) {
+//                DialogInterface.BUTTON_POSITIVE -> findNavController().navigate(R.id.authSignInFragment)
+//            }
+//        }
+//        val dialog = AlertDialog.Builder(context)
+//            .setCancelable(false)
+//            .setTitle(R.string.not_authorized)
+//            .setMessage(R.string.sign_in_account)
+//            .setPositiveButton(R.string.yes, listener)
+//            .setNegativeButton(R.string.no, listener)
+//            .create()
+//        dialog.show()
+//    }
 }

@@ -126,7 +126,7 @@ class AuthSignUpFragment : Fragment() {
             ImagePicker.Builder(this)
                 .crop()
                 .galleryOnly()
-                .compress(1024)
+                .compress(2048)
                 .createIntent { photoResultContract.launch(it) }
         }
 

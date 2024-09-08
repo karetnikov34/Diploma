@@ -38,14 +38,12 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addPostJob"
-            android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/add"
-            app:icon="@drawable/ic_add_24"
-            app:iconTint="@color/black"
-            android:layout_gravity="end"
-            android:layout_weight="0.8"/>
+            style="@style/Widget.AppTheme.MenuButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
