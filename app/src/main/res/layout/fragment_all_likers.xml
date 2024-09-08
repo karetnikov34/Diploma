@@ -17,36 +17,40 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/back"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/transparent"
+            android:background="@color/purple_200"
+            android:backgroundTint="@color/purple_200"
             android:contentDescription="@string/back"
             android:padding="16dp"
             app:icon="@drawable/ic_arrow_24"
-            app:iconTint="@color/black"/>
+            app:iconTint="@color/black" />
 
         <TextView
             android:id="@+id/likers"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
+            android:layout_weight="3"
+            android:background="@color/purple_200"
+            android:backgroundTint="@color/purple_200"
             android:gravity="center_vertical"
             android:text="@string/likers"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/back"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_weight="3"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/checkbox"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/transparent"
+            android:background="@color/purple_200"
+            android:backgroundTint="@color/purple_200"
             android:contentDescription="@string/back"
             android:padding="16dp"
             app:icon="@drawable/ic_check_48"
-            app:iconTint="@color/black"/>
+            app:iconTint="@color/black" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

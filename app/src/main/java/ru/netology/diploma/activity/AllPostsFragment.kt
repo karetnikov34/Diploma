@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.diploma.R
@@ -28,10 +29,12 @@ import ru.netology.diploma.auth.AppAuth
 import ru.netology.diploma.databinding.FragmentAllPostsBinding
 import ru.netology.diploma.dto.Post
 import ru.netology.diploma.util.PostDealtWith
+import ru.netology.diploma.util.UserDealtWith
 import ru.netology.diploma.viewmodel.AuthViewModel
 import ru.netology.diploma.viewmodel.PostViewModel
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AllPostsFragment : Fragment() {
 
     private val viewModelPost: PostViewModel by activityViewModels()
@@ -142,6 +145,17 @@ class AllPostsFragment : Fragment() {
 
                     R.id.signup -> {
                         findNavController().navigate(R.id.action_allPostsFragment_to_authSignUpFragment)
+                        true
+                    }
+
+                    R.id.profile -> {
+                        val id = if (viewModelAuth.authenticated) { viewModelAuth.authenticatedId } else 0
+                        if (id != 0) {viewModelPost.getUserById(id)}
+                        val user = viewModelPost.userList.value
+                        if (user != null) {
+                            UserDealtWith.saveUserDealtWith(user)
+                            findNavController().navigate(R.id.action_allPostsFragment_to_oneUserCardFragment)
+                        }
                         true
                     }
 

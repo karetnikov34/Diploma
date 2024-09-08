@@ -29,8 +29,10 @@ import ru.netology.diploma.auth.AppAuth
 import ru.netology.diploma.databinding.FragmentAllEventsBinding
 import ru.netology.diploma.dto.Event
 import ru.netology.diploma.util.EventDealtWith
+import ru.netology.diploma.util.UserDealtWith
 import ru.netology.diploma.viewmodel.AuthViewModel
 import ru.netology.diploma.viewmodel.EventViewModel
+import ru.netology.diploma.viewmodel.PostViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,6 +40,7 @@ class AllEventsFragment : Fragment() {
 
     private val viewModelEvent: EventViewModel by activityViewModels()
     private val viewModelAuth: AuthViewModel by activityViewModels()
+    private val viewModelPost: PostViewModel by activityViewModels()
 
     private val mediaObserver = MediaLifecycleObserver()
 
@@ -145,6 +148,18 @@ class AllEventsFragment : Fragment() {
 
                     R.id.signup -> {
                         findNavController().navigate(R.id.authSignUpFragment)
+                        true
+                    }
+
+                    R.id.profile -> {
+                        val id = if (viewModelAuth.authenticated) { viewModelAuth.authenticatedId } else 0
+                        if (id != 0) {viewModelPost.getUserById(id)}
+                        val user = viewModelPost.userList.value
+                        if (user != null) {
+                            UserDealtWith.saveUserDealtWith(user)
+                            findNavController().navigate(R.id.action_allEventsFragment_to_oneUserCardFragment)
+
+                        }
                         true
                     }
 

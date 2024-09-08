@@ -1,7 +1,5 @@
 package ru.netology.diploma.activity
 
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,7 +51,7 @@ class AllUsersFragment: Fragment() {
                     UserDealtWith.saveUserDealtWith(user)
                     findNavController().navigate(R.id.action_allUsersFragment_to_oneUserCardFragment)
 //                } else {
-//                    findNavController().navigate(R.id.action_allUsersFragment_to_oneUserCardFragment)
+//                    signInDialog()
 //                }
             }
             override fun choose(user: UserResponse) {}

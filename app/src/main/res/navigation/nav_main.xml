@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_mainFragment_to_allUsersFragment"
             app:destination="@id/allUsersFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_oneUserCardFragment"
+            app:destination="@id/oneUserCardFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
@@ -68,6 +71,9 @@
         <action
             android:id="@+id/action_allPostsFragment_to_onePostFragment"
             app:destination="@id/onePostFragment" />
+        <action
+            android:id="@+id/action_allPostsFragment_to_oneUserCardFragment"
+            app:destination="@id/oneUserCardFragment" />
     </fragment>
     <fragment
         android:id="@+id/newPostFragment"
@@ -122,6 +128,9 @@
         <action
             android:id="@+id/action_allEventsFragment_to_oneEventFragment"
             app:destination="@id/oneEventFragment" />
+        <action
+            android:id="@+id/action_allEventsFragment_to_oneUserCardFragment"
+            app:destination="@id/oneUserCardFragment" />
     </fragment>
     <fragment
         android:id="@+id/editEventFragment"

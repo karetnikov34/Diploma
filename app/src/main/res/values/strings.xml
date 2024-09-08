@@ -103,4 +103,5 @@
     <string name="choose_speakers">choose speakers</string>
     <string name="mentioned_users">mentioned users</string>
     <string name="audio">audio</string>
+    <string name="profile">Profile</string>
 </resources>

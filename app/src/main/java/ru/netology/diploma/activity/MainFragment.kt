@@ -22,13 +22,16 @@ import kotlinx.coroutines.launch
 import ru.netology.diploma.R
 import ru.netology.diploma.auth.AppAuth
 import ru.netology.diploma.databinding.FragmentMainBinding
+import ru.netology.diploma.util.UserDealtWith
 import ru.netology.diploma.viewmodel.AuthViewModel
+import ru.netology.diploma.viewmodel.PostViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private val viewModelAuth: AuthViewModel by activityViewModels()
+    private val viewModelPost: PostViewModel by activityViewModels()
 
     @Inject
     lateinit var appAuth: AppAuth
@@ -73,6 +76,18 @@ class MainFragment : Fragment() {
 
                     R.id.signup -> {
                         findNavController().navigate(R.id.action_mainFragment_to_authSignUpFragment)
+                        true
+                    }
+
+                    R.id.profile -> {
+                        val id = if (viewModelAuth.authenticated) { viewModelAuth.authenticatedId } else 0
+                        if (id != 0) {viewModelPost.getUserById(id)}
+                        val user = viewModelPost.userList.value
+                        if (user != null) {
+                            UserDealtWith.saveUserDealtWith(user)
+                            findNavController().navigate(R.id.action_mainFragment_to_oneUserCardFragment)
+
+                        }
                         true
                     }
 
