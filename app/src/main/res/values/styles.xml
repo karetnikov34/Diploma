@@ -4,11 +4,20 @@
 
     <style name="Widget.AppTheme.LikeButton" parent="Widget.Material3.Button.TextButton.Icon">
         <item name="icon">@drawable/ic_like_selector</item>
-        <item name="iconTint">@drawable/ic_like_selector</item>
+        <item name="iconTint">#FFBB86FC</item>
+        <item name="android:fillColor">#FFBB86FC</item>
         <item name="android:textColor">?attr/colorControlNormal</item>
         <item name="android:checkable">true</item>
         <item name="backgroundTint">@android:color/transparent</item>
 
+    </style>
+
+    <style name="Widget.AppTheme.CheckBox" parent="Widget.Material3.Button.TextButton.Icon">
+    <item name="icon">@drawable/ic_check_selector</item>
+    <item name="iconTint">?attr/colorControlNormal</item>
+    <item name="android:textColor">?attr/colorControlNormal</item>
+    <item name="android:checkable">true</item>
+    <item name="backgroundTint">@android:color/transparent</item>
     </style>
 
     <style name="Widget.AppTheme.MentionedButton" parent="Widget.Material3.Button.TextButton.Icon">

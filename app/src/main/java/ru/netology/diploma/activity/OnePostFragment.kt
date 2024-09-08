@@ -69,6 +69,7 @@ class OnePostFragment : Fragment() {
                 content.movementMethod = ScrollingMovementMethod()
                 likesIcon.isChecked = post.likedByMe
                 likesIcon.text = numberRepresentation(post.likeOwnerIds.size)
+                mentionedIcon.text = numberRepresentation(post.mentionIds.size)
                 attachmentImage.visibility = View.GONE
                 music.visibility = View.GONE
 

@@ -65,6 +65,7 @@ class OneEventFragment : Fragment() {
                 content.movementMethod = ScrollingMovementMethod()
                 likesIcon.isChecked = event.likedByMe
                 likesIcon.text = numberRepresentation (event.likeOwnerIds.size)
+                participantsIcon.text = numberRepresentation(event.participantsIds.size)
                 attachmentImage.visibility = View.GONE
                 music.visibility = View.GONE
 

@@ -43,11 +43,16 @@
         tools:text="login"
         android:textSize="18sp"/>
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.AppTheme.CheckBox"
         android:id="@+id/checkButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_square_24"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:src="@drawable/ic_check_selector"
         android:backgroundTint="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

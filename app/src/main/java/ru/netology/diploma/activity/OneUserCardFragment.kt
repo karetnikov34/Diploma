@@ -137,20 +137,20 @@ class OneUserCardFragment : Fragment() {
         })
 
         // Проверка выбранной вкладки при инициализации
-        val selectedTabPosition = tabLayout.selectedTabPosition
-        val selectedTabText = tabLayout.getTabAt(selectedTabPosition)?.text.toString()
-
-        if (selectedTabText == "Wall") {
-            viewModelUser.loadWall(UserDealtWith.get().id)
-            binding.recyclerList.adapter = adapterWall
-        } else {
-            if (user.id == viewModelAuth.authenticatedId) {
-                viewModelUser.loadMyJobs()
-            } else {
-                viewModelUser.loadJobs(user.id)
-            }
-            binding.recyclerList.adapter = adapterJob
-        }
+//        val selectedTabPosition = tabLayout.selectedTabPosition
+//        val selectedTabText = tabLayout.getTabAt(selectedTabPosition)?.text.toString()
+//
+//        if (selectedTabText == "Wall") {
+//            viewModelUser.loadWall(UserDealtWith.get().id)
+//            binding.recyclerList.adapter = adapterWall
+//        } else {
+//            if (user.id == viewModelAuth.authenticatedId) {
+//                viewModelUser.loadMyJobs()
+//            } else {
+//                viewModelUser.loadJobs(user.id)
+//            }
+//            binding.recyclerList.adapter = adapterJob
+//        }
 
         fun bind(user: UserResponse) {
             binding.apply {

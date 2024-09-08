@@ -102,4 +102,5 @@
     <string name="fields_must_be_filled_in">fields must be filled in</string>
     <string name="choose_speakers">choose speakers</string>
     <string name="mentioned_users">mentioned users</string>
+    <string name="audio">audio</string>
 </resources>

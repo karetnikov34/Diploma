@@ -31,7 +31,6 @@ import ru.netology.diploma.dto.EventType
 import ru.netology.diploma.util.AndroidUtils
 import ru.netology.diploma.util.Constants
 import ru.netology.diploma.util.EventDealtWith
-import ru.netology.diploma.util.checkMediaType
 import ru.netology.diploma.util.createFileFromInputStream
 import ru.netology.diploma.util.formatDateTime
 import ru.netology.diploma.util.getInputStreamFromUri
@@ -58,25 +57,59 @@ class EditEventFragment : Fragment() {
             }
         }
 
-    private val pickFileResultContract =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                val uri = it.data?.data ?: return@registerForActivityResult
-                val file = if (uri.scheme == "file") {
-                    uri.toFile()
-                } else {
-                    getInputStreamFromUri(context, uri)?.let { inputStream ->
-                        createFileFromInputStream(inputStream)
-                    }
-                }
+//    private val pickFileResultContract =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+//            if (it.resultCode == Activity.RESULT_OK) {
+//                val uri = it.data?.data ?: return@registerForActivityResult
+//                val file = if (uri.scheme == "file") {
+//                    uri.toFile()
+//                } else {
+//                    getInputStreamFromUri(context, uri)?.let { inputStream ->
+//                        createFileFromInputStream(inputStream)
+//                    }
+//                }
+//
+//                val path = uri.path
+//                val type = path?.let { it1 -> checkMediaType(it1) }!!
+//                if (file != null) {
+//                    viewModelEvent.setAttachment(uri, file, type)
+//                }
+//            }
+//        }
 
-                val path = uri.path
-                val type = path?.let { it1 -> checkMediaType(it1) }!!
-                if (file != null) {
-                    viewModelEvent.setAttachment(uri, file, type)
+    private val pickAudioResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            val uri = it.data?.data ?: return@registerForActivityResult
+            val file = if (uri.scheme == "file") {
+                uri.toFile()
+            } else {
+                getInputStreamFromUri(context, uri)?.let { inputStream ->
+                    createFileFromInputStream(inputStream)
                 }
             }
+
+            if (file != null) {
+                viewModelEvent.setAttachment(uri, file, AttachmentType.AUDIO)
+            }
         }
+    }
+
+    private val pickVideoResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            val uri = it.data?.data ?: return@registerForActivityResult
+            val file = if (uri.scheme == "file") {
+                uri.toFile()
+            } else {
+                getInputStreamFromUri(context, uri)?.let { inputStream ->
+                    createFileFromInputStream(inputStream)
+                }
+            }
+
+            if (file != null) {
+                viewModelEvent.setAttachment(uri, file, AttachmentType.VIDEO)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -164,19 +197,45 @@ class EditEventFragment : Fragment() {
                     AndroidUtils.hideKeyboard(requireView())
                     true
                 }
-
-                R.id.cancel -> findNavController().navigateUp()
+                R.id.cancel -> {
+                    viewModelEvent.clearAttachment()
+                    viewModelEvent.clearAttachmentEditEvent()
+                    viewModelEvent.clearEventDateTime()
+                    viewModelEvent.clearLocationEditEvent()
+                    viewModelPost.clearCoords()
+                    findNavController().navigateUp()
+                }
                 else -> false
             }
         }
 
-        binding.linkIcon.setOnClickListener {
+//        binding.linkIcon.setOnClickListener {
+//
+//            val intent = Intent(Intent.ACTION_GET_CONTENT)
+//            intent.type = "*/*"
+//            intent.addCategory(Intent.CATEGORY_OPENABLE)
+//            val pickIntent = Intent.createChooser(intent, context?.getString(R.string.select_file))
+//            pickFileResultContract.launch(pickIntent)
+//
+//        }
+
+        binding.audioIcon.setOnClickListener {
 
             val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "*/*"
+            intent.type = "audio/*"
             intent.addCategory(Intent.CATEGORY_OPENABLE)
-            val pickIntent = Intent.createChooser(intent, context?.getString(R.string.select_file))
-            pickFileResultContract.launch(pickIntent)
+            val pickIntent = Intent.createChooser (intent,context?.getString(R.string.select_file))
+            pickAudioResultContract.launch(pickIntent)
+
+        }
+
+        binding.videoIcon.setOnClickListener {
+
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "video/*"
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            val pickIntent = Intent.createChooser (intent,context?.getString(R.string.select_file))
+            pickVideoResultContract.launch(pickIntent)
 
         }
 

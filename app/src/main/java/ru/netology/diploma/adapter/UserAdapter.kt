@@ -7,9 +7,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ru.netology.diploma.R
 import ru.netology.diploma.adapter.UserAdapter.Companion.choosing
-import ru.netology.diploma.adapter.UserAdapter.Companion.selectedItems
 import ru.netology.diploma.databinding.FragmentOneUserCardBinding
 import ru.netology.diploma.dto.UserResponse
 import ru.netology.diploma.util.loadCircle
@@ -79,11 +77,11 @@ class UserViewHolder(
             checkButton.setOnClickListener {
 
                 adapter.toggleSelection(bindingAdapterPosition)
-                if (selectedItems.get(bindingAdapterPosition, false)) {
-                    checkButton.setImageResource(R.drawable.ic_check_box_24)
-                } else {
-                    checkButton.setImageResource(R.drawable.ic_square_24)
-                }
+//                if (selectedItems.get(bindingAdapterPosition, false)) {
+//                    checkButton.setImageResource(R.drawable.ic_check_box_24)
+//                } else {
+//                    checkButton.setImageResource(R.drawable.ic_square_24)
+//                }
 
                 onInteractionListener.choose(userResponse)
 

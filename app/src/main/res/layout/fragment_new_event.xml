@@ -75,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:text="remove photo" />
+                    android:text="@string/remove" />
 
             </FrameLayout>
 
@@ -101,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:text="remove video" />
+                    android:text="@string/remove" />
 
             </FrameLayout>
 
@@ -129,7 +129,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
-                        android:src="@drawable/ic_play_24"
+                        android:src="@drawable/ic_play_48"
                         android:background="@color/white"
                         app:backgroundTint="@color/white"/>
 
@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:text="remove audio" />
+                    android:text="@string/remove" />
 
             </FrameLayout>
 
@@ -182,8 +182,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/takePhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/description_take_photo"
             android:padding="16dp"
@@ -204,10 +204,20 @@
             android:layout_weight="1"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/linkIcon"
-            style="@style/Widget.AppTheme.LinkButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/audioIcon"
+            app:icon="@drawable/ic_audio_24"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:background="?selectableItemBackground"
+            android:contentDescription="@string/audio"
+            app:iconTint="?colorSurface"
+            android:layout_weight="1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/videoIcon"
+            app:icon="@drawable/ic_video_24"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/link"
             app:iconTint="?colorSurface"
@@ -215,10 +225,10 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/chooseSpeakers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
             android:background="?selectableItemBackground"
-            android:contentDescription="@string/choose_users"
+            android:contentDescription="@string/choose_speakers"
             android:padding="16dp"
             app:icon="@drawable/ic_users_24"
             app:iconTint="?colorSurface"
@@ -226,16 +236,13 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/choosePlace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/choose_location"
             app:iconGravity="textStart"
             app:icon="@drawable/ic_location_pin_24"
             app:iconTint="?colorSurface"
             android:layout_weight="1"/>
-
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
