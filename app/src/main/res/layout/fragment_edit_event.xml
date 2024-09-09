@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="DIPLOMA"
+        app:title="Edit event"
         app:titleTextColor="@color/white" />
 
     <ScrollView
@@ -116,7 +116,7 @@
                     android:layout_weight="3"
                     android:background="@color/white"
                     android:gravity="center_vertical"
-                    android:text="@string/track_name"
+                    android:text="@string/track"
                     android:textSize="18sp"
                     android:textStyle="italic" />
 

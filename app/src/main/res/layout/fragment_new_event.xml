@@ -75,6 +75,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
+                    android:padding="16dp"
+                    app:icon="@drawable/ic_delete_24"
                     android:text="@string/remove" />
 
             </FrameLayout>
@@ -101,6 +103,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
+                    android:padding="16dp"
+                    app:icon="@drawable/ic_delete_24"
                     android:text="@string/remove" />
 
             </FrameLayout>
@@ -140,7 +144,7 @@
                         android:layout_weight="3"
                         android:background="@color/white"
                         android:gravity="center_vertical"
-                        android:text="@string/track_name"
+                        android:text="@string/track"
                         android:textSize="18sp"
                         android:textStyle="italic" />
 
@@ -151,6 +155,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:padding="16dp"
+                    app:icon="@drawable/ic_delete_24"
                     android:text="@string/remove" />
 
             </FrameLayout>

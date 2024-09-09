@@ -104,4 +104,6 @@
     <string name="mentioned_users">mentioned users</string>
     <string name="audio">audio</string>
     <string name="profile">Profile</string>
+    <string name="track">track</string>
+    <string name="home">home</string>
 </resources>

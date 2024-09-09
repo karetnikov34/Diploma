@@ -128,6 +128,15 @@ class OnePostFragment : Fragment() {
                                 mediaPlayer?.setVolume(0F, 0F)
                                 mediaPlayer?.isLooping = true
                                 videoLink.start()
+
+                                videoLink.setOnTouchListener { _, _ ->
+                                    if (videoLink.isPlaying) {
+                                        mediaPlayer.pause()
+                                    } else {
+                                        mediaPlayer.start()
+                                    }
+                                    false
+                                }
                             }
                         }
 

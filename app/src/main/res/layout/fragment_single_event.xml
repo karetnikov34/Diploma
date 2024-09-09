@@ -129,7 +129,7 @@
                 android:layout_height="48dp"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:text="@string/track_name"
+                android:text="@string/track"
                 android:background="@color/white"
                 android:textSize="18sp" />
 

@@ -102,6 +102,7 @@ class MainFragment : Fragment() {
         })
 
         val bottomNavigationView = binding.bottomNavigation
+        bottomNavigationView.selectedItemId = R.id.invisible
 
         bottomNavigationView.setOnItemSelectedListener {item ->
             when(item.itemId) {

@@ -16,4 +16,10 @@
         android:icon="@drawable/ic_users_24"
         android:title="@string/users"/>
 
+    <item
+        android:id="@+id/invisible"
+        android:visible="false"
+        android:icon="@drawable/ic_home_24"
+        android:title="@string/home" />
+
 </menu>

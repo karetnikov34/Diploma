@@ -118,20 +118,25 @@ class NewEventFragment : Fragment() {
 
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            if (viewModelEvent.eventDateTime.value == null) {
-                Snackbar.make(binding.scrollView, "", Snackbar.LENGTH_LONG)
-                    .setAnchorView(binding.edit)
-                    .setTextMaxLines(3)
-                    .setText(R.string.choose_date_of_your_event)
-                    .show()
-                false
-            }  else {
                 when (menuItem.itemId) {
                     R.id.save -> {
-                        val speakers = viewModelPost.userChosen.value ?: emptyList()
-                        viewModelEvent.changeContentAndSave(binding.edit.text.toString(), viewModelPost.coords.value, speakers)
-                        AndroidUtils.hideKeyboard(requireView())
-                        true
+                        if (viewModelEvent.eventDateTime.value == null){
+                            Snackbar.make(binding.scrollView, "", Snackbar.LENGTH_LONG)
+                                .setAnchorView(binding.edit)
+                                .setTextMaxLines(3)
+                                .setText(R.string.choose_date_of_your_event)
+                                .show()
+                            false
+                        } else {
+                            val speakers = viewModelPost.userChosen.value ?: emptyList()
+                            viewModelEvent.changeContentAndSave(
+                                binding.edit.text.toString(),
+                                viewModelPost.coords.value,
+                                speakers
+                            )
+                            AndroidUtils.hideKeyboard(requireView())
+                            true
+                        }
                     }
                     R.id.cancel -> {
                         viewModelEvent.clearAttachment()
@@ -142,8 +147,6 @@ class NewEventFragment : Fragment() {
                     }
                     else -> false
                 }
-            }
-
         }
 
 //        binding.linkIcon.setOnClickListener {
