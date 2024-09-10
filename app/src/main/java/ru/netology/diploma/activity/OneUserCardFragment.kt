@@ -108,7 +108,7 @@ class OneUserCardFragment : Fragment() {
 
 
         val tabLayout: TabLayout = binding.tabLayout
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.Wall), 0, true)
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.Wall), 0, false)
         tabLayout.addTab(tabLayout.newTab().setText(R.string.Jobs), 1)
 
 
@@ -155,6 +155,7 @@ class OneUserCardFragment : Fragment() {
         fun bind(user: UserResponse) {
             binding.apply {
                 nameBar.text = user.name
+                loginBar.text = user.login
 
                 addPostJob.isVisible = (user.id == viewModelAuth.authenticatedId)
 
@@ -171,7 +172,7 @@ class OneUserCardFragment : Fragment() {
         bind(user)
 
         binding.back.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.action_oneUserCardFragment_to_allUsersFragment)
         }
 
         binding.addPostJob.setOnClickListener {

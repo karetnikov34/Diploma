@@ -82,22 +82,24 @@ class OneEventFragment : Fragment() {
                         AttachmentType.AUDIO -> {
                             music.visibility = View.VISIBLE
                             if (event.attachment.isPlaying) {
-                                playButton.setImageResource(R.drawable.ic_pause_24)
+                                playButton.setIconResource(R.drawable.ic_pause_24)
+                                playButton.setText(R.string.stop_audio)
                             } else {
-                                playButton.setImageResource(R.drawable.ic_play_24)
+                                playButton.setIconResource(R.drawable.ic_play_24)
+                                playButton.setText(R.string.play_audio)
                             }
 
                             playButton.setOnClickListener {
                                 if (mediaObserver.player?.isPlaying == true) {
                                     mediaObserver.apply {
                                         viewModelEvent.updateIsPlayingEvent(event.id, false)
-                                        playButton.setImageResource(R.drawable.ic_play_24)
+                                        playButton.setIconResource(R.drawable.ic_play_24)
                                         stop()
                                     }
                                 } else {
                                     mediaObserver.apply {
                                         viewModelEvent.updateIsPlayingEvent(event.id, true)
-                                        playButton.setImageResource(R.drawable.ic_pause_24)
+                                        playButton.setIconResource(R.drawable.ic_pause_24)
                                         event.attachment.url.let { play(it) }
                                     }
                                 }
@@ -146,6 +148,8 @@ class OneEventFragment : Fragment() {
                         signInDialog()
                     }
                 }
+
+                participantsIcon.isClickable = false
 
                 menuOnePost.isVisible = event.ownedByMe
 

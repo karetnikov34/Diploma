@@ -72,9 +72,11 @@ class EventViewHolder(
                     AttachmentType.AUDIO -> {
                         music.visibility = View.VISIBLE
                         if (event.attachment.isPlaying) {
-                            playButton.setImageResource(R.drawable.ic_pause_24)
+                            playButton.setIconResource(R.drawable.ic_pause_24)
+                            playButton.setText(R.string.stop_audio)
                         } else {
-                            playButton.setImageResource(R.drawable.ic_play_24)
+                            playButton.setIconResource(R.drawable.ic_play_24)
+                            playButton.setText(R.string.play_audio)
                         }
 
                         playButton.setOnClickListener {

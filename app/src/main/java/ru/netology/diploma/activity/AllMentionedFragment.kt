@@ -72,6 +72,7 @@ class AllMentionedFragment: Fragment() {
         }
 
         binding.retryButton.setOnClickListener {
+            binding.errorGroup.isVisible = false
             for (i in post.mentionIds.indices) {
                 viewModelPost.getUserById(post.mentionIds[i])
                 val user = viewModelPost.userList.value

@@ -70,6 +70,7 @@ class AllLikersEventFragment: Fragment() {
         }
 
         binding.retryButton.setOnClickListener {
+            binding.errorGroup.isVisible = false
             for (i in event.likeOwnerIds.indices) {
                 viewModelPost.getUserById(event.likeOwnerIds[i])
                 val user = viewModelPost.userList.value

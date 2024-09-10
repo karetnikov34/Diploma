@@ -55,10 +55,11 @@ class PostViewHolder(
             likesIcon.text = numberRepresentation(post.likeOwnerIds.size)
             attachmentImage.visibility = View.GONE
             music.visibility = View.GONE
+            videoLink.visibility = View.GONE
 
-            if (post.link != null) {
-                videoLink.visibility = View.VISIBLE
-            } else videoLink.visibility = View.GONE
+//            if (post.link != null) {
+//                videoLink.visibility = View.VISIBLE
+//            } else videoLink.visibility = View.GONE
 
 
             val urlAvatar = "${post.authorAvatar}"
@@ -69,15 +70,17 @@ class PostViewHolder(
                     AttachmentType.AUDIO -> {
                         music.visibility = View.VISIBLE
                         if (post.attachment.isPlaying) {
-                            playButton.setImageResource(R.drawable.ic_pause_24)
+                            playButton.setIconResource(R.drawable.ic_pause_24)
+                            playButton.setText(R.string.stop_audio)
                         } else {
-                            playButton.setImageResource(R.drawable.ic_pause_24)
+                            playButton.setIconResource(R.drawable.ic_play_24)
+                            playButton.setText(R.string.play_audio)
                         }
 
                         playButton.setOnClickListener {
                             onInteractionListener.playMusic(post)
                         }
-                        oneTrackName.setOnClickListener { onInteractionListener.showPost(post) }
+//                        oneTrackName.setOnClickListener { onInteractionListener.showPost(post) }
                     }
 
                     AttachmentType.IMAGE -> {

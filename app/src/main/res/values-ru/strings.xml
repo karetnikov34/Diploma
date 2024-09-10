@@ -107,4 +107,6 @@
     <string name="profile">Profile</string>
     <string name="track">track</string>
     <string name="home">home</string>
+    <string name="play_audio">play audio</string>
+    <string name="stop_audio">stop audio</string>
 </resources>

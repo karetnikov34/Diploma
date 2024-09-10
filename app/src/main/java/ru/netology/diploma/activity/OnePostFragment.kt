@@ -72,10 +72,11 @@ class OnePostFragment : Fragment() {
                 mentionedIcon.text = numberRepresentation(post.mentionIds.size)
                 attachmentImage.visibility = View.GONE
                 music.visibility = View.GONE
+                videoLink.visibility = View.GONE
 
-                if (post.link != null) {
-                    videoLink.visibility = View.VISIBLE
-                } else videoLink.visibility = View.GONE
+//                if (post.link != null) {
+//                    videoLink.visibility = View.VISIBLE
+//                } else videoLink.visibility = View.GONE
 
 
                 val urlAvatar = "${post.authorAvatar}"
@@ -86,22 +87,24 @@ class OnePostFragment : Fragment() {
                         AttachmentType.AUDIO -> {
                             music.visibility = View.VISIBLE
                             if (post.attachment.isPlaying) {
-                                playButton.setImageResource(R.drawable.ic_pause_24)
+                                playButton.setIconResource(R.drawable.ic_pause_24)
+                                playButton.setText(R.string.stop_audio)
                             } else {
-                                playButton.setImageResource(R.drawable.ic_play_24)
+                                playButton.setIconResource(R.drawable.ic_play_24)
+                                playButton.setText(R.string.play_audio)
                             }
 
                             playButton.setOnClickListener {
                                 if (mediaObserver.player?.isPlaying == true) {
                                     mediaObserver.apply {
                                         viewModelPost.updateIsPlaying(post.id, false)
-                                        playButton.setImageResource(R.drawable.ic_play_24)
+                                        playButton.setIconResource(R.drawable.ic_play_24)
                                         stop()
                                     }
                                 } else {
                                     mediaObserver.apply {
                                         viewModelPost.updateIsPlaying(post.id, true)
-                                        playButton.setImageResource(R.drawable.ic_pause_24)
+                                        playButton.setIconResource(R.drawable.ic_pause_24)
                                         post.attachment.url.let { play(it) }
                                     }
                                 }
@@ -156,6 +159,8 @@ class OnePostFragment : Fragment() {
                         signInDialog()
                     }
                 }
+
+                mentionedIcon.isClickable = false
 
                 menuOnePost.isVisible = post.ownedByMe
 

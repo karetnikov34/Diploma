@@ -88,6 +88,7 @@ class ChoosingFragment: Fragment() {
         }
 
         binding.retryButton.setOnClickListener {
+            binding.errorGroup.isVisible = false
             viewModelUser.loadUsers()
         }
 

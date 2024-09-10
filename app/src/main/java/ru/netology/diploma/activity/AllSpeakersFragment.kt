@@ -72,6 +72,7 @@ class AllSpeakersFragment: Fragment() {
         }
 
         binding.retryButton.setOnClickListener {
+            binding.errorGroup.isVisible = false
             for (i in event.speakerIds.indices) {
                 viewModelPost.getUserById(event.speakerIds[i])
                 val user = viewModelPost.userList.value

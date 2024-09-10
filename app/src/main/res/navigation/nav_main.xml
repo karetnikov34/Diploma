@@ -195,6 +195,9 @@
         <action
             android:id="@+id/action_oneUserCardFragment_to_newJobFragment"
             app:destination="@id/newJobFragment" />
+        <action
+            android:id="@+id/action_oneUserCardFragment_to_allUsersFragment"
+            app:destination="@id/allUsersFragment" />
     </fragment>
     <fragment
         android:id="@+id/choosingFragment"

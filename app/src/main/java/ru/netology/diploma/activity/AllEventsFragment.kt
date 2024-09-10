@@ -199,6 +199,7 @@ class AllEventsFragment : Fragment() {
         }
 
         binding.retryButton.setOnClickListener {
+            binding.errorGroup.isVisible = false
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModelEvent.eventData.collectLatest {
                     adapter.submitData(it)

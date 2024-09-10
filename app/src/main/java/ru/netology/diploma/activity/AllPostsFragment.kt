@@ -198,6 +198,7 @@ class AllPostsFragment : Fragment() {
         }
 
         binding.retryButton.setOnClickListener {
+            binding.errorGroup.isVisible = false
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModelPost.data.collectLatest {
                     adapter.submitData(it)
