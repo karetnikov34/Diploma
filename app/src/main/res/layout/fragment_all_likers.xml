@@ -16,9 +16,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/back"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@color/purple_200"
             android:backgroundTint="@color/purple_200"
             android:contentDescription="@string/back"
@@ -33,23 +32,23 @@
             android:layout_weight="3"
             android:background="@color/purple_200"
             android:backgroundTint="@color/purple_200"
-            android:textColor="@color/white"
             android:gravity="center_vertical"
             android:text="@string/likers"
+            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@id/back"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/checkbox"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@color/purple_200"
             android:backgroundTint="@color/purple_200"
             android:contentDescription="@string/back"
             android:padding="16dp"
             app:icon="@drawable/ic_check_48"
+            app:iconGravity="textEnd"
             app:iconTint="@color/white" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -61,7 +60,6 @@
         android:layout_marginTop="?attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerList"
@@ -75,15 +73,14 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
     <ImageView
         android:id="@+id/errorGreyScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey" />
+        android:background="@color/grey"
+        android:contentDescription="@string/grey_screen" />
 
     <TextView
         android:id="@+id/retryText"

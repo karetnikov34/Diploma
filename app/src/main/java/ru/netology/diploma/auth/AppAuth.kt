@@ -24,7 +24,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppAuth @Inject constructor  (
+class AppAuth @Inject constructor(
     @ApplicationContext
     private val context: Context
 ) {
@@ -33,7 +33,7 @@ class AppAuth @Inject constructor  (
     private val tokenKey = "token"
 
     private val _authStateFlow = MutableStateFlow(
-        AuthState (
+        AuthState(
             prefs.getInt(idKey, 0),
             prefs.getString(tokenKey, null)
         )
@@ -58,7 +58,6 @@ class AppAuth @Inject constructor  (
             clear()
             commit()
         }
-
     }
 
     @InstallIn(SingletonComponent::class)
@@ -69,14 +68,16 @@ class AppAuth @Inject constructor  (
 
     suspend fun checkAuth(login: String, password: String): AuthState =
         try {
-            val entryPoint = EntryPointAccessors.fromApplication(context, AppAuthEntryPoint::class.java)
-            val response =  entryPoint.getAuthApiService().checkUser(login, password, BuildConfig.API_KEY)
+            val entryPoint =
+                EntryPointAccessors.fromApplication(context, AppAuthEntryPoint::class.java)
+            val response =
+                entryPoint.getAuthApiService().checkUser(login, password, BuildConfig.API_KEY)
             if (!response.isSuccessful) {
                 throw ApiError(response.message())
             }
 
             val responseBody = response.body()
-            responseBody?: throw ApiError(response.message())
+            responseBody ?: throw ApiError(response.message())
 
         } catch (e: IOException) {
             throw NetworkError
@@ -84,16 +85,18 @@ class AppAuth @Inject constructor  (
             throw UnknownError
         }
 
-    suspend fun registerUser (login: String, password: String, name: String): AuthState =
+    suspend fun registerUser(login: String, password: String, name: String): AuthState =
         try {
-            val entryPoint = EntryPointAccessors.fromApplication(context, AppAuthEntryPoint::class.java)
-            val response =  entryPoint.getAuthApiService().registerUser(login, password, name, BuildConfig.API_KEY)
+            val entryPoint =
+                EntryPointAccessors.fromApplication(context, AppAuthEntryPoint::class.java)
+            val response = entryPoint.getAuthApiService()
+                .registerUser(login, password, name, BuildConfig.API_KEY)
             if (!response.isSuccessful) {
                 throw ApiError(response.message())
             }
 
             val responseBody = response.body()
-            responseBody?: throw ApiError(response.message())
+            responseBody ?: throw ApiError(response.message())
 
         } catch (e: IOException) {
             throw NetworkError
@@ -101,28 +104,39 @@ class AppAuth @Inject constructor  (
             throw UnknownError
         }
 
-    suspend fun registerUserWithAvatar (login: String, password: String, name: String, avatar: File): AuthState =
+    suspend fun registerUserWithAvatar(
+        login: String,
+        password: String,
+        name: String,
+        avatar: File
+    ): AuthState =
         try {
-            val part = MultipartBody.Part.createFormData("file", "image.png", avatar.asRequestBody())
+            val part =
+                MultipartBody.Part.createFormData("file", "image.png", avatar.asRequestBody())
             val loginRequest = login.toRequestBody("text/plain".toMediaType())
             val passwordRequest = password.toRequestBody("text/plain".toMediaType())
             val nameRequest = name.toRequestBody("text/plain".toMediaType())
-            val entryPoint = EntryPointAccessors.fromApplication(context, AppAuthEntryPoint::class.java)
-            val response =  entryPoint.getAuthApiService().registerWithPhoto (loginRequest, passwordRequest, nameRequest, part, BuildConfig.API_KEY)
+            val entryPoint =
+                EntryPointAccessors.fromApplication(context, AppAuthEntryPoint::class.java)
+            val response = entryPoint.getAuthApiService().registerWithPhoto(
+                loginRequest,
+                passwordRequest,
+                nameRequest,
+                part,
+                BuildConfig.API_KEY
+            )
             if (!response.isSuccessful) {
                 throw ApiError(response.message())
             }
 
             val responseBody = response.body()
-            responseBody?: throw ApiError(response.message())
+            responseBody ?: throw ApiError(response.message())
 
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
             throw UnknownError
         }
-
-
 }
 
 data class AuthState(val id: Int = 0, val token: String? = null)

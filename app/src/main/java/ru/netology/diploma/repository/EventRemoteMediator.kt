@@ -13,7 +13,7 @@ import ru.netology.diploma.db.AppDb
 import ru.netology.diploma.entity.EventEntity
 import ru.netology.diploma.entity.EventRemoteKeyEntity
 import ru.netology.diploma.error.ApiError
-
+@Suppress( "KotlinConstantConditions")
 @OptIn(ExperimentalPagingApi::class)
 class EventRemoteMediator(
     private val service: EventApiService,
@@ -21,14 +21,11 @@ class EventRemoteMediator(
     private val eventRemoteKeyDao: EventRemoteKeyDao,
     private val appDb: AppDb
 ) : RemoteMediator<Int, EventEntity>() {
-
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, EventEntity>
     ): MediatorResult {
-
         try {
-
             val response = when (loadType) {
 
                 LoadType.REFRESH -> service.getLatest(state.config.pageSize, BuildConfig.API_KEY)
@@ -41,10 +38,8 @@ class EventRemoteMediator(
                     val id = eventRemoteKeyDao.min() ?: return MediatorResult.Success(
                         endOfPaginationReached = false
                     )
-
                     service.getBefore(id, state.config.pageSize, BuildConfig.API_KEY)
                 }
-
             }
 
 
@@ -88,13 +83,11 @@ class EventRemoteMediator(
                             )
                         )
                     }
-
                 }
 
                 eventDao.insert(bodyResponse.map { EventEntity.fromDto(it) })
 
             }
-
 
             return MediatorResult.Success(endOfPaginationReached = bodyResponse.isEmpty())
 

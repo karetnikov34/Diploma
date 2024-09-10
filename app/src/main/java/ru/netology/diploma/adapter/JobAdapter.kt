@@ -36,26 +36,20 @@ class JobViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(job: Job) {
         binding.apply {
-
             editButton.isVisible = job.ownedByMe
             removeButton.isVisible = job.ownedByMe
-
             company.text = job.name
             position.text = job.position
-            start.text = formatDateTimeJobBinding (job.start)
-            finish.text = job.finish?.let { formatDateTimeJobBinding (it) } ?: ""
+            start.text = formatDateTimeJobBinding(job.start)
+            finish.text = job.finish?.let { formatDateTimeJobBinding(it) } ?: ""
             link.text = job.link
-
             link.isVisible = (job.link != null)
-
             editButton.setOnClickListener {
                 onInteractionListener.editJob(job)
             }
-
             removeButton.setOnClickListener {
                 onInteractionListener.removeJob(job)
             }
-
         }
     }
 }

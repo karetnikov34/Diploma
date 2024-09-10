@@ -51,7 +51,6 @@ class UserViewModel @Inject constructor(
 
     private val edited = MutableLiveData(defaultJob)
 
-
     init {
         loadUsers()
     }
@@ -168,7 +167,6 @@ class UserViewModel @Inject constructor(
         }
     }
 
-
     val uniqueSet = mutableSetOf<Int>()
 
     fun choosing(user: UserResponse) = viewModelScope.launch {
@@ -185,5 +183,4 @@ class UserViewModel @Inject constructor(
         uniqueSet.clear()
         repository.deselectUsers(false)
     }
-
 }

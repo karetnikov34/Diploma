@@ -27,20 +27,37 @@ data class EventEntity(
     val likedByMe: Boolean = false,
     val likes: Int = 0,
     val speakerIds: String,
-    val participantsIds:String,
+    val participantsIds: String,
     val participatedByMe: Boolean = false,
     @Embedded
     val attachment: AttachmentEntity?,
     val link: String?,
     val users: String,
     val ownedByMe: Boolean = false,
-
-    ) {
+) {
 
     fun toDto() = Event(
-        id, authorId, author, authorJob, authorAvatar, content, dateTime, published, coordsToDto(coords), eventType,
-        toListInt(likeOwnerIds), likedByMe, likes, toListInt(speakerIds), toListInt(participantsIds),
-        participatedByMe, attachmentToDto(), link, usersToDto(users), ownedByMe)
+        id,
+        authorId,
+        author,
+        authorJob,
+        authorAvatar,
+        content,
+        dateTime,
+        published,
+        coordsToDto(coords),
+        eventType,
+        toListInt(likeOwnerIds),
+        likedByMe,
+        likes,
+        toListInt(speakerIds),
+        toListInt(participantsIds),
+        participatedByMe,
+        attachmentToDto(),
+        link,
+        usersToDto(users),
+        ownedByMe
+    )
 
 
     private fun attachmentToDto() =
@@ -58,7 +75,6 @@ data class EventEntity(
     private fun usersToDto(users: String): Map<Int, UserPreview> {
         return Gson().fromJson(users, object : TypeToken<Map<Int, UserPreview>>() {}.type)
     }
-
 
     companion object {
         fun fromDto(dto: Event): EventEntity {
@@ -102,6 +118,5 @@ data class EventEntity(
         private fun usersFromDto(users: Map<Int, UserPreview>): String {
             return Gson().toJson(users)
         }
-
     }
 }

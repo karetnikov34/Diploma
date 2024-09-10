@@ -1,5 +1,6 @@
 package ru.netology.diploma.activity
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.PointF
@@ -33,13 +34,9 @@ import ru.netology.diploma.util.numberRepresentation
 import ru.netology.diploma.viewmodel.AuthViewModel
 import ru.netology.diploma.viewmodel.PostViewModel
 
+@SuppressLint("ClickableViewAccessibility")
 @AndroidEntryPoint
 class OnePostFragment : Fragment() {
-
-//    companion object {
-//        var Bundle.postBundle: Post? by PostBundle
-//    }
-
 
     private val viewModelPost: PostViewModel by activityViewModels()
     private val viewModelAuth: AuthViewModel by activityViewModels()
@@ -58,9 +55,6 @@ class OnePostFragment : Fragment() {
 
         val post = PostDealtWith.get()
 
-//        binding.content.movementMethod = ScrollingMovementMethod()
-//        binding.content.movementMethod = LinkMovementMethod.getInstance()
-
         fun bind(post: Post) {
             binding.apply {
                 author.text = post.author
@@ -75,10 +69,6 @@ class OnePostFragment : Fragment() {
                 attachmentImage.visibility = View.GONE
                 music.visibility = View.GONE
                 video.visibility = View.GONE
-
-//                if (post.link != null) {
-//                    video.visibility = View.VISIBLE
-//                } else video.visibility = View.GONE
 
 
                 val urlAvatar = "${post.authorAvatar}"
@@ -122,18 +112,14 @@ class OnePostFragment : Fragment() {
 
                         }
 
-
                         AttachmentType.VIDEO -> {
-
                             video.visibility = View.VISIBLE
-
                             val uri = Uri.parse(post.attachment.url)
                             video.setVideoURI(uri)
                             video.setOnPreparedListener { mediaPlayer ->
                                 mediaPlayer?.setVolume(0F, 0F)
                                 mediaPlayer?.isLooping = true
                                 video.start()
-
                                 video.setOnTouchListener { _, _ ->
                                     if (video.isPlaying) {
                                         mediaPlayer.pause()
@@ -188,7 +174,6 @@ class OnePostFragment : Fragment() {
                             }
                         }
                     }.show()
-
                 }
 
 
@@ -260,7 +245,6 @@ class OnePostFragment : Fragment() {
 
                 }
 
-
                 val imageProvider =
                     ImageProvider.fromResource(requireContext(), R.drawable.ic_map_marker_icon)
                 map.mapObjects.addPlacemark().apply {
@@ -275,9 +259,7 @@ class OnePostFragment : Fragment() {
                             }
                         )
                     }
-
                 }
-
 
                 binding.zoomInButton.setOnClickListener {
                     val cameraPosition = map.cameraPosition
@@ -303,18 +285,16 @@ class OnePostFragment : Fragment() {
                     map.move(newCameraPosition)
                 }
 
-
             }
         }
-
         bind(post)
 
         return binding.root
     }
 
     private fun signInDialog() {
-        val listener = DialogInterface.OnClickListener{ _, which ->
-            when(which) {
+        val listener = DialogInterface.OnClickListener { _, which ->
+            when (which) {
                 DialogInterface.BUTTON_POSITIVE -> findNavController().navigate(R.id.authSignInFragment)
             }
         }

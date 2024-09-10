@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:checkedButton="@+id/radio_button_online"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:checkedButton="@+id/radio_button_online"
         android:padding="48dp">
+
         <RadioButton
             android:id="@+id/radio_button_online"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/online"/>
+            android:text="@string/online" />
+
         <RadioButton
             android:id="@+id/radio_button_offline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/offline"/>
+            android:text="@string/offline" />
     </RadioGroup>
 
     <com.google.android.material.button.MaterialButton
@@ -31,15 +31,14 @@
         style="@style/Widget.AppTheme.LikeButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_margin="48dp"
+        android:layout_weight="1"
         android:contentDescription="@string/choose_date"
+        android:text="@string/choose_date_and_time"
+        android:textAlignment="viewStart"
+        android:textSize="16sp"
         app:icon="@drawable/ic_calendar_48"
         app:iconSize="32dp"
-        app:iconTint="@color/purple_200"
-        android:layout_weight="1"
-        android:text="@string/choose_date_and_time"
-        android:textSize="16sp"
-        android:textAlignment="viewStart"
-        android:layout_margin="48dp"
-        />
+        app:iconTint="@color/purple_200" />
 
 </LinearLayout>

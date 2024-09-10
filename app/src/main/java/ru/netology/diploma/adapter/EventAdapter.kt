@@ -25,10 +25,10 @@ interface OnInteractionListenerEvent {
     fun remove(event: Event)
     fun edit(event: Event)
     fun showEvent(event: Event)
-    fun playMusic (event: Event)
+    fun playMusic(event: Event)
 }
 
-class EventAdapter (private val onInteractionListener: OnInteractionListenerEvent) :
+class EventAdapter(private val onInteractionListener: OnInteractionListenerEvent) :
     PagingDataAdapter<Event, EventViewHolder>(EventDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
@@ -52,20 +52,17 @@ class EventViewHolder(
             authorEvent.text = event.author
             eventPublished.text = formatDateTime(event.published)
             dateEvent.text = event.datetime?.let { formatDateTime(it) }
-            if (event.type != null) { format.text = event.type.toString() } else format.text = ""
+            if (event.type != null) {
+                format.text = event.type.toString()
+            } else format.text = ""
             content.text = event.content
             content.movementMethod = ScrollingMovementMethod()
             content.movementMethod = LinkMovementMethod.getInstance()
             likesIcon.isChecked = event.likedByMe
-            likesIcon.text = numberRepresentation (event.likeOwnerIds.size)
+            likesIcon.text = numberRepresentation(event.likeOwnerIds.size)
             attachmentImage.visibility = View.GONE
             music.visibility = View.GONE
             video.visibility = View.GONE
-
-//            if (event.link != null) {
-//                video.visibility = View.VISIBLE
-//            } else video.visibility = View.GONE
-
 
             val urlAvatar = "${event.authorAvatar}"
             avatarEvent.loadCircle(urlAvatar)
@@ -81,7 +78,6 @@ class EventViewHolder(
                             playButton.setIconResource(R.drawable.ic_play_24)
                             playButton.setText(R.string.play_audio)
                         }
-
                         playButton.setOnClickListener {
                             onInteractionListener.playMusic(event)
                         }
@@ -95,9 +91,7 @@ class EventViewHolder(
                         attachmentImage.visibility = View.VISIBLE
                     }
 
-
                     AttachmentType.VIDEO -> {
-
                         video.visibility = View.VISIBLE
                         video.setOnClickListener { onInteractionListener.showEvent(event) }
                         val uri = Uri.parse(event.attachment.url)
@@ -154,7 +148,6 @@ class EventViewHolder(
             attachmentImage.setOnClickListener {
                 onInteractionListener.showEvent(event)
             }
-
         }
     }
 }

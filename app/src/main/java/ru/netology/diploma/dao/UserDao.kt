@@ -11,14 +11,14 @@ import ru.netology.diploma.entity.UserEntity
 interface UserDao {
 
     @Query("SELECT * FROM UserEntity ORDER BY id DESC")
-    fun getAll(): Flow<List<UserEntity>>  // Правильный импорт д.б. - kotlinx.coroutines.flow.Flow !!!
+    fun getAll(): Flow<List<UserEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(users: List<UserEntity>)
 
     @Query("UPDATE UserEntity SET isSelected = :isSelected WHERE id = :id")
-    fun updateUsers (id: Int, isSelected: Boolean)
+    fun updateUsers(id: Int, isSelected: Boolean)
 
     @Query("UPDATE UserEntity SET isSelected = :isSelected")
-    suspend fun deselectUsers (isSelected: Boolean)
+    suspend fun deselectUsers(isSelected: Boolean)
 }

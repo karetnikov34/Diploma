@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import ru.netology.diploma.dto.Job
 
 @Entity(tableName = "JobEntity")
-class JobEntity (
+class JobEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
@@ -17,7 +17,6 @@ class JobEntity (
 ) {
 
     fun toDto() = Job(id, name, position, start, finish, link, ownedByMe)
-
 
     companion object {
         fun fromDto(dto: Job): JobEntity {

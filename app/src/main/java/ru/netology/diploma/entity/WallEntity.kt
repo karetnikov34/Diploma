@@ -56,7 +56,6 @@ data class WallEntity(
         return Gson().fromJson(users, object : TypeToken<Map<Int, UserPreview>>() {}.type)
     }
 
-
     companion object {
         fun fromDto(dto: Post): WallEntity {
             return WallEntity(

@@ -25,8 +25,9 @@ interface OnInteractionListener {
     fun remove(post: Post)
     fun edit(post: Post)
     fun showPost(post: Post)
-    fun playMusic (post: Post)
+    fun playMusic(post: Post)
 }
+
 class PostAdapter(private val onInteractionListener: OnInteractionListener) :
     PagingDataAdapter<Post, PostViewHolder>(PostDiffCallback()) {
 
@@ -59,14 +60,8 @@ class PostViewHolder(
             music.visibility = View.GONE
             video.visibility = View.GONE
 
-//            if (post.link != null) {
-//                video.visibility = View.VISIBLE
-//            } else video.visibility = View.GONE
-
-
             val urlAvatar = "${post.authorAvatar}"
             avatar.loadCircle(urlAvatar)
-
             if (post.attachment?.url != null) {
                 when (post.attachment.type) {
                     AttachmentType.AUDIO -> {
@@ -78,11 +73,9 @@ class PostViewHolder(
                             playButton.setIconResource(R.drawable.ic_play_24)
                             playButton.setText(R.string.play_audio)
                         }
-
                         playButton.setOnClickListener {
                             onInteractionListener.playMusic(post)
                         }
-//                        oneTrackName.setOnClickListener { onInteractionListener.showPost(post) }
                     }
 
                     AttachmentType.IMAGE -> {
@@ -91,7 +84,7 @@ class PostViewHolder(
                             attachmentImage.load(url)
                         }
                         attachmentImage.visibility = View.VISIBLE
-                        attachmentImage.setOnClickListener {onInteractionListener.showPost(post)}
+                        attachmentImage.setOnClickListener { onInteractionListener.showPost(post) }
                     }
 
 
@@ -115,7 +108,6 @@ class PostViewHolder(
             likesIcon.setOnClickListener {
                 onInteractionListener.like(post)
             }
-
 
             menuOnePost.isVisible = post.ownedByMe
 
@@ -143,7 +135,6 @@ class PostViewHolder(
             content.setOnClickListener {
                 onInteractionListener.showPost(post)
             }
-
         }
     }
 }

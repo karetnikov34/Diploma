@@ -28,7 +28,8 @@
             app:layout_constraintBottom_toTopOf="@id/passwordEditText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="Autofill,TextFields" />
 
         <EditText
             android:id="@+id/passwordEditText"
@@ -42,15 +43,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loginEditText" />
+            app:layout_constraintTop_toBottomOf="@id/loginEditText"
+            tools:ignore="Autofill" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="32dp"
-            android:ems="16"
             android:background="@color/login"
+            android:ems="16"
             android:gravity="center"
             android:padding="16dp"
             android:text="@string/sign_in"

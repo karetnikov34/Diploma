@@ -44,7 +44,6 @@ class UserAdapter(private val onInteractionListener: OnInteractionListenerUser) 
         }
         notifyItemChanged(position)
     }
-
 }
 
 class UserViewHolder(
@@ -77,14 +76,8 @@ class UserViewHolder(
             checkButton.setOnClickListener {
 
                 adapter.toggleSelection(bindingAdapterPosition)
-//                if (selectedItems.get(bindingAdapterPosition, false)) {
-//                    checkButton.setImageResource(R.drawable.ic_check_box_24)
-//                } else {
-//                    checkButton.setImageResource(R.drawable.ic_square_24)
-//                }
 
                 onInteractionListener.choose(userResponse)
-
             }
         }
     }

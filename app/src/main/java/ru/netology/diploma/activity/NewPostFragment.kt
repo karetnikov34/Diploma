@@ -35,57 +35,58 @@ class NewPostFragment : Fragment() {
 
     private val viewModelPost: PostViewModel by activityViewModels()
 
-    private val photoResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val uri = it.data?.data ?: return@registerForActivityResult
-            val file = uri.toFile()
-            viewModelPost.setAttachment(uri, file, AttachmentType.IMAGE)
+    private val photoResultContract =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val uri = it.data?.data ?: return@registerForActivityResult
+                val file = uri.toFile()
+                viewModelPost.setAttachment(uri, file, AttachmentType.IMAGE)
+            }
         }
-    }
 
-    private val pickAudioResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val uri = it.data?.data ?: return@registerForActivityResult
-            val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
-            if (fileSize != null && fileSize > 15000000) {
-                Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
-            } else {
-                val file = if (uri.scheme == "file") {
-                    uri.toFile()
+    private val pickAudioResultContract =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val uri = it.data?.data ?: return@registerForActivityResult
+                val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
+                if (fileSize != null && fileSize > 15000000) {
+                    Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
                 } else {
-                    getInputStreamFromUri(context, uri)?.let { inputStream ->
-                        createFileFromInputStream(inputStream)
+                    val file = if (uri.scheme == "file") {
+                        uri.toFile()
+                    } else {
+                        getInputStreamFromUri(context, uri)?.let { inputStream ->
+                            createFileFromInputStream(inputStream)
+                        }
                     }
-                }
-
-                if (file != null) {
-                    viewModelPost.setAttachment(uri, file, AttachmentType.AUDIO)
+                    if (file != null) {
+                        viewModelPost.setAttachment(uri, file, AttachmentType.AUDIO)
+                    }
                 }
             }
         }
-    }
 
-    private val pickVideoResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val uri = it.data?.data ?: return@registerForActivityResult
-            val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
-            if (fileSize != null && fileSize > 15000000) {
-                Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
-            } else {
-                val file = if (uri.scheme == "file") {
-                    uri.toFile()
+    private val pickVideoResultContract =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val uri = it.data?.data ?: return@registerForActivityResult
+                val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
+                if (fileSize != null && fileSize > 15000000) {
+                    Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
                 } else {
-                    getInputStreamFromUri(context, uri)?.let { inputStream ->
-                        createFileFromInputStream(inputStream)
+                    val file = if (uri.scheme == "file") {
+                        uri.toFile()
+                    } else {
+                        getInputStreamFromUri(context, uri)?.let { inputStream ->
+                            createFileFromInputStream(inputStream)
+                        }
                     }
-                }
-
-                if (file != null) {
-                    viewModelPost.setAttachment(uri, file, AttachmentType.VIDEO)
+                    if (file != null) {
+                        viewModelPost.setAttachment(uri, file, AttachmentType.VIDEO)
+                    }
                 }
             }
         }
-    }
 
 
     override fun onCreateView(
@@ -101,8 +102,6 @@ class NewPostFragment : Fragment() {
 
         binding.edit.requestFocus()
 
-
-
         val toolbar: Toolbar = binding.toolbar
 
         toolbar.inflateMenu(R.menu.save_menu)
@@ -115,32 +114,32 @@ class NewPostFragment : Fragment() {
                     AndroidUtils.hideKeyboard(requireView())
                     true
                 }
+
                 R.id.cancel -> {
                     viewModelPost.clearAttachment()
                     viewModelPost.clearUserChosen()
                     viewModelPost.clearCoords()
                     findNavController().navigateUp()
                 }
+
                 else -> false
             }
         }
 
         binding.audioIcon.setOnClickListener {
-
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "audio/*"
             intent.addCategory(Intent.CATEGORY_OPENABLE)
-            val pickIntent = Intent.createChooser (intent,context?.getString(R.string.select_file))
+            val pickIntent = Intent.createChooser(intent, context?.getString(R.string.select_file))
             pickAudioResultContract.launch(pickIntent)
 
         }
 
         binding.videoIcon.setOnClickListener {
-
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "video/*"
             intent.addCategory(Intent.CATEGORY_OPENABLE)
-            val pickIntent = Intent.createChooser (intent,context?.getString(R.string.select_file))
+            val pickIntent = Intent.createChooser(intent, context?.getString(R.string.select_file))
             pickVideoResultContract.launch(pickIntent)
 
         }
@@ -184,12 +183,13 @@ class NewPostFragment : Fragment() {
                         mediaPlayer?.isLooping = true
                         binding.videoPreview.start()
                     }
-
                 }
+
                 AttachmentType.AUDIO -> {
                     binding.audioContainer.isVisible = true
                 }
-                else-> Unit
+
+                else -> Unit
             }
 
         }
@@ -218,7 +218,6 @@ class NewPostFragment : Fragment() {
 
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-
             (activity as MainActivity).getSharedPreferences(
                 Constants.DRAFT_PREF_NAME,
                 Context.MODE_PRIVATE
@@ -236,13 +235,11 @@ class NewPostFragment : Fragment() {
         }
 
         viewModelPost.postCreatedError.observe(viewLifecycleOwner) {
-
             Snackbar.make(binding.scrollView, "", Snackbar.LENGTH_LONG)
                 .setAnchorView(binding.edit)
                 .setTextMaxLines(3)
                 .setText(R.string.error_loading)
                 .show()
-
         }
 
         return binding.root

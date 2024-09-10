@@ -80,13 +80,16 @@ class MainFragment : Fragment() {
                     }
 
                     R.id.profile -> {
-                        val id = if (viewModelAuth.authenticated) { viewModelAuth.authenticatedId } else 0
-                        if (id != 0) {viewModelPost.getUserById(id)}
+                        val id = if (viewModelAuth.authenticated) {
+                            viewModelAuth.authenticatedId
+                        } else 0
+                        if (id != 0) {
+                            viewModelPost.getUserById(id)
+                        }
                         val user = viewModelPost.userList.value
                         if (user != null) {
                             UserDealtWith.saveUserDealtWith(user)
                             findNavController().navigate(R.id.action_mainFragment_to_oneUserCardFragment)
-
                         }
                         true
                     }
@@ -104,20 +107,23 @@ class MainFragment : Fragment() {
         val bottomNavigationView = binding.bottomNavigation
         bottomNavigationView.selectedItemId = R.id.invisible
 
-        bottomNavigationView.setOnItemSelectedListener {item ->
-            when(item.itemId) {
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
                 R.id.posts -> {
                     findNavController().navigate(R.id.action_mainFragment_to_allPostsFragment)
                     true
                 }
+
                 R.id.events -> {
                     findNavController().navigate(R.id.action_mainFragment_to_allEventsFragment)
                     true
                 }
+
                 R.id.users -> {
                     findNavController().navigate(R.id.action_mainFragment_to_allUsersFragment)
                     true
                 }
+
                 else -> false
             }
         }

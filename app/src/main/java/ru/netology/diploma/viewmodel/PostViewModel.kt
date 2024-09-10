@@ -10,6 +10,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
@@ -47,21 +48,17 @@ private val defaultPost = Post(
     users = emptyMap(),
 )
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val repository: Repository,
     appAuth: AppAuth
 ) : ViewModel() {
-
     val data: Flow<PagingData<Post>> = appAuth.authStateFlow
         .flatMapLatest { (myId, _) ->
-            repository.data.map {postPagingData ->
+            repository.data.map { postPagingData ->
                 postPagingData.map { post ->
-                    if (post is Post) {
-                        post.copy(ownedByMe = post.authorId == myId)
-                    } else {
-                        post
-                    }
+                    post.copy(ownedByMe = post.authorId == myId)
                 }
             }
         }.flowOn(Dispatchers.Default)
@@ -79,7 +76,6 @@ class PostViewModel @Inject constructor(
 
     private val edited = MutableLiveData(defaultPost)
 
-
     fun changeContentAndSave(content: String, mentioned: List<Int>) {
         edited.value?.let { itPost ->
             val text = content.trim()
@@ -90,10 +86,20 @@ class PostViewModel @Inject constructor(
                         val attachmentModel =
                             _attachment.value
                         if (attachmentModel == null) {
-                            repository.save(itPost.copy(content = text, coords = _coords.value, mentionIds = mentioned))
+                            repository.save(
+                                itPost.copy(
+                                    content = text,
+                                    coords = _coords.value,
+                                    mentionIds = mentioned
+                                )
+                            )
                         } else {
                             repository.saveWithAttachment(
-                                itPost.copy(content = text, coords = _coords.value, mentionIds = mentioned),
+                                itPost.copy(
+                                    content = text,
+                                    coords = _coords.value,
+                                    mentionIds = mentioned
+                                ),
                                 attachmentModel
                             )
                         }
@@ -111,8 +117,6 @@ class PostViewModel @Inject constructor(
         edited.value = defaultPost
 
     }
-
-    //edit
 
     private val _postToEdit = MutableLiveData<Post>()
     val postToEdit: LiveData<Post> = _postToEdit
@@ -133,7 +137,6 @@ class PostViewModel @Inject constructor(
         val list: List<Int> = emptyList()
         _postToEdit.value = postToEdit.value?.copy(mentionIds = list)
     }
-
 
     fun edit(post: Post) {
         viewModelScope.launch {
@@ -170,7 +173,6 @@ class PostViewModel @Inject constructor(
         }
     }
 
-
     fun likeById(post: Post) {
 
         viewModelScope.launch {
@@ -181,9 +183,7 @@ class PostViewModel @Inject constructor(
                 _dataState.value = FeedModelState(error = true)
             }
         }
-
     }
-
 
     fun removeById(id: Int) {
         viewModelScope.launch {
@@ -212,15 +212,13 @@ class PostViewModel @Inject constructor(
     private val _userChosen = MutableLiveData<List<Int>?>()
     val userChosen: LiveData<List<Int>?> = _userChosen
 
-    fun setUserChosen (list: List<Int>) {
+    fun setUserChosen(list: List<Int>) {
         _userChosen.value = list
     }
 
-    fun clearUserChosen () {
+    fun clearUserChosen() {
         _userChosen.value = null
     }
-
-
 
     private val _attachment = MutableLiveData<AttachmentModel?>(null)
     val attachment: LiveData<AttachmentModel?>
@@ -238,21 +236,19 @@ class PostViewModel @Inject constructor(
         _attachment.value = null
     }
 
-
     fun updatePlayer() {
         viewModelScope.launch {
             repository.updatePlayer()
         }
     }
 
-    fun updateIsPlaying (postId: Int, isPlaying: Boolean) = viewModelScope.launch {
+    fun updateIsPlaying(postId: Int, isPlaying: Boolean) = viewModelScope.launch {
         repository.updateIsPlaying(postId, isPlaying)
     }
 
-    fun updateIsPlayingWall (postId: Int, isPlaying: Boolean) = viewModelScope.launch {
-        repository.updateIsPlayingWall (postId, isPlaying)
+    fun updateIsPlayingWall(postId: Int, isPlaying: Boolean) = viewModelScope.launch {
+        repository.updateIsPlayingWall(postId, isPlaying)
     }
-
 
     private val _coords = MutableLiveData<Coordinates?>()
     val coords: LiveData<Coordinates?> = _coords

@@ -7,7 +7,7 @@ object JobDealtWith {
 
     fun get() = jobDealtWith
 
-    fun saveJobDealtWith (job: Job) {
+    fun saveJobDealtWith(job: Job) {
         jobDealtWith = job
     }
 }

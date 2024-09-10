@@ -31,6 +31,7 @@ import ru.netology.diploma.R
 import ru.netology.diploma.databinding.FragmentMapBinding
 import ru.netology.diploma.viewmodel.PostViewModel
 
+@Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
 @AndroidEntryPoint
 class MapsFragment : Fragment(), GeoObjectTapListener {
 
@@ -121,7 +122,7 @@ class MapsFragment : Fragment(), GeoObjectTapListener {
         }
 
         val toast = Toast.makeText(context, R.string.tap_the_place_to_choose, Toast.LENGTH_LONG)
-        toast.setGravity(Gravity.CENTER, 0, 0 )
+        toast.setGravity(Gravity.CENTER, 0, 0)
         toast.show()
 
         binding.zoomInButton.setOnClickListener {
@@ -206,9 +207,7 @@ class MapsFragment : Fragment(), GeoObjectTapListener {
     }
 
     override fun onObjectTap(geoObjectTapEvent: GeoObjectTapEvent): Boolean {
-
         val objectGeometry = geoObjectTapEvent.geoObject.geometry.component1().point
-
         if (objectGeometry != null) {
             geoObjectTapEvent.geoObject.name?.let { name ->
                 viewModelPost.setCoords(objectGeometry.latitude, objectGeometry.longitude)

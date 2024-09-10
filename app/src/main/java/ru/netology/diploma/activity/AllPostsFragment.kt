@@ -82,14 +82,13 @@ class AllPostsFragment : Fragment() {
             }
 
             override fun playMusic(post: Post) {
-
                 val thisTrackId = post.id
                 if (mediaObserver.player?.isPlaying == true) {
                     mediaObserver.apply {
                         viewModelPost.updateIsPlaying(post.id, false)
                         viewModelPost.updatePlayer()
                         stop()
-                        if (thisTrackId != trackId ) {
+                        if (thisTrackId != trackId) {
                             trackId = thisTrackId
                             viewModelPost.updateIsPlaying(post.id, true)
                             post.attachment?.url?.let { play(it) }
@@ -149,8 +148,12 @@ class AllPostsFragment : Fragment() {
                     }
 
                     R.id.profile -> {
-                        val id = if (viewModelAuth.authenticated) { viewModelAuth.authenticatedId } else 0
-                        if (id != 0) {viewModelPost.getUserById(id)}
+                        val id = if (viewModelAuth.authenticated) {
+                            viewModelAuth.authenticatedId
+                        } else 0
+                        if (id != 0) {
+                            viewModelPost.getUserById(id)
+                        }
                         val user = viewModelPost.userList.value
                         if (user != null) {
                             UserDealtWith.saveUserDealtWith(user)
@@ -170,10 +173,9 @@ class AllPostsFragment : Fragment() {
 
         binding.recyclerList.adapter = adapter
 
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModelPost.data.collectLatest{
+                viewModelPost.data.collectLatest {
                     adapter.submitData(it)
                 }
             }
@@ -183,11 +185,9 @@ class AllPostsFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collectLatest { state ->
                     if (state.refresh.endOfPaginationReached) {
-                        binding.recyclerList.scrollToPosition (0)
+                        binding.recyclerList.scrollToPosition(0)
                     }
-
                     binding.swiperefresh.isRefreshing = state.refresh is LoadState.Loading
-
                 }
             }
         }
@@ -220,12 +220,13 @@ class AllPostsFragment : Fragment() {
             }
 
         }
+
         return binding.root
     }
 
     private fun signInDialog() {
-        val listener = DialogInterface.OnClickListener{ _, which ->
-            when(which) {
+        val listener = DialogInterface.OnClickListener { _, which ->
+            when (which) {
                 DialogInterface.BUTTON_POSITIVE -> findNavController().navigate(R.id.authSignInFragment)
             }
         }

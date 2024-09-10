@@ -3,23 +3,23 @@
         android:id="@+id/posts"
         android:enabled="true"
         android:icon="@drawable/ic_posts_24"
-        android:title="@string/posts"/>
+        android:title="@string/posts" />
     <item
         android:id="@+id/events"
         android:enabled="true"
         android:icon="@drawable/ic_events_24"
-        android:title="@string/events"/>
+        android:title="@string/events" />
 
     <item
         android:id="@+id/users"
         android:enabled="true"
         android:icon="@drawable/ic_users_24"
-        android:title="@string/users"/>
+        android:title="@string/users" />
 
     <item
         android:id="@+id/invisible"
-        android:visible="false"
         android:icon="@drawable/ic_home_24"
-        android:title="@string/home" />
+        android:title="@string/home"
+        android:visible="false" />
 
 </menu>

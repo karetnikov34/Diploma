@@ -13,10 +13,17 @@ import ru.netology.diploma.dto.Event
 interface EventApiService {
 
     @GET("events/latest")
-    suspend fun getLatest (@Query("count") count: Int, @Header("Api-Key") apiKey: String) : Response<List<Event>>
+    suspend fun getLatest(
+        @Query("count") count: Int,
+        @Header("Api-Key") apiKey: String
+    ): Response<List<Event>>
 
     @GET("events/{id}/before")
-    suspend fun getBefore (@Path("id") id: Int, @Query("count") count: Int, @Header("Api-Key") apiKey: String): Response<List<Event>>
+    suspend fun getBefore(
+        @Path("id") id: Int,
+        @Query("count") count: Int,
+        @Header("Api-Key") apiKey: String
+    ): Response<List<Event>>
 
     @POST("events/{id}/likes")
     suspend fun likeById(@Path("id") id: Int, @Header("Api-Key") apiKey: String): Response<Event>

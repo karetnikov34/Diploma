@@ -14,91 +14,87 @@ import ru.netology.diploma.entity.PostEntity
 import ru.netology.diploma.entity.PostRemoteKeyEntity
 import ru.netology.diploma.error.ApiError
 
-    @OptIn(ExperimentalPagingApi::class)
-    class PostRemoteMediator(
-        private val service: PostsApiService,
-        private val postDao: PostDao,
-        private val postRemoteKeyDao: PostRemoteKeyDao,
-        private val appDb: AppDb
-    ) : RemoteMediator<Int, PostEntity>() {
+@Suppress( "KotlinConstantConditions")
+@OptIn(ExperimentalPagingApi::class)
+class PostRemoteMediator(
+    private val service: PostsApiService,
+    private val postDao: PostDao,
+    private val postRemoteKeyDao: PostRemoteKeyDao,
+    private val appDb: AppDb
+) : RemoteMediator<Int, PostEntity>() {
 
-        override suspend fun load(
-            loadType: LoadType,
-            state: PagingState<Int, PostEntity>
-        ): MediatorResult {
+    override suspend fun load(
+        loadType: LoadType,
+        state: PagingState<Int, PostEntity>
+    ): MediatorResult {
 
-            try {
+        try {
 
-                val response = when (loadType) {
+            val response = when (loadType) {
 
-                    LoadType.REFRESH -> service.getLatest(state.config.pageSize, BuildConfig.API_KEY)
+                LoadType.REFRESH -> service.getLatest(state.config.pageSize, BuildConfig.API_KEY)
 
-                    LoadType.PREPEND -> {
-                        return MediatorResult.Success(endOfPaginationReached = true)
-                    }
-
-                    LoadType.APPEND -> {
-                        val id = postRemoteKeyDao.min() ?: return MediatorResult.Success(
-                            endOfPaginationReached = false
-                        )
-                        service.getBefore(id, state.config.pageSize, BuildConfig.API_KEY)
-                    }
-
+                LoadType.PREPEND -> {
+                    return MediatorResult.Success(endOfPaginationReached = true)
                 }
 
-
-                if (!response.isSuccessful) {
-                    throw ApiError(response.message())
+                LoadType.APPEND -> {
+                    val id = postRemoteKeyDao.min() ?: return MediatorResult.Success(
+                        endOfPaginationReached = false
+                    )
+                    service.getBefore(id, state.config.pageSize, BuildConfig.API_KEY)
                 }
-                val bodyResponse = response.body() ?: throw ApiError(
-                    response.message(),
-                )
 
-                if (bodyResponse.isEmpty()) return MediatorResult.Success(endOfPaginationReached = true)
+            }
 
-                appDb.withTransaction {
-                    when (loadType) {
-                        LoadType.REFRESH -> {
+            if (!response.isSuccessful) {
+                throw ApiError(response.message())
+            }
+            val bodyResponse = response.body() ?: throw ApiError(
+                response.message(),
+            )
 
-                            postRemoteKeyDao.removeAll()
-                            postRemoteKeyDao.insert(
-                                listOf(
-                                    PostRemoteKeyEntity(
-                                        type = PostRemoteKeyEntity.KeyType.AFTER,
-                                        id = bodyResponse.first().id,
-                                    ),
-                                    PostRemoteKeyEntity(
-                                        type = PostRemoteKeyEntity.KeyType.BEFORE,
-                                        id = bodyResponse.last().id,
-                                    )
-                                )
-                            )
-                            postDao.removeAll()
-                        }
+            if (bodyResponse.isEmpty()) return MediatorResult.Success(endOfPaginationReached = true)
 
-
-                        LoadType.PREPEND -> Unit
-
-                        LoadType.APPEND -> {
-                            postRemoteKeyDao.insert(
+            appDb.withTransaction {
+                when (loadType) {
+                    LoadType.REFRESH -> {
+                        postRemoteKeyDao.removeAll()
+                        postRemoteKeyDao.insert(
+                            listOf(
+                                PostRemoteKeyEntity(
+                                    type = PostRemoteKeyEntity.KeyType.AFTER,
+                                    id = bodyResponse.first().id,
+                                ),
                                 PostRemoteKeyEntity(
                                     type = PostRemoteKeyEntity.KeyType.BEFORE,
                                     id = bodyResponse.last().id,
                                 )
                             )
-                        }
-
+                        )
+                        postDao.removeAll()
                     }
 
-                    postDao.insert(bodyResponse.map { PostEntity.fromDto(it) })
 
+                    LoadType.PREPEND -> Unit
+
+                    LoadType.APPEND -> {
+                        postRemoteKeyDao.insert(
+                            PostRemoteKeyEntity(
+                                type = PostRemoteKeyEntity.KeyType.BEFORE,
+                                id = bodyResponse.last().id,
+                            )
+                        )
+                    }
                 }
 
-
-                return MediatorResult.Success(endOfPaginationReached = bodyResponse.isEmpty())
-
-            } catch (e: Exception) {
-                return MediatorResult.Error(e)
+                postDao.insert(bodyResponse.map { PostEntity.fromDto(it) })
             }
+
+            return MediatorResult.Success(endOfPaginationReached = bodyResponse.isEmpty())
+
+        } catch (e: Exception) {
+            return MediatorResult.Error(e)
         }
     }
+}

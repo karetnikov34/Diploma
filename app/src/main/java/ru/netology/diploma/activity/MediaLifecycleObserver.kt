@@ -17,7 +17,7 @@ class MediaLifecycleObserver : LifecycleEventObserver {
         player?.prepareAsync()
     }
 
-    fun stop () {
+    fun stop() {
         player?.stop()
         player?.reset()
     }
@@ -29,6 +29,7 @@ class MediaLifecycleObserver : LifecycleEventObserver {
                 player?.release()
                 player = null
             }
+
             Lifecycle.Event.ON_DESTROY -> source.lifecycle.removeObserver(this)
             else -> Unit
         }

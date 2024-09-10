@@ -1,5 +1,6 @@
 package ru.netology.diploma.activity
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.PointF
@@ -33,6 +34,7 @@ import ru.netology.diploma.util.numberRepresentation
 import ru.netology.diploma.viewmodel.AuthViewModel
 import ru.netology.diploma.viewmodel.EventViewModel
 
+@SuppressLint("ClickableViewAccessibility")
 @AndroidEntryPoint
 class OneEventFragment : Fragment() {
 
@@ -53,30 +55,26 @@ class OneEventFragment : Fragment() {
 
         val event = EventDealtWith.get()
 
-//        binding.content.movementMethod = ScrollingMovementMethod()
-//        binding.content.movementMethod = LinkMovementMethod.getInstance()
 
+        @SuppressLint("ClickableViewAccessibility")
         fun bind(event: Event) {
             binding.apply {
                 authorEvent.text = event.author
                 publishedEvent.text = formatDateTime(event.published)
                 dateEvent.text = event.datetime?.let { formatDateTime(it) }
-                if (event.type != null) { format.text = event.type.toString() } else format.text = ""
+                if (event.type != null) {
+                    format.text = event.type.toString()
+                } else format.text = ""
                 placeOfWork.text = event.authorJob ?: context?.getString(R.string.looking_for_a_job)
                 content.text = event.content
                 content.movementMethod = ScrollingMovementMethod()
                 content.movementMethod = LinkMovementMethod.getInstance()
                 likesIcon.isChecked = event.likedByMe
-                likesIcon.text = numberRepresentation (event.likeOwnerIds.size)
+                likesIcon.text = numberRepresentation(event.likeOwnerIds.size)
                 participantsIcon.text = numberRepresentation(event.participantsIds.size)
                 attachmentImage.visibility = View.GONE
                 music.visibility = View.GONE
                 video.visibility = View.GONE
-
-//                if (event.link != null) {
-//                    video.visibility = View.VISIBLE
-//                } else video.visibility = View.GONE
-
 
                 val urlAvatar = "${event.authorAvatar}"
                 avatarEvent.loadCircle(urlAvatar)
@@ -119,7 +117,6 @@ class OneEventFragment : Fragment() {
 
                         }
 
-
                         AttachmentType.VIDEO -> {
                             video.visibility = View.VISIBLE
 
@@ -129,7 +126,6 @@ class OneEventFragment : Fragment() {
                                 mediaPlayer?.setVolume(0F, 0F)
                                 mediaPlayer?.isLooping = true
                                 video.start()
-
                                 video.setOnTouchListener { _, _ ->
                                     if (video.isPlaying) {
                                         mediaPlayer.pause()
@@ -174,13 +170,12 @@ class OneEventFragment : Fragment() {
                                     findNavController().navigate(R.id.action_oneEventFragment_to_editEventFragment)
                                     true
                                 }
+
                                 else -> false
                             }
                         }
                     }.show()
-
                 }
-
 
                 speaker1.isVisible = event.speakerIds.isNotEmpty()
                 speaker2.isVisible = event.speakerIds.size >= 2
@@ -249,7 +244,8 @@ class OneEventFragment : Fragment() {
                 val mapView = binding.mapview
                 val map = mapView.mapWindow.map
 
-                binding.mapGroup.isVisible = (event.coords?.lat != null && event.coords.long != null)
+                binding.mapGroup.isVisible =
+                    (event.coords?.lat != null && event.coords.long != null)
                 if (event.coords?.lat != null && event.coords.long != null) {
                     map.move(
                         CameraPosition(
@@ -264,7 +260,6 @@ class OneEventFragment : Fragment() {
                     )
 
                 }
-
 
                 val imageProvider =
                     ImageProvider.fromResource(requireContext(), R.drawable.ic_map_marker_icon)
@@ -307,19 +302,16 @@ class OneEventFragment : Fragment() {
                     )
                     map.move(newCameraPosition)
                 }
-
-
             }
         }
-
         bind(event)
 
         return binding.root
     }
 
     private fun signInDialog() {
-        val listener = DialogInterface.OnClickListener{ _, which ->
-            when(which) {
+        val listener = DialogInterface.OnClickListener { _, which ->
+            when (which) {
                 DialogInterface.BUTTON_POSITIVE -> findNavController().navigate(R.id.authSignInFragment)
             }
         }

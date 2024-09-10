@@ -34,6 +34,7 @@ import ru.netology.diploma.util.load
 import ru.netology.diploma.viewmodel.PostViewModel
 import ru.netology.diploma.viewmodel.UserViewModel
 
+@Suppress( "NAME_SHADOWING")
 @AndroidEntryPoint
 class EditPostFragment : Fragment() {
 
@@ -50,49 +51,49 @@ class EditPostFragment : Fragment() {
             }
         }
 
-    private val pickAudioResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val uri = it.data?.data ?: return@registerForActivityResult
-            val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
-            if (fileSize != null && fileSize > 15000000) {
-                Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
-            } else {
-                val file = if (uri.scheme == "file") {
-                    uri.toFile()
+    private val pickAudioResultContract =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val uri = it.data?.data ?: return@registerForActivityResult
+                val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
+                if (fileSize != null && fileSize > 15000000) {
+                    Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
                 } else {
-                    getInputStreamFromUri(context, uri)?.let { inputStream ->
-                        createFileFromInputStream(inputStream)
+                    val file = if (uri.scheme == "file") {
+                        uri.toFile()
+                    } else {
+                        getInputStreamFromUri(context, uri)?.let { inputStream ->
+                            createFileFromInputStream(inputStream)
+                        }
                     }
-                }
-
-                if (file != null) {
-                    viewModelPost.setAttachment(uri, file, AttachmentType.AUDIO)
+                    if (file != null) {
+                        viewModelPost.setAttachment(uri, file, AttachmentType.AUDIO)
+                    }
                 }
             }
         }
-    }
 
-    private val pickVideoResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val uri = it.data?.data ?: return@registerForActivityResult
-            val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
-            if (fileSize != null && fileSize > 15000000) {
-                Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
-            } else {
-                val file = if (uri.scheme == "file") {
-                    uri.toFile()
+    private val pickVideoResultContract =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val uri = it.data?.data ?: return@registerForActivityResult
+                val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
+                if (fileSize != null && fileSize > 15000000) {
+                    Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
                 } else {
-                    getInputStreamFromUri(context, uri)?.let { inputStream ->
-                        createFileFromInputStream(inputStream)
+                    val file = if (uri.scheme == "file") {
+                        uri.toFile()
+                    } else {
+                        getInputStreamFromUri(context, uri)?.let { inputStream ->
+                            createFileFromInputStream(inputStream)
+                        }
                     }
-                }
-
-                if (file != null) {
-                    viewModelPost.setAttachment(uri, file, AttachmentType.VIDEO)
+                    if (file != null) {
+                        viewModelPost.setAttachment(uri, file, AttachmentType.VIDEO)
+                    }
                 }
             }
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -120,18 +121,22 @@ class EditPostFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.save -> {
-
-                    val mentioned = viewModelPost.userChosen.value ?: viewModelPost.postToEdit.value?.mentionIds
+                    val mentioned =
+                        viewModelPost.userChosen.value ?: viewModelPost.postToEdit.value?.mentionIds
                     val finalMentioned = mentioned ?: emptyList()
 
                     val postEdited =
-                        viewModelPost.postToEdit.value?.copy(content = binding.edit.text.toString(), mentionIds = finalMentioned)
+                        viewModelPost.postToEdit.value?.copy(
+                            content = binding.edit.text.toString(),
+                            mentionIds = finalMentioned
+                        )
                     if (postEdited != null) {
                         viewModelPost.edit(postEdited)
                     }
                     AndroidUtils.hideKeyboard(requireView())
                     true
                 }
+
                 R.id.cancel -> {
                     viewModelPost.clearAttachment()
                     viewModelPost.clearAttachmentEdit()
@@ -139,26 +144,25 @@ class EditPostFragment : Fragment() {
                     viewModelPost.clearCoords()
                     findNavController().navigateUp()
                 }
+
                 else -> false
             }
         }
 
         binding.audioIcon.setOnClickListener {
-
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "audio/*"
             intent.addCategory(Intent.CATEGORY_OPENABLE)
-            val pickIntent = Intent.createChooser (intent,context?.getString(R.string.select_file))
+            val pickIntent = Intent.createChooser(intent, context?.getString(R.string.select_file))
             pickAudioResultContract.launch(pickIntent)
 
         }
 
         binding.videoIcon.setOnClickListener {
-
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "video/*"
             intent.addCategory(Intent.CATEGORY_OPENABLE)
-            val pickIntent = Intent.createChooser (intent,context?.getString(R.string.select_file))
+            val pickIntent = Intent.createChooser(intent, context?.getString(R.string.select_file))
             pickVideoResultContract.launch(pickIntent)
 
         }
@@ -186,7 +190,6 @@ class EditPostFragment : Fragment() {
 
         viewModelPost.postToEdit.observe(viewLifecycleOwner) { post ->
             if (viewModelPost.attachment.value == null) {
-
                 when (post.attachment?.type) {
                     AttachmentType.IMAGE -> {
                         binding.photoPreview.isVisible = true
@@ -201,7 +204,6 @@ class EditPostFragment : Fragment() {
                             mediaPlayer?.isLooping = true
                             binding.videoPreview.start()
                         }
-
                     }
 
                     AttachmentType.AUDIO -> {
@@ -219,7 +221,6 @@ class EditPostFragment : Fragment() {
                     AttachmentType.IMAGE -> {
                         binding.videoPreview.visibility = View.GONE
                         binding.audioPreview.visibility = View.GONE
-
                         binding.photoPreview.isVisible = true
                         binding.photoPreview.setImageURI(attachmentModel.uri)
                     }
@@ -227,7 +228,6 @@ class EditPostFragment : Fragment() {
                     AttachmentType.VIDEO -> {
                         binding.photoPreview.visibility = View.GONE
                         binding.audioPreview.visibility = View.GONE
-
                         binding.videoPreview.isVisible = true
                         binding.videoPreview.setVideoURI(attachmentModel.uri)
                         binding.videoPreview.setOnPreparedListener { mediaPlayer ->
@@ -237,18 +237,19 @@ class EditPostFragment : Fragment() {
                         }
 
                     }
+
                     AttachmentType.AUDIO -> {
                         binding.videoPreview.visibility = View.GONE
                         binding.photoPreview.visibility = View.GONE
-
                         binding.audioPreview.isVisible = true
                     }
-                    else-> Unit
+
+                    else -> Unit
                 }
             }
         }
 
-        binding.removeAttachment.setOnClickListener{
+        binding.removeAttachment.setOnClickListener {
             viewModelPost.clearAttachment()
             viewModelPost.clearAttachmentEdit()
             binding.photoPreview.visibility = View.GONE
@@ -259,14 +260,14 @@ class EditPostFragment : Fragment() {
             toast.show()
         }
 
-        binding.removeLocation.setOnClickListener{
+        binding.removeLocation.setOnClickListener {
             viewModelPost.clearLocationEdit()
             val toast = Toast.makeText(context, R.string.remove, Toast.LENGTH_SHORT)
             toast.setGravity(Gravity.CENTER, 0, 0)
             toast.show()
         }
 
-        binding.removeMentioned.setOnClickListener{
+        binding.removeMentioned.setOnClickListener {
             viewModelUser.clearChoosing()
             viewModelPost.clearUserChosen()
             viewModelPost.clearMentionedEdit()
@@ -275,12 +276,12 @@ class EditPostFragment : Fragment() {
             toast.show()
         }
 
-        binding.chooseUsers.setOnClickListener{
+        binding.chooseUsers.setOnClickListener {
             findNavController().navigate(R.id.action_editPostFragment_to_choosingFragment)
         }
 
 
-        binding.choosePlace.setOnClickListener{
+        binding.choosePlace.setOnClickListener {
             findNavController().navigate(R.id.action_editPostFragment_to_mapsFragment)
         }
 
@@ -296,20 +297,16 @@ class EditPostFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        viewModelPost.postCreated.observe(viewLifecycleOwner)
-        {
+        viewModelPost.postCreated.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_editPostFragment_to_allPostsFragment)
         }
 
-        viewModelPost.postCreatedError.observe(viewLifecycleOwner)
-        {
-
+        viewModelPost.postCreatedError.observe(viewLifecycleOwner) {
             Snackbar.make(binding.scrollView, "", Snackbar.LENGTH_LONG)
                 .setAnchorView(binding.edit)
                 .setTextMaxLines(3)
                 .setText(R.string.error_loading)
                 .show()
-
         }
 
         return binding.root

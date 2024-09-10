@@ -15,7 +15,7 @@ import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor (appAuth: AppAuth): ViewModel() {
+class SignUpViewModel @Inject constructor(appAuth: AppAuth) : ViewModel() {
     private val dataAuth = appAuth
 
     private val _response = SingleLiveEvent<Unit>()
@@ -33,7 +33,6 @@ class SignUpViewModel @Inject constructor (appAuth: AppAuth): ViewModel() {
             _error.value = Unit
         }
     }
-
 
     private val _photo = MutableLiveData<AttachmentModel?>(null)
     val photo: LiveData<AttachmentModel?>
@@ -56,11 +55,11 @@ class SignUpViewModel @Inject constructor (appAuth: AppAuth): ViewModel() {
                     user.token?.let { dataAuth.setAuth(user.id, it) }
                     _response.value = Unit
                 } else {
-                    val user = dataAuth.registerUserWithAvatar(login, password, name, photoModel.file)
+                    val user =
+                        dataAuth.registerUserWithAvatar(login, password, name, photoModel.file)
                     user.token?.let { dataAuth.setAuth(user.id, it) }
                     _response.value = Unit
                 }
-
             } catch (e: Exception) {
                 _error.value = Unit
             }

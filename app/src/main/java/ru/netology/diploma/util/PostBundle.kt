@@ -8,7 +8,7 @@ import ru.netology.diploma.dto.Post
 import ru.netology.diploma.dto.UserPreview
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
-
+@Suppress("unused")
 object PostBundle : ReadWriteProperty<Bundle, Post?> {
     override fun getValue(thisRef: Bundle, property: KProperty<*>): Post? {
         return thisRef.getBundle(property.name)?.let { bundleToPost(it) }
@@ -18,7 +18,6 @@ object PostBundle : ReadWriteProperty<Bundle, Post?> {
         thisRef.putBundle(property.name, postToBundle(value))
     }
 }
-
 
 fun postToBundle(post: Post?): Bundle {
     post ?: return Bundle()
@@ -50,7 +49,7 @@ fun postToBundle(post: Post?): Bundle {
 
 fun bundleToPost(bundle: Bundle): Post {
     val usersBundle = bundle.getBundle("users")
-    val post =  Post(
+    val post = Post(
         bundle.getInt("id"),
         bundle.getInt("authorId"),
         bundle.getString("author") ?: "",
@@ -94,8 +93,6 @@ fun coordsFromBundle(bundle: Bundle): Coordinates {
     return Coordinates(latitude, longitude)
 }
 
-// *** attachment
-
 fun attachmentToBundle(attachment: Attachment): Bundle {
     val bundle = Bundle()
     bundle.putString("url", attachment.url)
@@ -121,8 +118,6 @@ fun attachmentFromBundle(bundle: Bundle): Attachment {
     val type = bundle.getBundle("type")?.let { attachmentTypeFromBundle(it) }
     return Attachment(url, type, isplaying)
 }
-
-// *** users
 
 fun userPreviewToBundle(userPreview: UserPreview): Bundle {
     val bundle = Bundle()

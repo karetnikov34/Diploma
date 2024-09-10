@@ -18,7 +18,7 @@ import ru.netology.diploma.viewmodel.PostViewModel
 import ru.netology.diploma.viewmodel.UserViewModel
 
 @AndroidEntryPoint
-class AllLikersEventFragment: Fragment() {
+class AllLikersEventFragment : Fragment() {
 
     private val viewModelUser: UserViewModel by activityViewModels()
     private val viewModelPost: PostViewModel by activityViewModels()
@@ -63,7 +63,6 @@ class AllLikersEventFragment: Fragment() {
             findNavController().navigateUp()
         }
 
-
         viewModelUser.dataState.observe(viewLifecycleOwner) { feedModelState ->
             binding.progress.isVisible = feedModelState.loading
             binding.errorGroup.isVisible = feedModelState.error
@@ -94,7 +93,6 @@ class AllLikersEventFragment: Fragment() {
             adapter.submitList(list)
             binding.swiperefresh.isRefreshing = false
         }
-
 
         return binding.root
     }

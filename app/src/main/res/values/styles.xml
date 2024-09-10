@@ -29,20 +29,16 @@
         <item name="android:textColor">?attr/colorControlNormal</item>
     </style>
 
-    <style name="Widget.AppTheme.LinkButton" parent="Widget.Material3.Button.TextButton.Icon">
-        <item name="iconTint">?attr/colorControlNormal</item>
-        <item name="android:checkable">false</item>
-        <item name="backgroundTint">@android:color/transparent</item>
-        <item name="colorContainer">@android:color/transparent</item>
-        <item name="android:textColor">?attr/colorControlNormal</item>
-        <item name="icon">@drawable/ic_link_24</item>
-    </style>
-
     <style name="Widget.AppTheme.MenuButton" parent="Widget.Material3.Button.IconButton.Filled.Tonal">
         <item name="icon">@drawable/ic_more_24</item>
         <item name="iconTint">?attr/colorControlNormal</item>
         <item name="android:checkable">false</item>
         <item name="backgroundTint">@color/white</item>
+    </style>
+
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
     <style name="AppBottomSheetDialogTheme"

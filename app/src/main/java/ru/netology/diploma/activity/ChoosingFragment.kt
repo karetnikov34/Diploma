@@ -25,7 +25,7 @@ import ru.netology.diploma.viewmodel.PostViewModel
 import ru.netology.diploma.viewmodel.UserViewModel
 
 @AndroidEntryPoint
-class ChoosingFragment: Fragment() {
+class ChoosingFragment : Fragment() {
 
     private val viewModelUser: UserViewModel by activityViewModels()
     private val viewModelPost: PostViewModel by activityViewModels()
@@ -42,9 +42,10 @@ class ChoosingFragment: Fragment() {
             false
         )
 
-
-        binding.likers.text = if (viewModelEvent.speaker) context?.getString(R.string.choose_speakers) else context?.getString(
-            R.string.choose_users)
+        binding.likers.text =
+            if (viewModelEvent.speaker) context?.getString(R.string.choose_speakers) else context?.getString(
+                R.string.choose_users
+            )
         binding.checkbox.isVisible = true
         UserAdapter.choosing = true
 
@@ -60,7 +61,7 @@ class ChoosingFragment: Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModelUser.userList.collectLatest{
+                viewModelUser.userList.collectLatest {
                     adapter.submitList(it)
                     selectedItems.clear()
                 }
@@ -81,7 +82,6 @@ class ChoosingFragment: Fragment() {
             findNavController().navigateUp()
         }
 
-
         viewModelUser.dataState.observe(viewLifecycleOwner) { feedModelState ->
             binding.progress.isVisible = feedModelState.loading
             binding.errorGroup.isVisible = feedModelState.error
@@ -96,7 +96,6 @@ class ChoosingFragment: Fragment() {
             viewModelUser.loadUsers()
             binding.swiperefresh.isRefreshing = false
         }
-
 
         return binding.root
     }

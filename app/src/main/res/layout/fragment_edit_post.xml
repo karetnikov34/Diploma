@@ -39,7 +39,8 @@
                 android:background="@android:color/transparent"
                 android:inputType="textMultiLine"
                 android:padding="16dp"
-                tools:text="@tools:sample/lorem[99]" />
+                tools:text="@tools:sample/lorem[99]"
+                tools:ignore="Autofill,LabelFor" />
 
 
             <ImageView
@@ -67,21 +68,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_margin="6dp"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/playButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    app:icon="@drawable/ic_play_48"
-                    app:iconPadding="12dp"
                     android:text="@string/play_audio"
-                    app:iconSize="30dp"
+                    app:backgroundTint="@color/purple_200"
+                    app:icon="@drawable/ic_play_48"
                     app:iconGravity="textStart"
-                    app:backgroundTint="@color/purple_200"/>
-
+                    app:iconPadding="12dp"
+                    app:iconSize="30dp" />
 
             </LinearLayout>
 
@@ -154,67 +153,69 @@
             android:id="@+id/takePhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/description_take_photo"
             android:padding="16dp"
             app:icon="@drawable/ic_photo_camera_24"
             app:iconGravity="textEnd"
-            app:iconTint="?colorSurface"
-            android:layout_weight="1"/>
+            app:iconTint="?colorSurface" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/pickPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/description_select_photo"
             android:padding="16dp"
             app:icon="@drawable/ic_gallery_24"
             app:iconGravity="textEnd"
-            app:iconTint="?colorSurface"
-            android:layout_weight="1"/>
+            app:iconTint="?colorSurface" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/audioIcon"
-            app:icon="@drawable/ic_audio_24"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:layout_weight="1"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/audio"
-            app:iconTint="?colorSurface"
-            android:layout_weight="1"/>
+            app:icon="@drawable/ic_audio_24"
+            app:iconTint="?colorSurface" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/videoIcon"
-            app:icon="@drawable/ic_video_24"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:layout_weight="1"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/link"
-            app:iconTint="?colorSurface"
-            android:layout_weight="1"/>
+            app:icon="@drawable/ic_video_24"
+            app:iconTint="?colorSurface" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/chooseUsers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/choose_users"
             android:padding="16dp"
             app:icon="@drawable/ic_users_24"
             app:iconGravity="textEnd"
-            app:iconTint="?colorSurface"
-            android:layout_weight="1"/>
+            app:iconTint="?colorSurface" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/choosePlace"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:layout_weight="1"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/choose_location"
-            app:iconGravity="textStart"
             app:icon="@drawable/ic_location_pin_24"
-            app:iconTint="?colorSurface"
-            android:layout_weight="1"/>
+            app:iconGravity="textStart"
+            app:iconTint="?colorSurface" />
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

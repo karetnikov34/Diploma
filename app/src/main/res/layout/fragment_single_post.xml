@@ -89,19 +89,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrier"
-            tools:src="@tools:sample/avatars[1]" />
+            tools:src="@tools:sample/avatars[1]"
+            android:contentDescription="@string/attachment" />
 
         <VideoView
             android:id="@+id/video"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            app:layout_constraintBottom_toTopOf="@id/music"
             android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@id/music"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/attachmentImage" />
-
-        <!-- music -->
 
         <LinearLayout
             android:id="@+id/music"
@@ -109,29 +108,24 @@
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
             android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/video"
-            app:layout_constraintBottom_toTopOf="@id/content"
-            >
+            app:layout_constraintTop_toBottomOf="@id/video">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/playButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                app:icon="@drawable/ic_play_48"
-                app:iconPadding="12dp"
                 android:text="@string/play_audio"
-                app:iconSize="30dp"
+                app:backgroundTint="@color/purple_200"
+                app:icon="@drawable/ic_play_48"
                 app:iconGravity="textStart"
-                app:backgroundTint="@color/purple_200"/>
+                app:iconPadding="12dp"
+                app:iconSize="30dp" />
 
         </LinearLayout>
-
-        <!-- -->
-
-        <!-- link -->
 
         <TextView
             android:id="@+id/content"
@@ -139,6 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
             android:layout_marginTop="16dp"
+            android:autoLink="web"
             android:background="@android:color/transparent"
             android:scrollbarSize="1dp"
             android:scrollbars="vertical"
@@ -147,8 +142,7 @@
             app:layout_constraintHorizontal_bias="0.531"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/music"
-            tools:text="@tools:sample/lorem[35]"
-            android:autoLink="web"/>
+            tools:text="@tools:sample/lorem[35]" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrierBottom"
@@ -156,8 +150,6 @@
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="content" />
-
-        <!-- likes -->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/likesIcon"
@@ -168,7 +160,6 @@
             android:contentDescription="@string/likes"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/barrierBottom" />
-
 
         <ImageView
             android:id="@+id/avatarLiker1"
@@ -231,8 +222,6 @@
             app:layout_constraintBottom_toBottomOf="@id/likesIcon"
             app:layout_constraintStart_toEndOf="@id/avatarLiker5"
             app:layout_constraintTop_toTopOf="@id/likesIcon" />
-
-        <!-- mentioned -->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/mentionedIcon"
@@ -310,7 +299,7 @@
             android:id="@+id/mapGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="mapview, zoomOutButton, zoomInButton"/>
+            app:constraint_referenced_ids="mapview, zoomOutButton, zoomInButton" />
 
         <com.yandex.mapkit.mapview.MapView
             android:id="@+id/mapview"
@@ -326,13 +315,14 @@
             android:id="@+id/zoomInButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/purple_200"
-            app:layout_constraintTop_toTopOf="@id/mapview"
-            app:layout_constraintBottom_toBottomOf="@id/mapview"
-            app:layout_constraintEnd_toEndOf="@id/mapview"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            app:srcCompat="@drawable/ic_add_24" />
+            app:backgroundTint="@color/purple_200"
+            app:layout_constraintBottom_toBottomOf="@id/mapview"
+            app:layout_constraintEnd_toEndOf="@id/mapview"
+            app:layout_constraintTop_toTopOf="@id/mapview"
+            app:srcCompat="@drawable/ic_add_24"
+            android:contentDescription="@string/zoom" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/zoomOutButton"
@@ -343,8 +333,8 @@
             app:layout_constraintEnd_toEndOf="@id/zoomInButton"
             app:layout_constraintStart_toStartOf="@id/zoomInButton"
             app:layout_constraintTop_toBottomOf="@id/zoomInButton"
-            app:srcCompat="@drawable/ic_minus_24" />
-
+            app:srcCompat="@drawable/ic_minus_24"
+            android:contentDescription="@string/zoom_out" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

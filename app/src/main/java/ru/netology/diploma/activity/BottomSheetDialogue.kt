@@ -24,8 +24,19 @@ class BottomSheetDialogue : BottomSheetDialogFragment() {
 
     override fun getTheme() = R.style.AppBottomSheetDialogTheme
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentBottomSheetDialogueBinding.bind(inflater.inflate(R.layout.fragment_bottom_sheet_dialogue, container, false))
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentBottomSheetDialogueBinding.bind(
+            inflater.inflate(
+                R.layout.fragment_bottom_sheet_dialogue,
+                container,
+                false
+            )
+        )
+
         return binding.root
     }
 
@@ -33,13 +44,13 @@ class BottomSheetDialogue : BottomSheetDialogFragment() {
         super.onStart()
 
         dialog?.let {
-            val bottomSheet = it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
+            val bottomSheet =
+                it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
             val behavior = BottomSheetBehavior.from(bottomSheet)
 
             behavior.peekHeight = bottomSheet.height
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
-
 
         if (binding.radioButtonOnline.isChecked) {
             viewModelEvent.setEventFormat(EventType.ONLINE)
@@ -47,12 +58,15 @@ class BottomSheetDialogue : BottomSheetDialogFragment() {
 
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.radio_button_online -> {viewModelEvent.setEventFormat(EventType.ONLINE)}
-                R.id.radio_button_offline -> {viewModelEvent.setEventFormat(EventType.OFFLINE)}
+                R.id.radio_button_online -> {
+                    viewModelEvent.setEventFormat(EventType.ONLINE)
+                }
+
+                R.id.radio_button_offline -> {
+                    viewModelEvent.setEventFormat(EventType.OFFLINE)
+                }
             }
         }
-
-        // *** calendar
 
         val calendar = Calendar.getInstance()
         fun showDateTimePickerDialog() {
@@ -62,18 +76,26 @@ class BottomSheetDialogue : BottomSheetDialogFragment() {
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
 
-            val datePickerDialog = DatePickerDialog(requireContext(),
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    val timePickerDialog = TimePickerDialog(requireContext(),
+                    val timePickerDialog = TimePickerDialog(
+                        requireContext(),
                         { _, selectedHour, selectedMinute ->
-
-                            val selectedDateTime = String.format("%02d.%02d.%04d, %02d:%02d", selectedDay, selectedMonth + 1, selectedYear, selectedHour, selectedMinute)
-                            viewModelEvent.setEventDateTime (selectedDateTime)
-
-                        }, hour, minute, true)
-
+                            val selectedDateTime = String.format(
+                                "%02d.%02d.%04d, %02d:%02d",
+                                selectedDay,
+                                selectedMonth + 1,
+                                selectedYear,
+                                selectedHour,
+                                selectedMinute
+                            )
+                            viewModelEvent.setEventDateTime(selectedDateTime)
+                        }, hour, minute, true
+                    )
                     timePickerDialog.show()
-                }, year, month, day)
+                }, year, month, day
+            )
 
             datePickerDialog.show()
         }

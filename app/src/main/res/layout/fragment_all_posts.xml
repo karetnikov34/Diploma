@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarPosts"
@@ -21,13 +20,14 @@
         android:id="@+id/home"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/toolbarPosts"
-        android:src="@drawable/ic_home_24"
-        android:padding="24dp"
+        android:background="@color/purple_200"
         android:backgroundTint="@color/purple_200"
-        android:background="@color/purple_200"/>
+        android:padding="24dp"
+        android:src="@drawable/ic_home_24"
+        app:layout_constraintEnd_toStartOf="@id/toolbarPosts"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/home" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
@@ -36,7 +36,6 @@
         android:layout_marginTop="?attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerList"
@@ -49,7 +48,6 @@
             tools:listitem="@layout/fragment_one_post">
 
         </androidx.recyclerview.widget.RecyclerView>
-
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -69,12 +67,12 @@
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
-
     <ImageView
         android:id="@+id/errorGreyScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey" />
+        android:background="@color/grey"
+        android:contentDescription="@string/grey_screen" />
 
     <TextView
         android:id="@+id/retryText"

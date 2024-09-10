@@ -78,7 +78,7 @@ class AllEventsFragment : Fragment() {
                 findNavController().navigate(R.id.action_allEventsFragment_to_editEventFragment)
             }
 
-            override fun showEvent (event: Event) {
+            override fun showEvent(event: Event) {
                 EventDealtWith.saveEventDealtWith(event)
                 findNavController().navigate(R.id.action_allEventsFragment_to_oneEventFragment)
             }
@@ -91,7 +91,7 @@ class AllEventsFragment : Fragment() {
                         viewModelEvent.updateIsPlayingEvent(event.id, false)
                         viewModelEvent.updatePlayer()
                         stop()
-                        if (thisTrackId != trackId ) {
+                        if (thisTrackId != trackId) {
                             trackId = thisTrackId
                             viewModelEvent.updateIsPlayingEvent(event.id, true)
                             event.attachment?.url?.let { play(it) }
@@ -106,14 +106,12 @@ class AllEventsFragment : Fragment() {
                 }
             }
 
-        }
-        )
+        })
 
         mediaObserver.player?.setOnCompletionListener {
             mediaObserver.player?.stop()
             viewModelEvent.updatePlayer()
         }
-
 
         val toolbarAll: Toolbar = binding.toolbarPosts
 
@@ -132,7 +130,6 @@ class AllEventsFragment : Fragment() {
         toolbarAll.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.main_menu, menu)
-
                 menu.let {
                     it.setGroupVisible(R.id.unauthenticated, !viewModelAuth.authenticated)
                     it.setGroupVisible(R.id.authenticated, viewModelAuth.authenticated)
@@ -152,13 +149,16 @@ class AllEventsFragment : Fragment() {
                     }
 
                     R.id.profile -> {
-                        val id = if (viewModelAuth.authenticated) { viewModelAuth.authenticatedId } else 0
-                        if (id != 0) {viewModelPost.getUserById(id)}
+                        val id = if (viewModelAuth.authenticated) {
+                            viewModelAuth.authenticatedId
+                        } else 0
+                        if (id != 0) {
+                            viewModelPost.getUserById(id)
+                        }
                         val user = viewModelPost.userList.value
                         if (user != null) {
                             UserDealtWith.saveUserDealtWith(user)
                             findNavController().navigate(R.id.action_allEventsFragment_to_oneUserCardFragment)
-
                         }
                         true
                     }
@@ -176,7 +176,7 @@ class AllEventsFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModelEvent.eventData.collectLatest{
+                viewModelEvent.eventData.collectLatest {
                     adapter.submitData(it)
                 }
             }
@@ -186,7 +186,7 @@ class AllEventsFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collectLatest { state ->
                     if (state.refresh.endOfPaginationReached) {
-                        binding.recyclerList.scrollToPosition (0)
+                        binding.recyclerList.scrollToPosition(0)
                     }
                     binding.swiperefresh.isRefreshing = state.refresh is LoadState.Loading
                 }
@@ -213,21 +213,18 @@ class AllEventsFragment : Fragment() {
 
         binding.addEvent.setOnClickListener {
             if (viewModelAuth.authenticated) {
-                findNavController().navigate( R.id.action_allEventsFragment_to_newEventFragment)
-
+                findNavController().navigate(R.id.action_allEventsFragment_to_newEventFragment)
             } else {
                 signInDialog()
             }
-
         }
-
 
         return binding.root
     }
 
     private fun signInDialog() {
-        val listener = DialogInterface.OnClickListener{ _, which ->
-            when(which) {
+        val listener = DialogInterface.OnClickListener { _, which ->
+            when (which) {
                 DialogInterface.BUTTON_POSITIVE -> findNavController().navigate(R.id.authSignInFragment)
             }
         }

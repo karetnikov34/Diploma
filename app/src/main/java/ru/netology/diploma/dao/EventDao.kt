@@ -23,17 +23,19 @@ interface EventDao {
     suspend fun insert(events: List<EventEntity>)
 
     @Query("UPDATE EventEntity SET isPlaying = :isPlaying")
-    fun updatePlayerEvent (isPlaying: Boolean)
+    fun updatePlayerEvent(isPlaying: Boolean)
 
     @Query("UPDATE EventEntity SET isPlaying = :isPlaying WHERE id = :eventId")
-    suspend fun updateIsPlayingEvent (eventId: Int, isPlaying: Boolean)
+    suspend fun updateIsPlayingEvent(eventId: Int, isPlaying: Boolean)
 
-    @Query("""
+    @Query(
+        """
         UPDATE EventEntity SET
         likes = likes + CASE WHEN likedByMe THEN -1 ELSE 1 END,
         likedByMe = CASE WHEN likedByMe THEN 0 ELSE 1 END
         WHERE id = :id
-        """)
+        """
+    )
     suspend fun likeById(id: Int)
 
     @Query("DELETE FROM EventEntity WHERE id = :id")

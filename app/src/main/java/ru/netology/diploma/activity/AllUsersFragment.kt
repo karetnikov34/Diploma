@@ -26,7 +26,7 @@ import ru.netology.diploma.viewmodel.PostViewModel
 import ru.netology.diploma.viewmodel.UserViewModel
 
 @AndroidEntryPoint
-class AllUsersFragment: Fragment() {
+class AllUsersFragment : Fragment() {
 
     private val viewModelUser: UserViewModel by activityViewModels()
     private val viewModelAuth: AuthViewModel by activityViewModels()
@@ -47,13 +47,10 @@ class AllUsersFragment: Fragment() {
 
         val adapter = UserAdapter(object : OnInteractionListenerUser {
             override fun show(user: UserResponse) {
-//                if (viewModelAuth.authenticated) {
-                    UserDealtWith.saveUserDealtWith(user)
-                    findNavController().navigate(R.id.action_allUsersFragment_to_oneUserCardFragment)
-//                } else {
-//                    signInDialog()
-//                }
+                UserDealtWith.saveUserDealtWith(user)
+                findNavController().navigate(R.id.action_allUsersFragment_to_oneUserCardFragment)
             }
+
             override fun choose(user: UserResponse) {}
         })
 
@@ -61,14 +58,18 @@ class AllUsersFragment: Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModelUser.userList.collectLatest{
+                viewModelUser.userList.collectLatest {
                     adapter.submitList(it)
                 }
             }
         }
 
-        val id = if (viewModelAuth.authenticated) { viewModelAuth.authenticatedId } else 0
-        if (id != 0) {viewModelPost.getUserById(id)}
+        val id = if (viewModelAuth.authenticated) {
+            viewModelAuth.authenticatedId
+        } else 0
+        if (id != 0) {
+            viewModelPost.getUserById(id)
+        }
         val user = viewModelPost.userList.value
         if (user != null) {
             val urlAvatar = "${user.avatar}"
@@ -98,23 +99,6 @@ class AllUsersFragment: Fragment() {
             binding.swiperefresh.isRefreshing = false
         }
 
-
         return binding.root
     }
-
-//    private fun signInDialog() {
-//        val listener = DialogInterface.OnClickListener{ _, which ->
-//            when(which) {
-//                DialogInterface.BUTTON_POSITIVE -> findNavController().navigate(R.id.authSignInFragment)
-//            }
-//        }
-//        val dialog = AlertDialog.Builder(context)
-//            .setCancelable(false)
-//            .setTitle(R.string.not_authorized)
-//            .setMessage(R.string.sign_in_account)
-//            .setPositiveButton(R.string.yes, listener)
-//            .setNegativeButton(R.string.no, listener)
-//            .create()
-//        dialog.show()
-//    }
 }

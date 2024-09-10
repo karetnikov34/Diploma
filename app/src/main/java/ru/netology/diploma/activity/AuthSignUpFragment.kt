@@ -29,13 +29,14 @@ class AuthSignUpFragment : Fragment() {
 
     private val viewModelSignUp: SignUpViewModel by activityViewModels()
 
-    private val photoResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val uri = it.data?.data ?: return@registerForActivityResult
-            val file = uri.toFile()
-            viewModelSignUp.setPhoto(uri, file, AttachmentType.IMAGE)
+    private val photoResultContract =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val uri = it.data?.data ?: return@registerForActivityResult
+                val file = uri.toFile()
+                viewModelSignUp.setPhoto(uri, file, AttachmentType.IMAGE)
+            }
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,33 +62,32 @@ class AuthSignUpFragment : Fragment() {
                 val password = binding.passwordEditText.text.toString()
                 val passwordConfirm = binding.passwordConfirmEditText.text.toString()
 
-                binding.signUp.isEnabled = !(username.isEmpty() || login.isEmpty() || password.isEmpty() || password.isEmpty() || password != passwordConfirm)
+                binding.signUp.isEnabled =
+                    !(username.isEmpty() || login.isEmpty() || password.isEmpty() || password.isEmpty() || password != passwordConfirm)
             }
         }
 
         with(binding) {
-            nameEditText.addTextChangedListener (textWatcher)
-            loginEditText.addTextChangedListener (textWatcher)
-            passwordEditText.addTextChangedListener (textWatcher)
-            passwordConfirmEditText.addTextChangedListener (textWatcher)
+            nameEditText.addTextChangedListener(textWatcher)
+            loginEditText.addTextChangedListener(textWatcher)
+            passwordEditText.addTextChangedListener(textWatcher)
+            passwordConfirmEditText.addTextChangedListener(textWatcher)
         }
 
-
         with(binding) {
-
             signUp.setOnClickListener {
                 if (viewModelSignUp.photo.value == null) {
                     viewModelSignUp.registerAndSetAuth(
                         loginEditText.text.toString(),
                         passwordEditText.text.toString(),
-                        passwordConfirmEditText.text.toString()
+                        nameEditText.text.toString()
                     )
                 } else {
                     if (isImageValid(viewModelSignUp.photo.value!!)) {
                         viewModelSignUp.registerWithAvatarAndSetAuth(
                             loginEditText.text.toString(),
                             passwordEditText.text.toString(),
-                            passwordConfirmEditText.text.toString()
+                            nameEditText.text.toString()
                         )
                     } else {
                         Snackbar.make(binding.scrollView, "", Snackbar.LENGTH_LONG)
@@ -96,9 +96,7 @@ class AuthSignUpFragment : Fragment() {
                             .setText(R.string.only_jpeg_png_with_maximum_size_2048_2048)
                             .show()
                     }
-
                 }
-
             }
         }
 
@@ -127,6 +125,7 @@ class AuthSignUpFragment : Fragment() {
                 .crop()
                 .galleryOnly()
                 .compress(2048)
+                .maxResultSize(2048, 2048)
                 .createIntent { photoResultContract.launch(it) }
         }
 
@@ -139,7 +138,6 @@ class AuthSignUpFragment : Fragment() {
                 binding.avatarPreview.setImageResource(R.drawable.ic_account_box_120)
                 return@observe
             }
-
             binding.avatarPreview.setImageURI(it.uri)
         }
 
@@ -149,14 +147,11 @@ class AuthSignUpFragment : Fragment() {
     private fun isImageValid(attachmentModel: AttachmentModel): Boolean {
         val allowedFormats = listOf("jpg", "jpeg", "png")
         val maxImageSize = 2048
-
         if (attachmentModel.type != AttachmentType.IMAGE) {
             return false
         }
-
         val filePath = attachmentModel.uri.path!!
         val imageFile = File(filePath)
-
         val fileExtension = imageFile.extension.lowercase(Locale.ROOT)
         if (fileExtension !in allowedFormats) {
             return false
@@ -167,11 +162,9 @@ class AuthSignUpFragment : Fragment() {
         BitmapFactory.decodeFile(imageFile.absolutePath, options)
         val imageWidth = options.outWidth
         val imageHeight = options.outHeight
-
         if (imageWidth > maxImageSize || imageHeight > maxImageSize) {
             return false
         }
-
         return true
     }
 }

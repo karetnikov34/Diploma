@@ -7,7 +7,7 @@ object PostDealtWith {
 
     fun get() = postDealtWith
 
-    fun savePostDealtWith (post: Post) {
+    fun savePostDealtWith(post: Post) {
         postDealtWith = post
     }
 }

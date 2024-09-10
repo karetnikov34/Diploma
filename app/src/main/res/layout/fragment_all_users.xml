@@ -21,24 +21,25 @@
         android:id="@+id/home"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/toolbarUsers"
-        android:src="@drawable/ic_home_24"
-        android:padding="24dp"
+        android:background="@color/purple_200"
         android:backgroundTint="@color/purple_200"
-        android:background="@color/purple_200"/>
+        android:padding="24dp"
+        android:src="@drawable/ic_home_24"
+        app:layout_constraintEnd_toStartOf="@id/toolbarUsers"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/home" />
 
     <ImageView
         android:id="@+id/avatarUser"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
         android:contentDescription="@string/avatar"
         android:src="@drawable/ic_account_box_120"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/toolbarUsers"
         app:layout_constraintBottom_toBottomOf="@id/toolbarUsers"
-        android:layout_marginEnd="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toolbarUsers" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
@@ -47,7 +48,6 @@
         android:layout_marginTop="?attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerList"
@@ -61,15 +61,14 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
     <ImageView
         android:id="@+id/errorGreyScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey" />
+        android:background="@color/grey"
+        android:contentDescription="@string/grey_screen" />
 
     <TextView
         android:id="@+id/retryText"

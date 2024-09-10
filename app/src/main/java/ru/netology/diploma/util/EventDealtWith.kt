@@ -7,7 +7,7 @@ object EventDealtWith {
 
     fun get() = eventDealtWith
 
-    fun saveEventDealtWith (event: Event) {
+    fun saveEventDealtWith(event: Event) {
         eventDealtWith = event
     }
 }

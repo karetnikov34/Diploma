@@ -13,7 +13,7 @@ import ru.netology.diploma.BuildConfig
 import ru.netology.diploma.auth.AppAuth
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent :: class)
+@InstallIn(SingletonComponent::class)
 @Module
 class ApiModule {
 
@@ -23,16 +23,15 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun provideLogger (): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
+    fun provideLogger(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         if (BuildConfig.DEBUG) {
             level = HttpLoggingInterceptor.Level.BODY
         }
     }
 
-
     @Singleton
     @Provides
-    fun provideOkHttp (
+    fun provideOkHttp(
         logger: HttpLoggingInterceptor,
         appAuth: AppAuth
     ): OkHttpClient = OkHttpClient.Builder()
@@ -50,7 +49,7 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit (
+    fun provideRetrofit(
         okhttp: OkHttpClient
     ): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -60,19 +59,19 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun providePostApiService (
+    fun providePostApiService(
         retrofit: Retrofit
-    ) : PostsApiService = retrofit.create()
+    ): PostsApiService = retrofit.create()
 
     @Singleton
     @Provides
-    fun provideAuthApiService (
+    fun provideAuthApiService(
         retrofit: Retrofit
-    ) : AuthApiService = retrofit.create()
+    ): AuthApiService = retrofit.create()
 
     @Singleton
     @Provides
-    fun provideEventApiService (
+    fun provideEventApiService(
         retrofit: Retrofit
-    ) : EventApiService = retrofit.create()
+    ): EventApiService = retrofit.create()
 }

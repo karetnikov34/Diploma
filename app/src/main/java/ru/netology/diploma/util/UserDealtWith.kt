@@ -7,7 +7,7 @@ object UserDealtWith {
 
     fun get() = userDealtWith
 
-    fun saveUserDealtWith (user: UserResponse) {
+    fun saveUserDealtWith(user: UserResponse) {
         userDealtWith = user
     }
 }

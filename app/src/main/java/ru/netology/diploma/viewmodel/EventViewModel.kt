@@ -10,6 +10,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
@@ -49,6 +50,8 @@ private val defaultEvent = Event(
     speakerIds = emptyList(),
     participatedByMe = false,
 )
+
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class EventViewModel @Inject constructor(
     private val repository: Repository,
@@ -59,11 +62,7 @@ class EventViewModel @Inject constructor(
         .flatMapLatest { (myId, _) ->
             repository.eventData.map { eventPagingData ->
                 eventPagingData.map { event ->
-                    if (event is Event) {
-                        event.copy(ownedByMe = event.authorId == myId)
-                    } else {
-                        event
-                    }
+                    event.copy(ownedByMe = event.authorId == myId)
                 }
             }
         }.flowOn(Dispatchers.Default)
@@ -82,7 +81,6 @@ class EventViewModel @Inject constructor(
 
     private val edited = MutableLiveData(defaultEvent)
 
-
     fun changeContentAndSave(content: String, coordsEvent: Coordinates?, speakers: List<Int>) {
         edited.value?.let { event ->
             val text = content.trim()
@@ -93,10 +91,24 @@ class EventViewModel @Inject constructor(
                         val attachmentModel =
                             _attachment.value
                         if (attachmentModel == null) {
-                            repository.saveEvent(event.copy(content = text, coords = coordsEvent, type = _eventFormat.value, datetime = _eventDateTime.value, speakerIds = speakers))
+                            repository.saveEvent(
+                                event.copy(
+                                    content = text,
+                                    coords = coordsEvent,
+                                    type = _eventFormat.value,
+                                    datetime = _eventDateTime.value,
+                                    speakerIds = speakers
+                                )
+                            )
                         } else {
                             repository.saveEventWithAttachment(
-                                event.copy(content = text, coords = coordsEvent, type = _eventFormat.value, datetime = _eventDateTime.value, speakerIds = speakers ),
+                                event.copy(
+                                    content = text,
+                                    coords = coordsEvent,
+                                    type = _eventFormat.value,
+                                    datetime = _eventDateTime.value,
+                                    speakerIds = speakers
+                                ),
                                 attachmentModel
                             )
                         }
@@ -112,11 +124,11 @@ class EventViewModel @Inject constructor(
         edited.value = defaultEvent
 
     }
-    //format
+
     private val _eventFormat = MutableLiveData<String>()
     val eventFormat: LiveData<String> = _eventFormat
 
-    fun setEventFormat (format: EventType) {
+    fun setEventFormat(format: EventType) {
         _eventFormat.value = format.toString()
     }
 
@@ -124,12 +136,11 @@ class EventViewModel @Inject constructor(
     private val _eventDateTime = MutableLiveData<String?>()
     val eventDateTime: LiveData<String?> = _eventDateTime
 
-    fun setEventDateTime (date: String) {
-        _eventDateTime.value = formatDateTimeEvent (date)
-
+    fun setEventDateTime(date: String) {
+        _eventDateTime.value = formatDateTimeEvent(date)
     }
 
-    fun clearEventDateTime () {
+    fun clearEventDateTime() {
         _eventDateTime.value = null
     }
 
@@ -141,10 +152,11 @@ class EventViewModel @Inject constructor(
         _eventToEdit.value = event
     }
 
-    fun clearAttachmentEditEvent () {
+    fun clearAttachmentEditEvent() {
         _eventToEdit.value = eventToEdit.value?.copy(attachment = null)
     }
-    fun clearLocationEditEvent () {
+
+    fun clearLocationEditEvent() {
         _eventToEdit.value = eventToEdit.value?.copy(coords = null)
     }
 
@@ -153,7 +165,7 @@ class EventViewModel @Inject constructor(
         _eventToEdit.value = eventToEdit.value?.copy(speakerIds = list)
     }
 
-    fun editEvent (event: Event, coordsEvent: Coordinates?) {
+    fun editEvent(event: Event, coordsEvent: Coordinates?) {
         viewModelScope.launch {
             try {
                 val attachmentModel =
@@ -183,13 +195,11 @@ class EventViewModel @Inject constructor(
             } catch (e: Exception) {
                 _dataState.value = FeedModelState(error = true)
             }
-
         }
     }
 
 
     fun likeEventById(event: Event) {
-
         viewModelScope.launch {
             try {
                 repository.likeEventById(event.id, event.likedByMe)
@@ -198,7 +208,6 @@ class EventViewModel @Inject constructor(
                 _dataState.value = FeedModelState(error = true)
             }
         }
-
     }
 
 
@@ -213,9 +222,7 @@ class EventViewModel @Inject constructor(
         }
     }
 
-
     var speaker: Boolean = false
-
 
     private val _attachment = MutableLiveData<AttachmentModel?>(null)
     val attachment: LiveData<AttachmentModel?>
@@ -233,12 +240,11 @@ class EventViewModel @Inject constructor(
         _attachment.value = null
     }
 
-
     fun updatePlayer() = viewModelScope.launch {
         repository.updatePlayer()
     }
-    fun updateIsPlayingEvent (postId: Int, isPlaying: Boolean) = viewModelScope.launch {
-        repository.updateIsPlayingEvent (postId, isPlaying)
-    }
 
+    fun updateIsPlayingEvent(postId: Int, isPlaying: Boolean) = viewModelScope.launch {
+        repository.updateIsPlayingEvent(postId, isPlaying)
+    }
 }

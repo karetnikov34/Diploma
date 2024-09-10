@@ -12,7 +12,7 @@ import ru.netology.diploma.entity.WallEntity
 interface WallDao {
 
     @Query("SELECT * FROM WallEntity ORDER BY id DESC")
-    fun getAll(): Flow<List<WallEntity>>  // Правильный импорт д.б. - kotlinx.coroutines.flow.Flow !!!
+    fun getAll(): Flow<List<WallEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(wall: List<WallEntity>)
@@ -21,16 +21,16 @@ interface WallDao {
     suspend fun deleteAll()
 
     @Transaction
-    suspend fun updateWall (wall: List<WallEntity>) {
+    suspend fun updateWall(wall: List<WallEntity>) {
         deleteAll()
         insert(wall)
     }
 
 
     @Query("UPDATE WallEntity SET isPlaying = :isPlaying")
-    fun updatePlayerWall (isPlaying: Boolean)
+    fun updatePlayerWall(isPlaying: Boolean)
 
     @Query("UPDATE WallEntity SET isPlaying = :isPlaying WHERE id = :postId")
-    suspend fun updateIsPlayingWall (postId: Int, isPlaying: Boolean)
+    suspend fun updateIsPlayingWall(postId: Int, isPlaying: Boolean)
 
 }

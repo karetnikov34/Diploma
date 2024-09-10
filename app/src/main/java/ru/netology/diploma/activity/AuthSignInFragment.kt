@@ -41,16 +41,14 @@ class AuthSignInFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 val login = binding.loginEditText.text.toString()
                 val password = binding.passwordEditText.text.toString()
-
                 binding.signIn.isEnabled = !(login.isEmpty() || password.isEmpty())
             }
         }
 
         with(binding) {
-            loginEditText.addTextChangedListener (textWatcher)
-            passwordEditText.addTextChangedListener (textWatcher)
+            loginEditText.addTextChangedListener(textWatcher)
+            passwordEditText.addTextChangedListener(textWatcher)
         }
-
 
         with(binding) {
 

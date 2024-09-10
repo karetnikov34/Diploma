@@ -10,7 +10,7 @@ import ru.netology.diploma.util.SingleLiveEvent
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor (appAuth: AppAuth): ViewModel() {
+class SignInViewModel @Inject constructor(appAuth: AppAuth) : ViewModel() {
     private val dataAuth = appAuth
 
     private val _response = SingleLiveEvent<Unit>()

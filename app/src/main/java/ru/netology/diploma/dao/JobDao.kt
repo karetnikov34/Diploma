@@ -12,7 +12,7 @@ import ru.netology.diploma.entity.JobEntity
 interface JobDao {
 
     @Query("SELECT * FROM JobEntity ORDER BY id DESC")
-    fun getJobs(): Flow<List<JobEntity>>  // Правильный импорт д.б. - kotlinx.coroutines.flow.Flow !!!
+    fun getJobs(): Flow<List<JobEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(jobs: List<JobEntity>)
@@ -24,7 +24,7 @@ interface JobDao {
     suspend fun deleteAll()
 
     @Transaction
-    suspend fun updateJobs (jobs: List<JobEntity>) {
+    suspend fun updateJobs(jobs: List<JobEntity>) {
         deleteAll()
         insert(jobs)
     }

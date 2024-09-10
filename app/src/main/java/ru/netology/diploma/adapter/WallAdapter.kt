@@ -20,10 +20,10 @@ import ru.netology.diploma.util.numberRepresentation
 
 interface OnInteractionListenerWall {
     fun like(post: Post)
-    fun playMusic (post: Post)
+    fun playMusic(post: Post)
 }
 
-class WallAdapter (private val onInteractionListener: OnInteractionListenerWall) :
+class WallAdapter(private val onInteractionListener: OnInteractionListenerWall) :
     ListAdapter<Post, WallViewHolder>(WallDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallViewHolder {
@@ -46,7 +46,7 @@ class WallViewHolder(
         binding.apply {
             author.text = post.author
             published.text = formatDateTime(post.published)
-            content.text =post.content
+            content.text = post.content
             content.movementMethod = ScrollingMovementMethod()
             content.movementMethod = LinkMovementMethod.getInstance()
             likesIcon.isChecked = post.likedByMe
@@ -57,14 +57,8 @@ class WallViewHolder(
 
             menuOnePost.visibility = View.GONE
 
-//            if (post.link != null) {
-//                video.visibility = View.VISIBLE
-//            } else video.visibility = View.GONE
-
-
             val urlAvatar = "${post.authorAvatar}"
             avatar.loadCircle(urlAvatar)
-
             if (post.attachment?.url != null) {
                 when (post.attachment.type) {
                     AttachmentType.AUDIO -> {
@@ -80,7 +74,6 @@ class WallViewHolder(
                         playButton.setOnClickListener {
                             onInteractionListener.playMusic(post)
                         }
-
                     }
 
                     AttachmentType.IMAGE -> {
@@ -90,7 +83,6 @@ class WallViewHolder(
                         }
                         attachmentImage.visibility = View.VISIBLE
                     }
-
 
                     AttachmentType.VIDEO -> {
                         video.visibility = View.VISIBLE
@@ -107,11 +99,9 @@ class WallViewHolder(
                 }
             }
 
-
             likesIcon.setOnClickListener {
                 onInteractionListener.like(post)
             }
-
         }
     }
 }

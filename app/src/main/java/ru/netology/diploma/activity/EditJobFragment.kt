@@ -47,9 +47,7 @@ class EditJobFragment : Fragment() {
         }
 
         with(binding) {
-
             createJob.setOnClickListener {
-
                 if (companyJob.text.isNullOrBlank() || positionJob.text.isNullOrBlank() || startJob.text.isNullOrBlank()) {
                     Snackbar.make(binding.companyJob, "", Snackbar.LENGTH_LONG)
                         .setAnchorView(binding.startJob)
@@ -59,7 +57,7 @@ class EditJobFragment : Fragment() {
                 } else {
                     val company = binding.companyJob.text.toString()
                     val position = binding.positionJob.text.toString()
-                    val start = formatDateTimeJob (binding.startJob.text.trim().toString())
+                    val start = formatDateTimeJob(binding.startJob.text.trim().toString())
                     val finish = if (binding.finishJob.text?.isNotBlank() == true) {
                         formatDateTimeJob(binding.finishJob.text.trim().toString())
                     } else null
@@ -80,12 +78,18 @@ class EditJobFragment : Fragment() {
             val month = calendar.get(Calendar.MONTH)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            val datePickerDialog = DatePickerDialog(requireContext(),
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    val selectedDate = String.format("%02d.%02d.%04d", selectedDay, selectedMonth + 1, selectedYear)
+                    val selectedDate = String.format(
+                        "%02d.%02d.%04d",
+                        selectedDay,
+                        selectedMonth + 1,
+                        selectedYear
+                    )
                     binding.startJob.text = selectedDate
-                }, year, month, day)
-
+                }, year, month, day
+            )
             datePickerDialog.show()
         }
 
@@ -95,12 +99,18 @@ class EditJobFragment : Fragment() {
             val month = calendar.get(Calendar.MONTH)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            val datePickerDialog = DatePickerDialog(requireContext(),
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    val selectedDate = String.format("%02d.%02d.%04d", selectedDay, selectedMonth + 1, selectedYear)
+                    val selectedDate = String.format(
+                        "%02d.%02d.%04d",
+                        selectedDay,
+                        selectedMonth + 1,
+                        selectedYear
+                    )
                     binding.finishJob.text = selectedDate
-                }, year, month, day)
-
+                }, year, month, day
+            )
             datePickerDialog.show()
         }
 
@@ -120,8 +130,6 @@ class EditJobFragment : Fragment() {
                 .show()
         }
 
-
         return binding.root
     }
-
 }

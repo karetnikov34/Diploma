@@ -57,69 +57,49 @@ class EditEventFragment : Fragment() {
             }
         }
 
-//    private val pickFileResultContract =
-//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//            if (it.resultCode == Activity.RESULT_OK) {
-//                val uri = it.data?.data ?: return@registerForActivityResult
-//                val file = if (uri.scheme == "file") {
-//                    uri.toFile()
-//                } else {
-//                    getInputStreamFromUri(context, uri)?.let { inputStream ->
-//                        createFileFromInputStream(inputStream)
-//                    }
-//                }
-//
-//                val path = uri.path
-//                val type = path?.let { it1 -> checkMediaType(it1) }!!
-//                if (file != null) {
-//                    viewModelEvent.setAttachment(uri, file, type)
-//                }
-//            }
-//        }
-
-    private val pickAudioResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val uri = it.data?.data ?: return@registerForActivityResult
-            val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
-            if (fileSize != null && fileSize > 15000000) {
-                Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
-            } else {
-                val file = if (uri.scheme == "file") {
-                    uri.toFile()
+    private val pickAudioResultContract =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val uri = it.data?.data ?: return@registerForActivityResult
+                val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
+                if (fileSize != null && fileSize > 15000000) {
+                    Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
                 } else {
-                    getInputStreamFromUri(context, uri)?.let { inputStream ->
-                        createFileFromInputStream(inputStream)
+                    val file = if (uri.scheme == "file") {
+                        uri.toFile()
+                    } else {
+                        getInputStreamFromUri(context, uri)?.let { inputStream ->
+                            createFileFromInputStream(inputStream)
+                        }
                     }
-                }
-
-                if (file != null) {
-                    viewModelEvent.setAttachment(uri, file, AttachmentType.AUDIO)
+                    if (file != null) {
+                        viewModelEvent.setAttachment(uri, file, AttachmentType.AUDIO)
+                    }
                 }
             }
         }
-    }
 
-    private val pickVideoResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val uri = it.data?.data ?: return@registerForActivityResult
-            val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
-            if (fileSize != null && fileSize > 15000000) {
-                Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
-            } else {
-                val file = if (uri.scheme == "file") {
-                    uri.toFile()
+    private val pickVideoResultContract =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val uri = it.data?.data ?: return@registerForActivityResult
+                val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
+                if (fileSize != null && fileSize > 15000000) {
+                    Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
                 } else {
-                    getInputStreamFromUri(context, uri)?.let { inputStream ->
-                        createFileFromInputStream(inputStream)
+                    val file = if (uri.scheme == "file") {
+                        uri.toFile()
+                    } else {
+                        getInputStreamFromUri(context, uri)?.let { inputStream ->
+                            createFileFromInputStream(inputStream)
+                        }
                     }
-                }
-
-                if (file != null) {
-                    viewModelEvent.setAttachment(uri, file, AttachmentType.VIDEO)
+                    if (file != null) {
+                        viewModelEvent.setAttachment(uri, file, AttachmentType.VIDEO)
+                    }
                 }
             }
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -150,8 +130,13 @@ class EditEventFragment : Fragment() {
 
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.radio_button_online -> {viewModelEvent.setEventFormat(EventType.ONLINE)}
-                R.id.radio_button_offline -> {viewModelEvent.setEventFormat(EventType.OFFLINE)}
+                R.id.radio_button_online -> {
+                    viewModelEvent.setEventFormat(EventType.ONLINE)
+                }
+
+                R.id.radio_button_offline -> {
+                    viewModelEvent.setEventFormat(EventType.OFFLINE)
+                }
             }
         }
 
@@ -166,17 +151,26 @@ class EditEventFragment : Fragment() {
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
 
-            val datePickerDialog = DatePickerDialog(requireContext(),
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    val timePickerDialog = TimePickerDialog(requireContext(),
+                    val timePickerDialog = TimePickerDialog(
+                        requireContext(),
                         { _, selectedHour, selectedMinute ->
-                            val selectedDateTime = String.format("%02d.%02d.%04d, %02d:%02d", selectedDay, selectedMonth + 1, selectedYear, selectedHour, selectedMinute)
-                            viewModelEvent.setEventDateTime (selectedDateTime)
-                        }, hour, minute, true)
-
+                            val selectedDateTime = String.format(
+                                "%02d.%02d.%04d, %02d:%02d",
+                                selectedDay,
+                                selectedMonth + 1,
+                                selectedYear,
+                                selectedHour,
+                                selectedMinute
+                            )
+                            viewModelEvent.setEventDateTime(selectedDateTime)
+                        }, hour, minute, true
+                    )
                     timePickerDialog.show()
-                }, year, month, day)
-
+                }, year, month, day
+            )
             datePickerDialog.show()
         }
 
@@ -190,23 +184,28 @@ class EditEventFragment : Fragment() {
             } else binding.chooseDate.text = event.datetime?.let { it1 -> formatDateTime(it1) }
         }
 
-
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.save -> {
-
                     val dateTime = viewModelEvent.eventDateTime.value ?: event.datetime
                     val format = viewModelEvent.eventFormat.value!!
-                    val speakers = viewModelPost.userChosen.value ?: viewModelPost.postToEdit.value?.mentionIds
+                    val speakers =
+                        viewModelPost.userChosen.value ?: viewModelPost.postToEdit.value?.mentionIds
                     val finalSpeakers = speakers ?: emptyList()
 
-                    val eventEdited = viewModelEvent.eventToEdit.value?.copy(content = binding.edit.text.toString(), datetime = dateTime, type = format, speakerIds = finalSpeakers)
+                    val eventEdited = viewModelEvent.eventToEdit.value?.copy(
+                        content = binding.edit.text.toString(),
+                        datetime = dateTime,
+                        type = format,
+                        speakerIds = finalSpeakers
+                    )
                     if (eventEdited != null) {
                         viewModelEvent.editEvent(eventEdited, viewModelPost.coords.value)
                     }
                     AndroidUtils.hideKeyboard(requireView())
                     true
                 }
+
                 R.id.cancel -> {
                     viewModelEvent.clearAttachment()
                     viewModelEvent.clearAttachmentEditEvent()
@@ -215,36 +214,25 @@ class EditEventFragment : Fragment() {
                     viewModelPost.clearCoords()
                     findNavController().navigateUp()
                 }
+
                 else -> false
             }
         }
 
-//        binding.linkIcon.setOnClickListener {
-//
-//            val intent = Intent(Intent.ACTION_GET_CONTENT)
-//            intent.type = "*/*"
-//            intent.addCategory(Intent.CATEGORY_OPENABLE)
-//            val pickIntent = Intent.createChooser(intent, context?.getString(R.string.select_file))
-//            pickFileResultContract.launch(pickIntent)
-//
-//        }
-
         binding.audioIcon.setOnClickListener {
-
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "audio/*"
             intent.addCategory(Intent.CATEGORY_OPENABLE)
-            val pickIntent = Intent.createChooser (intent,context?.getString(R.string.select_file))
+            val pickIntent = Intent.createChooser(intent, context?.getString(R.string.select_file))
             pickAudioResultContract.launch(pickIntent)
 
         }
 
         binding.videoIcon.setOnClickListener {
-
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "video/*"
             intent.addCategory(Intent.CATEGORY_OPENABLE)
-            val pickIntent = Intent.createChooser (intent,context?.getString(R.string.select_file))
+            val pickIntent = Intent.createChooser(intent, context?.getString(R.string.select_file))
             pickVideoResultContract.launch(pickIntent)
 
         }
@@ -272,7 +260,6 @@ class EditEventFragment : Fragment() {
 
         viewModelEvent.eventToEdit.observe(viewLifecycleOwner) { event1 ->
             if (viewModelEvent.attachment.value == null) {
-
                 when (event1.attachment?.type) {
                     AttachmentType.IMAGE -> {
                         binding.photoPreview.isVisible = true
@@ -305,7 +292,6 @@ class EditEventFragment : Fragment() {
                     AttachmentType.IMAGE -> {
                         binding.videoPreview.visibility = View.GONE
                         binding.audioPreview.visibility = View.GONE
-
                         binding.photoPreview.isVisible = true
                         binding.photoPreview.setImageURI(attachmentModel.uri)
                     }
@@ -313,7 +299,6 @@ class EditEventFragment : Fragment() {
                     AttachmentType.VIDEO -> {
                         binding.photoPreview.visibility = View.GONE
                         binding.audioPreview.visibility = View.GONE
-
                         binding.videoPreview.isVisible = true
                         binding.videoPreview.setVideoURI(attachmentModel.uri)
                         binding.videoPreview.setOnPreparedListener { mediaPlayer ->
@@ -323,18 +308,19 @@ class EditEventFragment : Fragment() {
                         }
 
                     }
+
                     AttachmentType.AUDIO -> {
                         binding.videoPreview.visibility = View.GONE
                         binding.photoPreview.visibility = View.GONE
-
                         binding.audioPreview.isVisible = true
                     }
-                    else-> Unit
+
+                    else -> Unit
                 }
             }
         }
 
-        binding.removeAttachment.setOnClickListener{
+        binding.removeAttachment.setOnClickListener {
             viewModelEvent.clearAttachment()
             viewModelEvent.clearAttachmentEditEvent()
             binding.photoPreview.visibility = View.GONE
@@ -345,14 +331,14 @@ class EditEventFragment : Fragment() {
             toast.show()
         }
 
-        binding.removeLocation.setOnClickListener{
+        binding.removeLocation.setOnClickListener {
             viewModelEvent.clearLocationEditEvent()
             val toast = Toast.makeText(context, R.string.remove, Toast.LENGTH_SHORT)
             toast.setGravity(Gravity.CENTER, 0, 0)
             toast.show()
         }
 
-        binding.removeSpeakers.setOnClickListener{
+        binding.removeSpeakers.setOnClickListener {
             viewModelUser.clearChoosing()
             viewModelPost.clearUserChosen()
             viewModelEvent.clearSpeakersEdit()
@@ -361,13 +347,13 @@ class EditEventFragment : Fragment() {
             toast.show()
         }
 
-        binding.chooseSpeakers.setOnClickListener{
+        binding.chooseSpeakers.setOnClickListener {
             viewModelEvent.speaker = true
             findNavController().navigate(R.id.action_editEventFragment_to_choosingFragment)
         }
 
 
-        binding.choosePlace.setOnClickListener{
+        binding.choosePlace.setOnClickListener {
             findNavController().navigate(R.id.action_editEventFragment_to_mapsFragment)
         }
 
@@ -392,7 +378,6 @@ class EditEventFragment : Fragment() {
         }
 
         viewModelEvent.eventCreatedError.observe(viewLifecycleOwner) {
-
             Snackbar.make(binding.scrollView, "", Snackbar.LENGTH_LONG)
                 .setAnchorView(binding.edit)
                 .setTextMaxLines(3)
@@ -400,6 +385,7 @@ class EditEventFragment : Fragment() {
                 .show()
 
         }
+
         return binding.root
     }
 }

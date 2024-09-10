@@ -106,7 +106,6 @@ class OneUserCardFragment : Fragment() {
             }
         })
 
-
         val tabLayout: TabLayout = binding.tabLayout
         tabLayout.addTab(tabLayout.newTab().setText(R.string.Wall), 0, false)
         tabLayout.addTab(tabLayout.newTab().setText(R.string.Jobs), 1)
@@ -135,22 +134,6 @@ class OneUserCardFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
-
-        // Проверка выбранной вкладки при инициализации
-//        val selectedTabPosition = tabLayout.selectedTabPosition
-//        val selectedTabText = tabLayout.getTabAt(selectedTabPosition)?.text.toString()
-//
-//        if (selectedTabText == "Wall") {
-//            viewModelUser.loadWall(UserDealtWith.get().id)
-//            binding.recyclerList.adapter = adapterWall
-//        } else {
-//            if (user.id == viewModelAuth.authenticatedId) {
-//                viewModelUser.loadMyJobs()
-//            } else {
-//                viewModelUser.loadJobs(user.id)
-//            }
-//            binding.recyclerList.adapter = adapterJob
-//        }
 
         fun bind(user: UserResponse) {
             binding.apply {
@@ -195,7 +178,6 @@ class OneUserCardFragment : Fragment() {
                     }
                 }
             }.show()
-
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -218,8 +200,8 @@ class OneUserCardFragment : Fragment() {
     }
 
     private fun signInDialog() {
-        val listener = DialogInterface.OnClickListener{ _, which ->
-            when(which) {
+        val listener = DialogInterface.OnClickListener { _, which ->
+            when (which) {
                 DialogInterface.BUTTON_POSITIVE -> findNavController().navigate(R.id.authSignInFragment)
             }
         }

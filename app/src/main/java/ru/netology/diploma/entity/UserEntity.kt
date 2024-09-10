@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import ru.netology.diploma.dto.UserResponse
 
 @Entity(tableName = "UserEntity")
-class UserEntity (
+class UserEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val login: String,
@@ -14,8 +14,7 @@ class UserEntity (
     val isSelected: Boolean
 ) {
 
-    fun toDto() = UserResponse(id, login,name, avatar, isSelected)
-
+    fun toDto() = UserResponse(id, login, name, avatar, isSelected)
 
     companion object {
         fun fromDto(dto: UserResponse): UserEntity {

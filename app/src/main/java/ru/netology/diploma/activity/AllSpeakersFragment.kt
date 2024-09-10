@@ -19,7 +19,7 @@ import ru.netology.diploma.viewmodel.PostViewModel
 import ru.netology.diploma.viewmodel.UserViewModel
 
 @AndroidEntryPoint
-class AllSpeakersFragment: Fragment() {
+class AllSpeakersFragment : Fragment() {
 
     private val viewModelUser: UserViewModel by activityViewModels()
     private val viewModelPost: PostViewModel by activityViewModels()
@@ -65,7 +65,6 @@ class AllSpeakersFragment: Fragment() {
             findNavController().navigateUp()
         }
 
-
         viewModelUser.dataState.observe(viewLifecycleOwner) { feedModelState ->
             binding.progress.isVisible = feedModelState.loading
             binding.errorGroup.isVisible = feedModelState.error
@@ -80,7 +79,6 @@ class AllSpeakersFragment: Fragment() {
                     list.add(user)
                 }
             }
-
             adapter.submitList(list)
         }
 
@@ -96,7 +94,6 @@ class AllSpeakersFragment: Fragment() {
             adapter.submitList(list)
             binding.swiperefresh.isRefreshing = false
         }
-
 
         return binding.root
     }

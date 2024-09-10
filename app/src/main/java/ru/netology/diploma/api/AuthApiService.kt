@@ -15,11 +15,20 @@ interface AuthApiService {
 
     @FormUrlEncoded
     @POST("users/authentication")
-    suspend fun checkUser(@Field("login") login: String, @Field("pass") pass: String, @Header("Api-Key") apiKey: String): Response<AuthState>
+    suspend fun checkUser(
+        @Field("login") login: String,
+        @Field("pass") pass: String,
+        @Header("Api-Key") apiKey: String
+    ): Response<AuthState>
 
     @FormUrlEncoded
     @POST("users/registration")
-    suspend fun registerUser(@Field("login") login: String, @Field("pass") pass: String, @Field("name") name: String, @Header("Api-Key") apiKey: String): Response<AuthState>
+    suspend fun registerUser(
+        @Field("login") login: String,
+        @Field("pass") pass: String,
+        @Field("name") name: String,
+        @Header("Api-Key") apiKey: String
+    ): Response<AuthState>
 
     @Multipart
     @POST("users/registration")

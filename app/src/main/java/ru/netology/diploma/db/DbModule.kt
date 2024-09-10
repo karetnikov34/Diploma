@@ -16,13 +16,13 @@ import ru.netology.diploma.dao.UserDao
 import ru.netology.diploma.dao.WallDao
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent :: class)
+@InstallIn(SingletonComponent::class)
 @Module
 class DbModule {
 
     @Singleton
     @Provides
-    fun provideDb (
+    fun provideDb(
         @ApplicationContext
         context: Context
     ): AppDb = Room.databaseBuilder(context, AppDb::class.java, "app.db")
@@ -30,39 +30,37 @@ class DbModule {
         .build()
 
     @Provides
-    fun providePostDao (
+    fun providePostDao(
         appDb: AppDb
     ): PostDao = appDb.postDao()
 
     @Provides
-    fun provideEventDao (
+    fun provideEventDao(
         appDb: AppDb
     ): EventDao = appDb.eventDao()
 
     @Provides
-    fun provideUserDao (
+    fun provideUserDao(
         appDb: AppDb
     ): UserDao = appDb.userDao()
 
     @Provides
-    fun provideWallDao (
+    fun provideWallDao(
         appDb: AppDb
     ): WallDao = appDb.wallDao()
 
     @Provides
-    fun provideJobDao (
+    fun provideJobDao(
         appDb: AppDb
     ): JobDao = appDb.jobDao()
 
-
-
     @Provides
-    fun providePostRemoteKeyDao (
+    fun providePostRemoteKeyDao(
         appDb: AppDb
     ): PostRemoteKeyDao = appDb.postRemoteKeyDao()
 
     @Provides
-    fun provideEventRemoteKeyDao (
+    fun provideEventRemoteKeyDao(
         appDb: AppDb
     ): EventRemoteKeyDao = appDb.eventRemoteKeyDao()
 

@@ -89,14 +89,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrier"
-            tools:src="@tools:sample/avatars[1]" />
+            tools:src="@tools:sample/avatars[1]"
+            android:contentDescription="@string/attachment" />
 
         <VideoView
             android:id="@+id/video"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            app:layout_constraintBottom_toTopOf="@id/music"
             android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@id/music"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/attachmentImage" />
@@ -108,24 +109,22 @@
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
             android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/format"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/video"
-            app:layout_constraintBottom_toTopOf="@id/format"
-            >
+            app:layout_constraintTop_toBottomOf="@id/video">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/playButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                app:icon="@drawable/ic_play_48"
-                app:iconPadding="12dp"
                 android:text="@string/play_audio"
-                app:iconSize="30dp"
+                app:backgroundTint="@color/purple_200"
+                app:icon="@drawable/ic_play_48"
                 app:iconGravity="textStart"
-                app:backgroundTint="@color/purple_200"/>
-
+                app:iconPadding="12dp"
+                app:iconSize="30dp" />
 
         </LinearLayout>
 
@@ -133,16 +132,16 @@
             android:id="@+id/format"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:singleLine="true"
-            app:layout_constraintTop_toBottomOf="@id/music"
+            android:text="@string/format"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/dateEvent"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/format"
-            android:textSize="16sp"/>
+            app:layout_constraintTop_toBottomOf="@id/music" />
 
         <TextView
             android:id="@+id/dateEvent"
@@ -152,11 +151,11 @@
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:singleLine="true"
-            app:layout_constraintTop_toBottomOf="@id/format"
+            android:text="@string/date"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/content"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/date"
-            android:textSize="16sp"/>
+            app:layout_constraintTop_toBottomOf="@id/format" />
 
 
         <TextView
@@ -182,34 +181,33 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="content" />
 
-
         <TextView
             android:id="@+id/speakers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:singleLine="true"
-            app:layout_constraintTop_toBottomOf="@id/barrierBottom"
-            app:layout_constraintBottom_toTopOf="@id/speaker1"
-            app:layout_constraintStart_toStartOf="parent"
             android:text="@string/speakers"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/speaker1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrierBottom" />
 
         <ImageView
             android:id="@+id/speaker1"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:contentDescription="@string/avatar"
             android:src="@drawable/ic_human_24"
-            app:layout_constraintTop_toBottomOf="@id/speakers"
             app:layout_constraintBottom_toTopOf="@id/likesIcon"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/speakers" />
 
         <ImageView
             android:id="@+id/speaker2"
@@ -218,8 +216,8 @@
             android:contentDescription="@string/avatar"
             android:src="@drawable/ic_human_24"
             app:layout_constraintBottom_toBottomOf="@id/speaker1"
-            app:layout_constraintTop_toTopOf="@id/speaker1"
-            app:layout_constraintStart_toEndOf="@id/speaker1"/>
+            app:layout_constraintStart_toEndOf="@id/speaker1"
+            app:layout_constraintTop_toTopOf="@id/speaker1" />
 
         <ImageView
             android:id="@+id/speaker3"
@@ -242,8 +240,6 @@
             app:layout_constraintStart_toEndOf="@id/speaker3"
             app:layout_constraintTop_toTopOf="@id/speaker1" />
 
-        <!-- likes -->
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/likesIcon"
             style="@style/Widget.AppTheme.LikeButton"
@@ -253,7 +249,6 @@
             android:contentDescription="@string/likes"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/speaker1" />
-
 
         <ImageView
             android:id="@+id/avatarLiker1"
@@ -394,7 +389,7 @@
             android:id="@+id/mapGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="mapview, zoomOutButton, zoomInButton"/>
+            app:constraint_referenced_ids="mapview, zoomOutButton, zoomInButton" />
 
         <com.yandex.mapkit.mapview.MapView
             android:id="@+id/mapview"
@@ -410,13 +405,14 @@
             android:id="@+id/zoomInButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/purple_200"
-            app:layout_constraintTop_toTopOf="@id/mapview"
-            app:layout_constraintBottom_toBottomOf="@id/mapview"
-            app:layout_constraintEnd_toEndOf="@id/mapview"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            app:srcCompat="@drawable/ic_add_24" />
+            app:backgroundTint="@color/purple_200"
+            app:layout_constraintBottom_toBottomOf="@id/mapview"
+            app:layout_constraintEnd_toEndOf="@id/mapview"
+            app:layout_constraintTop_toTopOf="@id/mapview"
+            app:srcCompat="@drawable/ic_add_24"
+            android:contentDescription="@string/zoom" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/zoomOutButton"
@@ -427,7 +423,8 @@
             app:layout_constraintEnd_toEndOf="@id/zoomInButton"
             app:layout_constraintStart_toStartOf="@id/zoomInButton"
             app:layout_constraintTop_toBottomOf="@id/zoomInButton"
-            app:srcCompat="@drawable/ic_minus_24" />
+            app:srcCompat="@drawable/ic_minus_24"
+            android:contentDescription="@string/zoom_out" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

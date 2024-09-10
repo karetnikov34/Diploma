@@ -6,7 +6,7 @@ import ru.netology.diploma.auth.AppAuth
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor (private val appAuth: AppAuth): ViewModel() {
+class AuthViewModel @Inject constructor(private val appAuth: AppAuth) : ViewModel() {
 
     val dataAuth = appAuth.authStateFlow
 
