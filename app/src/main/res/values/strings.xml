@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Diploma</string>
-    <string name="main_text">NMedia!</string>
+    <string name="main_text">NeWork!</string>
     <string name="avatar">avatar</string>
     <string name="menu">menu</string>
     <string name="likes">likes</string>
@@ -108,4 +108,12 @@
     <string name="home">home</string>
     <string name="play_audio">play audio</string>
     <string name="stop_audio">stop audio</string>
+    <string name="edit_event">Edit event</string>
+    <string name="all_events">All events</string>
+    <string name="all_posts">All posts</string>
+    <string name="all_users">All users</string>
+    <string name="edit_post">Edit post</string>
+    <string name="new_event">New event</string>
+    <string name="new_post">New post</string>
+    <string name="change">Change</string>
 </resources>

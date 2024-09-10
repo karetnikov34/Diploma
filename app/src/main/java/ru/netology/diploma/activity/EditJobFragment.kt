@@ -43,6 +43,7 @@ class EditJobFragment : Fragment() {
             startJob.text = formatDateTimeJobBinding(job.start)
             finishJob.text = job.finish?.let { formatDateTimeJobBinding(it) } ?: ""
             linkJob.setText(job.link)
+            createJob.setText(R.string.change)
         }
 
         with(binding) {
@@ -103,6 +104,9 @@ class EditJobFragment : Fragment() {
             datePickerDialog.show()
         }
 
+        binding.back.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         viewModelUser.jobCreated.observe(viewLifecycleOwner) {
             findNavController().navigateUp()

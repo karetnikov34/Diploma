@@ -24,7 +24,7 @@
             android:contentDescription="@string/back"
             android:padding="16dp"
             app:icon="@drawable/ic_arrow_24"
-            app:iconTint="@color/black" />
+            app:iconTint="@color/white" />
 
         <TextView
             android:id="@+id/likers"
@@ -33,10 +33,10 @@
             android:layout_weight="3"
             android:background="@color/purple_200"
             android:backgroundTint="@color/purple_200"
+            android:textColor="@color/white"
             android:gravity="center_vertical"
             android:text="@string/likers"
             android:textSize="20sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/back"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,7 +50,7 @@
             android:contentDescription="@string/back"
             android:padding="16dp"
             app:icon="@drawable/ic_check_48"
-            app:iconTint="@color/black" />
+            app:iconTint="@color/white" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

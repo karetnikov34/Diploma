@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/home"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="DIPLOMA"
+        app:title="@string/all_users"
         app:titleTextColor="@color/white" />
 
     <ImageButton

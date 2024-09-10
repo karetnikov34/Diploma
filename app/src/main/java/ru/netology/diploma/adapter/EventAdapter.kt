@@ -1,6 +1,7 @@
 package ru.netology.diploma.adapter
 
 import android.net.Uri
+import android.text.method.LinkMovementMethod
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -54,14 +55,16 @@ class EventViewHolder(
             if (event.type != null) { format.text = event.type.toString() } else format.text = ""
             content.text = event.content
             content.movementMethod = ScrollingMovementMethod()
+            content.movementMethod = LinkMovementMethod.getInstance()
             likesIcon.isChecked = event.likedByMe
             likesIcon.text = numberRepresentation (event.likeOwnerIds.size)
             attachmentImage.visibility = View.GONE
             music.visibility = View.GONE
+            video.visibility = View.GONE
 
-            if (event.link != null) {
-                videoLink.visibility = View.VISIBLE
-            } else videoLink.visibility = View.GONE
+//            if (event.link != null) {
+//                video.visibility = View.VISIBLE
+//            } else video.visibility = View.GONE
 
 
             val urlAvatar = "${event.authorAvatar}"
@@ -95,14 +98,14 @@ class EventViewHolder(
 
                     AttachmentType.VIDEO -> {
 
-                        videoLink.visibility = View.VISIBLE
+                        video.visibility = View.VISIBLE
 
                         val uri = Uri.parse(event.attachment.url)
-                        videoLink.setVideoURI(uri)
-                        videoLink.setOnPreparedListener { mediaPlayer ->
+                        video.setVideoURI(uri)
+                        video.setOnPreparedListener { mediaPlayer ->
                             mediaPlayer?.setVolume(0F, 0F)
                             mediaPlayer?.isLooping = true
-                            videoLink.start()
+                            video.start()
                         }
                     }
 

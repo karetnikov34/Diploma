@@ -1,6 +1,7 @@
 package ru.netology.diploma.adapter
 
 import android.net.Uri
+import android.text.method.LinkMovementMethod
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -51,15 +52,16 @@ class PostViewHolder(
             published.text = formatDateTime(post.published)
             content.text = post.content
             content.movementMethod = ScrollingMovementMethod()
+            content.movementMethod = LinkMovementMethod.getInstance()
             likesIcon.isChecked = post.likedByMe
             likesIcon.text = numberRepresentation(post.likeOwnerIds.size)
             attachmentImage.visibility = View.GONE
             music.visibility = View.GONE
-            videoLink.visibility = View.GONE
+            video.visibility = View.GONE
 
 //            if (post.link != null) {
-//                videoLink.visibility = View.VISIBLE
-//            } else videoLink.visibility = View.GONE
+//                video.visibility = View.VISIBLE
+//            } else video.visibility = View.GONE
 
 
             val urlAvatar = "${post.authorAvatar}"
@@ -94,14 +96,14 @@ class PostViewHolder(
 
 
                     AttachmentType.VIDEO -> {
-                        videoLink.visibility = View.VISIBLE
-                        videoLink.setOnClickListener { onInteractionListener.showPost(post) }
+                        video.visibility = View.VISIBLE
+                        video.setOnClickListener { onInteractionListener.showPost(post) }
                         val uri = Uri.parse(post.attachment.url)
-                        videoLink.setVideoURI(uri)
-                        videoLink.setOnPreparedListener { mediaPlayer ->
+                        video.setVideoURI(uri)
+                        video.setOnPreparedListener { mediaPlayer ->
                             mediaPlayer?.setVolume(0F, 0F)
                             mediaPlayer?.isLooping = true
-                            videoLink.start()
+                            video.start()
                         }
                     }
 

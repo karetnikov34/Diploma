@@ -42,7 +42,7 @@
             android:src="@drawable/ic_delete_24"
             android:backgroundTint="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/link"
             android:padding="16dp"/>
 
         <TextView
@@ -93,7 +93,7 @@
         <TextView
             android:id="@+id/link"
             android:layout_width="match_parent"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:autoLink="web"
             android:text="@string/link"

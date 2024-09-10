@@ -85,14 +85,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:adjustViewBounds="true"
-            app:layout_constraintBottom_toTopOf="@id/videoLink"
+            app:layout_constraintBottom_toTopOf="@id/video"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrier"
             tools:src="@tools:sample/avatars[1]" />
 
         <VideoView
-            android:id="@+id/videoLink"
+            android:id="@+id/video"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             app:layout_constraintBottom_toTopOf="@id/music"
@@ -111,7 +111,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/videoLink"
+            app:layout_constraintTop_toBottomOf="@id/video"
             app:layout_constraintBottom_toTopOf="@id/content"
             >
 
@@ -135,7 +135,6 @@
 
         <TextView
             android:id="@+id/content"
-            android:autoLink="web"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
@@ -148,7 +147,8 @@
             app:layout_constraintHorizontal_bias="0.531"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/music"
-            tools:text="@tools:sample/lorem[35]" />
+            tools:text="@tools:sample/lorem[35]"
+            android:autoLink="web"/>
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrierBottom"

@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.graphics.PointF
 import android.net.Uri
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -58,7 +59,8 @@ class OnePostFragment : Fragment() {
 
         val post = PostDealtWith.get()
 
-        binding.content.movementMethod = ScrollingMovementMethod()
+//        binding.content.movementMethod = ScrollingMovementMethod()
+//        binding.content.movementMethod = LinkMovementMethod.getInstance()
 
         fun bind(post: Post) {
             binding.apply {
@@ -67,16 +69,17 @@ class OnePostFragment : Fragment() {
                 placeOfWork.text = post.authorJob ?: context?.getString(R.string.looking_for_a_job)
                 content.text = post.content
                 content.movementMethod = ScrollingMovementMethod()
+                content.movementMethod = LinkMovementMethod.getInstance()
                 likesIcon.isChecked = post.likedByMe
                 likesIcon.text = numberRepresentation(post.likeOwnerIds.size)
                 mentionedIcon.text = numberRepresentation(post.mentionIds.size)
                 attachmentImage.visibility = View.GONE
                 music.visibility = View.GONE
-                videoLink.visibility = View.GONE
+                video.visibility = View.GONE
 
 //                if (post.link != null) {
-//                    videoLink.visibility = View.VISIBLE
-//                } else videoLink.visibility = View.GONE
+//                    video.visibility = View.VISIBLE
+//                } else video.visibility = View.GONE
 
 
                 val urlAvatar = "${post.authorAvatar}"
@@ -123,17 +126,17 @@ class OnePostFragment : Fragment() {
 
                         AttachmentType.VIDEO -> {
 
-                            videoLink.visibility = View.VISIBLE
+                            video.visibility = View.VISIBLE
 
                             val uri = Uri.parse(post.attachment.url)
-                            videoLink.setVideoURI(uri)
-                            videoLink.setOnPreparedListener { mediaPlayer ->
+                            video.setVideoURI(uri)
+                            video.setOnPreparedListener { mediaPlayer ->
                                 mediaPlayer?.setVolume(0F, 0F)
                                 mediaPlayer?.isLooping = true
-                                videoLink.start()
+                                video.start()
 
-                                videoLink.setOnTouchListener { _, _ ->
-                                    if (videoLink.isPlaying) {
+                                video.setOnTouchListener { _, _ ->
+                                    if (video.isPlaying) {
                                         mediaPlayer.pause()
                                     } else {
                                         mediaPlayer.start()

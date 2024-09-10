@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Edit post"
+        app:title="@string/edit_post"
         app:titleTextColor="@color/white" />
 
     <ScrollView
@@ -152,8 +152,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/takePhoto"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/description_take_photo"
             android:padding="16dp"
@@ -170,13 +170,14 @@
             android:contentDescription="@string/description_select_photo"
             android:padding="16dp"
             app:icon="@drawable/ic_gallery_24"
+            app:iconGravity="textEnd"
             app:iconTint="?colorSurface"
             android:layout_weight="1"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/audioIcon"
             app:icon="@drawable/ic_audio_24"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/audio"
@@ -186,7 +187,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/videoIcon"
             app:icon="@drawable/ic_video_24"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/link"
@@ -195,18 +196,19 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/chooseUsers"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/choose_users"
             android:padding="16dp"
             app:icon="@drawable/ic_users_24"
+            app:iconGravity="textEnd"
             app:iconTint="?colorSurface"
             android:layout_weight="1"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/choosePlace"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:background="?selectableItemBackground"
             android:contentDescription="@string/choose_location"

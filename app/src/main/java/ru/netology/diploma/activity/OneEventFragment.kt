@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.graphics.PointF
 import android.net.Uri
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -52,7 +53,8 @@ class OneEventFragment : Fragment() {
 
         val event = EventDealtWith.get()
 
-        binding.content.movementMethod = ScrollingMovementMethod()
+//        binding.content.movementMethod = ScrollingMovementMethod()
+//        binding.content.movementMethod = LinkMovementMethod.getInstance()
 
         fun bind(event: Event) {
             binding.apply {
@@ -63,15 +65,17 @@ class OneEventFragment : Fragment() {
                 placeOfWork.text = event.authorJob ?: context?.getString(R.string.looking_for_a_job)
                 content.text = event.content
                 content.movementMethod = ScrollingMovementMethod()
+                content.movementMethod = LinkMovementMethod.getInstance()
                 likesIcon.isChecked = event.likedByMe
                 likesIcon.text = numberRepresentation (event.likeOwnerIds.size)
                 participantsIcon.text = numberRepresentation(event.participantsIds.size)
                 attachmentImage.visibility = View.GONE
                 music.visibility = View.GONE
+                video.visibility = View.GONE
 
-                if (event.link != null) {
-                    videoLink.visibility = View.VISIBLE
-                } else videoLink.visibility = View.GONE
+//                if (event.link != null) {
+//                    video.visibility = View.VISIBLE
+//                } else video.visibility = View.GONE
 
 
                 val urlAvatar = "${event.authorAvatar}"
@@ -117,17 +121,17 @@ class OneEventFragment : Fragment() {
 
 
                         AttachmentType.VIDEO -> {
-                            videoLink.visibility = View.VISIBLE
+                            video.visibility = View.VISIBLE
 
                             val uri = Uri.parse(event.attachment.url)
-                            videoLink.setVideoURI(uri)
-                            videoLink.setOnPreparedListener { mediaPlayer ->
+                            video.setVideoURI(uri)
+                            video.setOnPreparedListener { mediaPlayer ->
                                 mediaPlayer?.setVolume(0F, 0F)
                                 mediaPlayer?.isLooping = true
-                                videoLink.start()
+                                video.start()
 
-                                videoLink.setOnTouchListener { _, _ ->
-                                    if (videoLink.isPlaying) {
+                                video.setOnTouchListener { _, _ ->
+                                    if (video.isPlaying) {
                                         mediaPlayer.pause()
                                     } else {
                                         mediaPlayer.start()
