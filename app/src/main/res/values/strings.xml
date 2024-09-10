@@ -116,4 +116,5 @@
     <string name="new_event">New event</string>
     <string name="new_post">New post</string>
     <string name="change">Change</string>
+    <string name="max_file_size">maximum file size = 15mb</string>
 </resources>

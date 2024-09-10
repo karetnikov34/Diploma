@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toFile
 import androidx.core.view.isVisible
+import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -79,16 +80,21 @@ class EditEventFragment : Fragment() {
     private val pickAudioResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK) {
             val uri = it.data?.data ?: return@registerForActivityResult
-            val file = if (uri.scheme == "file") {
-                uri.toFile()
+            val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
+            if (fileSize != null && fileSize > 15000000) {
+                Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
             } else {
-                getInputStreamFromUri(context, uri)?.let { inputStream ->
-                    createFileFromInputStream(inputStream)
+                val file = if (uri.scheme == "file") {
+                    uri.toFile()
+                } else {
+                    getInputStreamFromUri(context, uri)?.let { inputStream ->
+                        createFileFromInputStream(inputStream)
+                    }
                 }
-            }
 
-            if (file != null) {
-                viewModelEvent.setAttachment(uri, file, AttachmentType.AUDIO)
+                if (file != null) {
+                    viewModelEvent.setAttachment(uri, file, AttachmentType.AUDIO)
+                }
             }
         }
     }
@@ -96,16 +102,21 @@ class EditEventFragment : Fragment() {
     private val pickVideoResultContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK) {
             val uri = it.data?.data ?: return@registerForActivityResult
-            val file = if (uri.scheme == "file") {
-                uri.toFile()
+            val fileSize = DocumentFile.fromSingleUri(requireContext(), uri)?.length()
+            if (fileSize != null && fileSize > 15000000) {
+                Toast.makeText(context, R.string.max_file_size, Toast.LENGTH_LONG).show()
             } else {
-                getInputStreamFromUri(context, uri)?.let { inputStream ->
-                    createFileFromInputStream(inputStream)
+                val file = if (uri.scheme == "file") {
+                    uri.toFile()
+                } else {
+                    getInputStreamFromUri(context, uri)?.let { inputStream ->
+                        createFileFromInputStream(inputStream)
+                    }
                 }
-            }
 
-            if (file != null) {
-                viewModelEvent.setAttachment(uri, file, AttachmentType.VIDEO)
+                if (file != null) {
+                    viewModelEvent.setAttachment(uri, file, AttachmentType.VIDEO)
+                }
             }
         }
     }

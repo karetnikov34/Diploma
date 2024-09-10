@@ -25,7 +25,6 @@ import ru.netology.diploma.R
 import ru.netology.diploma.databinding.FragmentSinglePostBinding
 import ru.netology.diploma.dto.AttachmentType
 import ru.netology.diploma.dto.Post
-import ru.netology.diploma.util.PostBundle
 import ru.netology.diploma.util.PostDealtWith
 import ru.netology.diploma.util.formatDateTime
 import ru.netology.diploma.util.load
@@ -37,9 +36,9 @@ import ru.netology.diploma.viewmodel.PostViewModel
 @AndroidEntryPoint
 class OnePostFragment : Fragment() {
 
-    companion object {
-        var Bundle.postBundle: Post? by PostBundle
-    }
+//    companion object {
+//        var Bundle.postBundle: Post? by PostBundle
+//    }
 
 
     private val viewModelPost: PostViewModel by activityViewModels()

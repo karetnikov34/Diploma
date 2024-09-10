@@ -99,7 +99,7 @@ class EventViewHolder(
                     AttachmentType.VIDEO -> {
 
                         video.visibility = View.VISIBLE
-
+                        video.setOnClickListener { onInteractionListener.showEvent(event) }
                         val uri = Uri.parse(event.attachment.url)
                         video.setVideoURI(uri)
                         video.setOnPreparedListener { mediaPlayer ->
