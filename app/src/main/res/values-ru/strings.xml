@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Диплом</string>
-    <string name="main_text">НМедиа!</string>
+    <string name="main_text">NeWork!</string>
     <string name="avatar">Аватар</string>
     <string name="menu">Меню</string>
     <string name="likes">Лайк</string>
